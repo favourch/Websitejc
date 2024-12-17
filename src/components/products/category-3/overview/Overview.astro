@@ -1,0 +1,64 @@
+---
+import OverviewBenefit from "./OverviewBenefit.astro";
+import OverviewItem from "./OverviewItem.astro";
+---
+
+<section id="overview" class="section">
+  <div class="container">
+    <div class="card p-4 rounded-4">
+      <h2 class="fs-5 text-primary">Tax Wallet</h2>
+      <div class="row mb-5">
+        <div class="col-12 col-lg-6">
+          <p class="fs-1 lh-sm">
+            Tax Wallet makes tax preparation easy for everyone.
+          </p>
+        </div>
+        <div class="col-12 col-lg-6">
+          <p class="fs-5 lh-lg text-body-secondary mt-2">
+            Ai-driven tax wallet phone app (Android & ISO) deigned for P&C
+            Agencies, Tax Pros, CPAs, Financial Advisors, Estate Planning
+            Advisors, and sales professionals.
+          </p>
+        </div>
+      </div>
+      <div class="row gy-3 gx-5 pt-5">
+        <OverviewItem title="Easy Setup" icon="bi-wallet">
+          Scan the Tax Wallet QR code, download the app, and create a profile in
+          2 minutes. Customers then upload their documents, answer a few easy
+          questions, and let Tax Wallet's smart technology handle the rest.
+        </OverviewItem>
+        <OverviewItem title="Powered by AI" icon="bi-shield-check">
+          The Tax Wallet AI system identifies all the deductions and credits,
+          ensuring customers get the maximum refund they deserve with the added
+          benefit of expert review and real-time tracking.
+        </OverviewItem>
+        <OverviewItem title="Customer Care" icon="bi-people">
+          Tax Wallet empowers sales professionals to provide top-notch service
+          to their customers while boosting their own business effortlessly
+          through a secured encrypted environment.
+        </OverviewItem>
+      </div>
+
+      <div class="row gy-3 gx-5 pt-5">
+        <OverviewBenefit> In-app Chat support </OverviewBenefit>
+        <OverviewBenefit> Live Person Support </OverviewBenefit>
+        <OverviewBenefit> Whitelabeled Collateral </OverviewBenefit>
+        <OverviewBenefit> Dashboard Analytics </OverviewBenefit>
+        <OverviewBenefit> Training Videos </OverviewBenefit>
+        <OverviewBenefit> Marketing Materials </OverviewBenefit>
+        <OverviewBenefit> Dedicated call center </OverviewBenefit>
+        <OverviewBenefit> No license, EFIN, or PTINS </OverviewBenefit>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .section {
+    padding: 10rem 0;
+  }
+
+  .card {
+    background-color: white;
+  }
+</style>

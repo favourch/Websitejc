@@ -1,0 +1,65 @@
+---
+import { pages } from "@core/pages";
+import ProductItem from "./ProductItem.astro";
+---
+
+<section id="top-product" class="section">
+  <div class="background">
+    <div class="padding">
+      <div class="container">
+        <div class="mb-5 pb-5">
+          <h2 class="fs-5 text-primary">Our Top Products</h2>
+          <p class="title fs-1 lh-sm text-light mb-3">
+            See the best we have to offer.
+          </p>
+          <p class="subtitle fs-5 lh-lg text-light mb-4 pb-2">
+            Wholesalers Advantage offers many top-of-the-line products but there
+            a few that stand above the rest. Become a member to take advantage
+            of our industry leading offerings.
+          </p>
+          <a
+            class="btn btn-secondary btn-lg rounded-3 fs-5 fw-bold text-white py-2 px-3"
+            href={pages.memberForm.path}
+          >
+            <span class="px-4">Become a Member</span>
+          </a>
+        </div>
+        <div class="row gy-5 gx-5">
+          <ProductItem title="Life Protect+" icon="bi-shield-plus">
+            Flexible bundled coverage for life, critical illness and income
+            protection with instant decision available up to $1 million for ages
+            18-50, and no health license required to sell.
+          </ProductItem>
+          <ProductItem title="Tax Wallet" icon="bi-wallet2">
+            Ai-driven tax wallet phone app (Android & ISO) deigned for P&C
+            Agencies, Tax Pros, CPAs, Financial Advisors, Estate Planning
+            Advisors, and sales professionals.
+          </ProductItem>
+          <ProductItem title="Payroll & Merchant" icon="bi-credit-card">
+            Our Financial provider gives businesses a single platform for
+            payroll processing, card payments processing, and lending under one
+            platform.
+          </ProductItem>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .background {
+    background-color: #053952;
+  }
+
+  .padding {
+    padding: 7rem 0;
+  }
+
+  .title {
+    max-width: 600px;
+  }
+
+  .subtitle {
+    max-width: 800px;
+  }
+</style>

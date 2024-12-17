@@ -1,0 +1,62 @@
+---
+import { contacts } from "@core/contacts";
+---
+
+<div class="area">
+  <div class="mb-4 pb-1">
+    <h1 class="fs-1 fw-bold">Contact Us</h1>
+    <p class="fs-5 text-body-secondary">
+      Have questions or ready to get started? Fill out the form below, and our
+      team will reach out to you shortly to provide personalized assistance.
+    </p>
+  </div>
+
+  <div
+    class="d-flex align-items-center bg-body rounded-3 shadow gap-3 mb-5 px-3 py-4"
+  >
+    <i class="bi-building text-primary fs-4"></i>
+    <div class="d-inline-block fs-5 text-body-secondary">
+      <div>{contacts.address.street},</div>
+      <div>
+        {contacts.address.city},
+        {contacts.address.state},
+        {contacts.address.zipcode}
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="d-flex align-items-center bg-body rounded-3 shadow gap-3 mb-5 px-3 py-4"
+  >
+    <i class="bi-send text-primary fs-4"></i>
+    <a class="fs-5 text-body-secondary" href={contacts.email.path}>
+      {contacts.email.title}
+    </a>
+  </div>
+
+  <!-- <div
+    class="d-flex align-items-center bg-body rounded-3 shadow gap-3 mb-5 px-3 py-4"
+  >
+    <i class="bi-phone text-primary fs-4"></i>
+    <a class="fs-5 text-body-secondary" href={contacts.phone.path}>
+      {contacts.phone.title}
+    </a>
+  </div> -->
+
+  <style>
+    .area {
+      max-width: 500px;
+    }
+
+    a {
+      color: var(--bs-text-body);
+      text-decoration: none;
+    }
+
+    a:hover,
+    a:focus {
+      transition: ease-in-out 0.1s;
+      color: var(--bs-primary);
+    }
+  </style>
+</div>

@@ -1,0 +1,59 @@
+---
+import OverviewItem from "./OverviewItem.astro";
+---
+
+<section id="overview" class="section">
+  <div class="container">
+    <div class="card p-4 rounded-4">
+      <h2 class="fs-5 text-primary">Mexico Travel Insurance</h2>
+      <div class="row mb-5">
+        <div class="col-12 col-lg-6">
+          <p class="fs-1 lh-sm">Drive with Confidence South of the Border.</p>
+        </div>
+        <div class="col-12 col-lg-6">
+          <p class="fs-5 lh-lg text-body-secondary mt-2">
+            Don't let worries about accidents or legal issues ruin your Mexican
+            adventure. With our comprehensive Mexico Travel Insurance, you can
+            focus on enjoying your trip, knowing you're protected against the
+            unexpected.
+          </p>
+        </div>
+      </div>
+      <div class="row gy-3 gx-5 pt-5">
+        <OverviewItem title="Vehicle Damage" icon="bi-car-front">
+          Coverage for damage to your vehicle due to collision, theft, or
+          vandalism. Options for actual cash value or agreed value coverage.
+        </OverviewItem>
+        <OverviewItem title="Liability Coverage" icon="bi-shield-check">
+          Protection if you damage someone else's property. Coverage for legal
+          fees and settlement costs.
+        </OverviewItem>
+        <OverviewItem title="Legal Assistance" icon="bi-chat-quote">
+          24/7 legal support in English and Spanish. Help with police reports
+          and legal proceedings.
+        </OverviewItem>
+        <OverviewItem title="Medical Payments" icon="bi-shield-plus">
+          Coverage for your medical expenses resulting from an accident. Options
+          for additional coverage for your passengers.
+        </OverviewItem>
+        <OverviewItem title="Accidental Death" icon="bi-people">
+          Financial protection for you and your passengers in case of severe
+          injury or death.
+        </OverviewItem>
+        <OverviewItem title="Roadside Assistance" icon="bi-geo-alt">
+          24/7 support for breakdowns, flat tires, or running out of gas.
+        </OverviewItem>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .section {
+    padding: 10rem 0;
+  }
+
+  .card {
+    background-color: white;
+  }
+</style>

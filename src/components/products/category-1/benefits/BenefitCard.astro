@@ -1,0 +1,23 @@
+---
+import { colors } from "@core/colors";
+
+const { icon, title, full } = Astro.props;
+
+const backgroundColor = colors.primary + "09";
+---
+
+<div class={full ? "col-12" : "col-12 col-md-6"}>
+  <div class="background h-100 p-4">
+    <i class:list={[icon, "fs-1 text-secondary"]}></i>
+    <h3 class="fs-4 fw-bold mt-3">{title}</h3>
+    <p class="fs-5 text-body-secondary">
+      <slot />
+    </p>
+  </div>
+</div>
+
+<style define:vars={{ backgroundColor }}>
+  .background {
+    background-color: var(--backgroundColor);
+  }
+</style>

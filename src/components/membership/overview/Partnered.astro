@@ -1,0 +1,56 @@
+---
+import PartneredItem from "./PartneredItem.astro";
+---
+
+<div class="carousel py-5 mt-5">
+  <div class="group">
+    <PartneredItem name="EncompassFi" />
+    <PartneredItem name="Insurance Co 1" />
+    <PartneredItem name="Insurance Co 2" />
+    <PartneredItem name="Tax Wallet" />
+    <PartneredItem name="Insurance Co 3" />
+    <PartneredItem name="Estate Company" />
+    <PartneredItem name="TeleHealth Co" />
+  </div>
+  <!-- Add `aria-hidden` to hide the duplicated cards from screen readers. -->
+  <div aria-hidden class="group">
+    <PartneredItem name="EncompassFi" />
+    <PartneredItem name="Insurance Co 1" />
+    <PartneredItem name="Insurance Co 2" />
+    <PartneredItem name="Tax Wallet" />
+    <PartneredItem name="Insurance Co 3" />
+    <PartneredItem name="Estate Company" />
+    <PartneredItem name="TeleHealth Co" />
+  </div>
+</div>
+
+<style>
+  .carousel {
+    margin: 0 auto;
+    padding: 20px 0;
+    overflow: hidden;
+    display: flex;
+    > * {
+      flex: 0 0 100%;
+    }
+  }
+
+  /* Group the cards for better structure. */
+  .group {
+    display: flex;
+    gap: 65px;
+    /* Add padding to the right to create a gap between the last and first card. */
+    padding-right: 65px;
+    will-change: transform; /* We should be nice to the browser - let it know what we're going to animate. */
+    animation: scrolling 20s linear infinite;
+  }
+
+  @keyframes scrolling {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+</style>

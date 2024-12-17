@@ -1,0 +1,86 @@
+---
+import { pages } from "@core/pages";
+import { colors } from "@core/colors";
+import { contacts } from "@core/contacts";
+import FooterSection from "./FooterSection.astro";
+
+const linkColor = colors.primary;
+const headerColor = colors.secondary;
+---
+
+<footer class="">
+  <div class="container">
+    <div class="d-flex flex-wrap justify-content-between gap-5 pt-5">
+      <FooterSection>
+        <div class="mb-2">
+          <span class="header-color fs-5 fw-bold mb-3"
+            >Worldwide Headquarters</span
+          >
+        </div>
+        <div class="text-light mt-1 mb-2">
+          <p class="mb-0">{contacts.address.street},</p>
+          <p class="mb-0">
+            {contacts.address.city},
+            {contacts.address.state},
+            {contacts.address.zipcode}
+          </p>
+        </div>
+        <div class="mb-2">
+          <a href={contacts.email.path}>{contacts.email.title}</a>
+        </div>
+        <!-- <div>
+          <a href={contacts.phone.path}>{contacts.phone.title}</a>
+        </div> -->
+      </FooterSection>
+      <FooterSection title="Solutions">
+        <div><a href={pages.products1.path}>{pages.products1.title}</a></div>
+        <div><a href={pages.products2.path}>{pages.products2.title}</a></div>
+        <div><a href={pages.products3.path}>{pages.products3.title}</a></div>
+      </FooterSection>
+      <FooterSection title="Company">
+        <div><a href={pages.home.path}>Home</a></div>
+        <div><a href={pages.about.path}>About</a></div>
+        <div><a href={pages.contact.path}>Contact</a></div>
+      </FooterSection>
+      <FooterSection title="Members">
+        <div><a href={pages.membership.path}>Membership</a></div>
+      </FooterSection>
+    </div>
+    <hr class="border-white mt-5 mb-4" />
+    <div class="d-flex justify-content-center gap-3 text-light pt-2 pb-5">
+      <span class="text-center">
+        @{new Date().getFullYear()} Wholesalers Advantage
+      </span>
+      |
+      <a href={pages.terms.path}>
+        {pages.terms.title}
+      </a>
+      |
+      <a href={pages.privacy.path}>
+        {pages.privacy.title}
+      </a>
+    </div>
+  </div>
+</footer>
+
+<style define:vars={{ linkColor, headerColor }}>
+  footer {
+    background-color: #202329;
+  }
+
+  a {
+    color: white;
+    text-decoration: none;
+  }
+
+  a:hover,
+  a:focus,
+  a:active {
+    color: var(--linkColor);
+    text-decoration: underline;
+  }
+
+  .header-color {
+    color: var(--headerColor);
+  }
+</style>

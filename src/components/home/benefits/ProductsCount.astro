@@ -1,0 +1,24 @@
+---
+const { backgroundColor } = Astro.props;
+---
+
+<div class="bg card rounded-4 h-100 p-5">
+  <p class="title fw-bold text-secondary mb-5">20+</p>
+  <p class="subtitle fs-4 text-body-secondary">
+    Suites of products for downline distribution
+  </p>
+</div>
+
+<style define:vars={{ backgroundColor }}>
+  .title {
+    font-size: 5rem;
+  }
+
+  .subtitle {
+    max-width: 450px;
+  }
+
+  .bg {
+    background-color: var(--backgroundColor);
+  }
+</style>

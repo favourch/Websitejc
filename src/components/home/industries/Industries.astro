@@ -1,0 +1,125 @@
+---
+import { pages } from "@core/pages";
+import Industry from "./Industry.astro";
+import IndustryImage1 from "@images/industry-1.webp";
+import IndustryImage2 from "@images/industry-2.webp";
+import IndustryImage3 from "@images/industry-3.webp";
+import IndustryImage4 from "@images/industry-4.webp";
+import IndustryImage5 from "@images/industry-5.webp";
+import IndustryImage6 from "@images/industry-6.webp";
+import IndustryImage7 from "@images/industry-7.webp";
+import IndustryImage8 from "@images/industry-8.webp";
+import IndustryImage9 from "@images/industry-9.webp";
+---
+
+<section id="industries" class="section">
+  <div class="container">
+    <div class="mb-5">
+      <h2 class="fs-5 fw-bold text-primary">Industries</h2>
+      <p class="title fs-1 mb-2">Why do business with Wholesalers Advantage?</p>
+      <p class="subtitle fs-5 lh-lg">
+        We specialize in bringing a range of high value products to the table
+        that fit the needs of your clients regardless of their industry. We also
+        provide contracts direct with Life, Health and P&amp;C carriers, and we
+        are able to offer agents contracts that provide higher-than-street-level
+        commissions for organizational types listed below.
+      </p>
+    </div>
+    <a
+      class="btn btn-secondary rounded-3 fs-5 fw-bold text-white py-2 px-3"
+      href={pages.memberForm.path}
+    >
+      <span class="px-4">Become a Member</span>
+    </a>
+
+    <div class="row g-5 mt-5">
+      <Industry
+        title="Independent Marketing Organization (IMO)"
+        image={IndustryImage1}
+      >
+        They are typically top-level organizations that market Life and health
+        insurance products in most, if not all states. They Primarily recruit
+        hundreds to thousands of agents for multiple big-name and small-name
+        carriers all across the U.S. WA is the ideal partner offering a suite of
+        life, health, and estate planning services.
+      </Industry>
+      <Industry
+        title="Field Marketing Organization (FMO)"
+        image={IndustryImage2}
+      >
+        They tend to focus on life and annuity recruiting, but this isn’t always
+        true. FMOs are sometimes a little smaller than IMOs. We provide top life
+        insurance contracts along with enrollment capabilities, and advance
+        sales and marketing
+      </Industry>
+      <Industry title="Managing General Agency (MGA)" image={IndustryImage3}>
+        Managing general agencies (MGAs) may partner with IMOs, or FMOs, though
+        typically as a downline of those top-of-hierarchy organizations. MGAs
+        earn more commission than a general agent, but less than an IMO/FMO. We
+        offer a wide range of financial and tech innovation products and
+        services ideal for these types of agencies.
+      </Industry>
+      <Industry title="General Agents (GAs)" image={IndustryImage4}>
+        They may contract under an IMO, FMO, or MGA. This contract typically
+        allows them to have their own sub-agents and likely has production
+        requirements an agent needs to meet to maintain their status as a GA. We
+        are the ideal partner for a GA, since they can select from a large menu
+        of financial, insurance, and technology services to cross sell.
+      </Industry>
+      <Industry
+        title="Independent Sales Organizations (ISO)"
+        image={IndustryImage5}
+      >
+        An ISO is a third-party entity that's authorized to market and sell
+        credit card processing services, payroll services, and other products.
+        We provide these organizations an “ala cart” menu products and services
+        to cross sell, with generous revenue share options.
+      </Industry>
+      <Industry
+        title="Health Agencies and Brokerage Houses"
+        image={IndustryImage6}
+      >
+        We offer employee benefits through secured contracts with leading
+        worksite carriers, providing top-tier compensation plans at the IMO,
+        FMO, MGA, and GA levels. Additionally, they offer enrollment services at
+        no cost to agents or their employer clients.
+      </Industry>
+      <Industry title="Tax Service Bureaus" image={IndustryImage7}>
+        A service bureau is a company that offers business tax services for a
+        fee. Our Tax Wallet delivers cutting-edge Ai-driven tax wallet phone app
+        (Android &amp; ISO) to these entities, along with bank products and
+        other business solutions like payroll and merchant processing services.
+        No EFIN or PTIN required; deigned for Insurance Agents, Financial
+        Advisors, Estate Planning Advisors, and sales professionals.
+      </Industry>
+      <Industry title="Living Trust & Wills" image={IndustryImage8}>
+        We offer a range of living trust and will services, from basic to
+        complex, tailored to meet the needs of low to middle-income families.
+        Additionally, we provide advanced solutions suitable for all income
+        levels. By offering a spectrum of planning options, standardized pricing
+        schemes, and technology driven solutions, we make planning accessible to
+        everyone and work to make it as affordable as possible.
+      </Industry>
+      <Industry title="For CPAs & Bookkeepers" image={IndustryImage9}>
+        We offer a comprehensive range of tax preparation services designed for
+        CPAs and bookkeepers who wish to outsource their smaller clients needing
+        only simple tax return preparation. By using our Ai-driven tax wallet
+        phone app, tax professionals can concentrate on their larger clients
+        while still earning from the simpler returns, ensuring they don't lose
+        their smaller clientele. Additionally, CPAs with a life and health
+        insurance license can access our full suite of life and health products,
+        providing an opportunity to cross-sell to all their tax customers.
+      </Industry>
+    </div>
+  </div>
+</section>
+
+<style>
+  .title {
+    max-width: 500px;
+  }
+
+  .subtitle {
+    max-width: 800px;
+  }
+</style>

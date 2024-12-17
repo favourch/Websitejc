@@ -1,0 +1,9 @@
+---
+const { title, icon } = Astro.props;
+---
+
+<div class="col-12 col-lg-4">
+  <i class:list={[icon, "fs-1 text-primary"]}></i>
+  <h3 class="fs-5 fw-bold mt-3">{title}</h3>
+  <p class="fs-5 lh-lg text-body-secondary"><slot /></p>
+</div>

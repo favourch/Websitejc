@@ -1,0 +1,28 @@
+---
+const { backgroundColor } = Astro.props;
+---
+
+<div class="bg card rounded-4 h-100 p-5">
+  <p class="subtitle fs-4 text-body-secondary mb-5">
+    No-hassle residual payments straight to your bank account
+  </p>
+  <div class="d-flex justify-content-around align-items-center">
+    <i class="bi-bank icon text-secondary"></i>
+    <i class="bi-arrow-right icon text-secondary"></i>
+    <i class="bi-wallet icon text-secondary"></i>
+  </div>
+</div>
+
+<style define:vars={{ backgroundColor }}>
+  .icon {
+    font-size: 4.5rem;
+  }
+
+  .subtitle {
+    max-width: 450px;
+  }
+
+  .bg {
+    background-color: var(--backgroundColor);
+  }
+</style>

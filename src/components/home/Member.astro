@@ -1,0 +1,121 @@
+---
+import { pages } from "@core/pages";
+
+const { hideMissionStatement } = Astro.props;
+---
+
+<section id="membership" class="section">
+  <div class="container">
+    {
+      !hideMissionStatement && (
+        <div class="pb-5">
+          <h2 class="fs-5 fw-bold text-primary text-center">Our Mission</h2>
+          <p class="subtitle fs-5 text-center text-body-secondary">
+            Our mission is to deliver comprehensive and innovative products on a
+            wholesale basis to our Advantage Partners, ensuring they receive the
+            best value, training, and support.
+          </p>
+        </div>
+      )
+    }
+
+    <!-- <div class="d-flex flex-wrap justify-content-around g-4 pt-5 my-5">
+      <div>
+        <p class="fs-1 fw-bold text-center mb-0">1,600+</p>
+        <p class="fs-4 text-center mb-0">Members Joined</p>
+      </div>
+      <div>
+        <p class="fs-1 fw-bold text-center mb-0">150,000+</p>
+        <p class="fs-4 text-center mb-0">Customers Served</p>
+      </div>
+      <div>
+        <p class="fs-1 fw-bold text-center mb-0">500,000+</p>
+        <p class="fs-4 text-center mb-0">Products Serviced</p>
+      </div>
+    </div> -->
+
+    <!-- <div class="py-5 mb-5">
+      <div class="testimonial bg-body shadow rounded-4 p-5 mx-auto">
+        <p class="fs-4 fw-bold mb-0">Scott Crowley</p>
+        <p class="fs-5 fw-bold mb-2">Founder @ Tax Wallet</p>
+        <p class="fs-5 lh-lg mb-0">
+          "I have worked with the Wholesalers Advantage founders on several
+          joint projects in the past. Their professionalism and focus on client
+          relationships are significant. Their knowledge and experience is a
+          benefit to any company."
+        </p>
+      </div>
+    </div> -->
+
+    <div class="card background rounded-4 my-5">
+      <h2 class="fs-5 text-info">Get Started Today</h2>
+      <div
+        class="d-block d-lg-flex justify-content-between align-items-start gap-3"
+      >
+        <div>
+          <p class="title fs-2 lh-sm text-light mb-3">
+            Bring the best business solutions with the latest in tech
+            Innovations to your entire distribution.
+          </p>
+          <p class="title fs-6 lh-lg text-light">
+            Our revenue-sharing model works by distributing revenue among
+            partners based on predefined criteria. This ensures that all
+            partners receive a fair share of the revenue generated.
+          </p>
+        </div>
+        <div>
+          <div class="d-grid d-xl-flex gap-3 mt-4">
+            <div>
+              <a
+                class="btn btn-secondary btn-lg rounded-3 fs-5 fw-bold text-white text-nowrap w-100 w-xl-auto py-2 px-3"
+                href={pages.memberForm.path}
+              >
+                <span class="px-4">Become a Member</span>
+              </a>
+            </div>
+            <div>
+              <a
+                class="btn btn-outline-secondary btn-lg rounded-3 fs-5 fw-bold text-white text-nowrap w-100 w-xl-auto py-2 px-3"
+                href={pages.membership.path}
+              >
+                <span class="px-4">
+                  <span class="pe-1">Learn More</span>
+                  <i class="bi-arrow-up-right"></i>
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  #membership {
+    background-color: #edf4f8;
+    padding-top: 8rem;
+    padding-bottom: 10rem;
+  }
+
+  .subtitle {
+    max-width: 600px;
+    margin-inline: auto;
+  }
+
+  .card {
+    padding: 4rem 5rem;
+  }
+
+  .background {
+    background-color: #053952;
+  }
+
+  .title {
+    max-width: 500px;
+  }
+
+  .testimonial {
+    max-width: 800px;
+  }
+</style>

@@ -1,0 +1,96 @@
+---
+import ProductCard from "./ProductCard.astro";
+import CheckItem from "@components/CheckItem.astro";
+---
+
+<section id="products-category-1" class="section">
+  <div class="container">
+    <div class="pt-5 mt-5">
+      <h2 class="fs-4 fw-bold text-primary text-center">
+        Explore Our Health & Accident Products
+      </h2>
+      <hr />
+    </div>
+    <div class="row g-4">
+      <ProductCard title="Individual Accident Insurance">
+        <span class="d-block mb-4">
+          Accident insurance is a type of insurance where the policy holder is
+          paid directly in the event of an accident resulting in the injury of
+          the insured.
+        </span>
+        <CheckItem>24hr Accident Insurance</CheckItem>
+        <CheckItem>Death & Dismemberment </CheckItem>
+        <CheckItem>Off-the-job only</CheckItem>
+      </ProductCard>
+
+      <ProductCard title="Individual Disability Insurance">
+        <span class="d-block mb-4">
+          A type of insurance where the policy pays a policy holder a portion of
+          their monthly income resulting from a serious injury and or
+          catastrophic illness.
+        </span>
+        <CheckItem>Short Term Disability</CheckItem>
+        <CheckItem>Long Term Disability</CheckItem>
+        <CheckItem>On the Job and off the job</CheckItem>
+      </ProductCard>
+
+      <ProductCard title="Affinity Group Health">
+        <span class="d-block mb-4">
+          Health Maintenance (HMO) and Preferred Provider (PPO) Organization
+          plans specially designed for independent agents or 1099s,
+          Associations, and Affinity groups.
+        </span>
+        <CheckItem>HMO/PPO plans</CheckItem>
+        <CheckItem>Associations</CheckItem>
+        <CheckItem>Affinity groups</CheckItem>
+      </ProductCard>
+
+      <ProductCard title="Accidental Death">
+        <span class="d-block mb-4">
+          Provides financial benefits to the insured or their beneficiaries in
+          the event of accidental death, serious injury, or dismemberment
+          resulting from an accident.
+        </span>
+        <CheckItem>Covers Serious Injury</CheckItem>
+        <CheckItem>Covers Dismemberment</CheckItem>
+        <CheckItem>Covers Accidental Death</CheckItem>
+      </ProductCard>
+
+      <ProductCard title="Worksite Benefits">
+        <span class="d-block mb-4">
+          Insurance plans that pay cash benefits directly to the insured. These
+          plans are typically sold through an employer via payroll deduction.
+        </span>
+        <CheckItem>Accident Insurance</CheckItem>
+        <CheckItem>Short Term Disability</CheckItem>
+        <CheckItem>Critical Illness</CheckItem>
+        <CheckItem>Hospital Idemnity</CheckItem>
+        <CheckItem>Group Life</CheckItem>
+      </ProductCard>
+
+      <ProductCard title="Telemedicine">
+        <span class="d-block mb-4">
+          Allows members to have their health questions answered promptly,
+          receive thorough examinations, and obtain prescriptions from the
+          comfort of home.
+        </span>
+        <CheckItem>Discounted Prescriptions</CheckItem>
+        <CheckItem>No insurance required</CheckItem>
+        <CheckItem>No Co-Pays</CheckItem>
+        <CheckItem>Available 24/7</CheckItem>
+        <CheckItem>Bilingual Doctors</CheckItem>
+      </ProductCard>
+    </div>
+  </div>
+</section>
+
+<style>
+  .subtitle {
+    max-width: 600px;
+    margin-inline: auto;
+  }
+
+  a {
+    max-width: 275px;
+  }
+</style>

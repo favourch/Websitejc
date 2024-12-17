@@ -1,0 +1,25 @@
+---
+import Overview from "./hero/Overview.astro";
+import Statistics from "./hero/Statistics.astro";
+import Visual from "./hero/Visual.astro";
+---
+
+<section id="hero" class="section">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-12 col-xl-6 order-2 order-xl-1">
+        <Overview />
+      </div>
+      <div class="col-12 col-xl-6 order-1 order-xl-2">
+        <div class="row g-4">
+          <div class="col-12">
+            <Visual />
+          </div>
+          <div class="col-12">
+            <Statistics />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

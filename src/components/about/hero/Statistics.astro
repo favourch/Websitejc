@@ -1,0 +1,21 @@
+---
+import { colors } from "@core/colors";
+import StatisticCard from "./StatisticCard.astro";
+
+const backgroundColor = colors.primary + "10";
+---
+
+<div class="card rounded-4 p-4">
+  <div class="row g-4">
+    <StatisticCard label="Serving" stat="IMOs" />
+    <StatisticCard label="Serving" stat="FMOs" />
+    <StatisticCard label="Serving" stat="MGAs" />
+    <StatisticCard label="Serving" stat="GAs" />
+  </div>
+</div>
+
+<style define:vars={{ backgroundColor }}>
+  .card {
+    background-color: var(--backgroundColor);
+  }
+</style>

@@ -1,0 +1,22 @@
+---
+import { colors } from "@core/colors";
+
+const { question } = Astro.props;
+
+const backgroundColor = colors.primary + "06";
+---
+
+<div class="col-12 col-lg-6">
+  <div class="card rounded-3 shadow p-4 h-100">
+    <h3 class="fs-5 fw-bold">{question}</h3>
+    <p class="fs-6 mb-0">
+      <slot />
+    </p>
+  </div>
+</div>
+
+<style define:vars={{ backgroundColor }}>
+  .card {
+    background-color: var(--backgroundColor);
+  }
+</style>

@@ -1,0 +1,22 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "include": [
+    "./src/**/*.d.ts",
+    "./src/**/*.ts",
+    "./src/**/*.astro",
+    "./src/**/*.vue"
+  ],
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "types": ["node"],
+    "paths": {
+      "@components/*": ["components/*"],
+      "@layouts/*": ["layouts/*"],
+      "@pages/*": ["pages/*"],
+      "@core/*": ["core/*"],
+      "@images/*": ["images/*"],
+      "@styles/*": ["styles/*"]
+    },
+    "jsx": "preserve"
+  }
+}

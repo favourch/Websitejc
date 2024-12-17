@@ -1,0 +1,67 @@
+---
+import OverviewItem from "./OverviewItem.astro";
+import TelemedicineBenefit from "./TelemedicineBenefit.astro";
+---
+
+<section id="overview" class="section">
+  <div class="container">
+    <div class="card p-4 rounded-4">
+      <h2 class="fs-5 text-primary">Telemedicine</h2>
+      <div class="row mb-5">
+        <div class="col-12 col-lg-6">
+          <p class="fs-1 lh-sm">
+            Best-in-class healthcare from the comfort of your home.
+          </p>
+        </div>
+        <div class="col-12 col-lg-6">
+          <p class="fs-5 lh-lg text-body-secondary mt-2">
+            Become a member and get 24/7 access to U.S. board-certified doctors
+            and nurse practitioners on mobile app. Our doctors can diagnose,
+            treat, and prescribe medications for a wide range of conditions.
+          </p>
+        </div>
+      </div>
+
+      <div class="row gy-3 gx-5 py-4">
+        <OverviewItem title="Home Based" icon="bi-house">
+          Say hello to membership convenience that works with your schedule. Our
+          platform allows you and your entire family to receive healthcare from
+          the comfort of your own home or office.
+        </OverviewItem>
+        <OverviewItem title="Amazing Service" icon="bi-people">
+          Have your health questions answered promptly, receive thorough medical
+          examinations, and obtain prescriptions for any necessary medications
+          from qualified doctors.
+        </OverviewItem>
+        <OverviewItem title="All Mobile" icon="bi-phone">
+          With our cutting-edge digital stethoscope and the support of a network
+          of Physicians, you can now access accurate diagnostic care from the
+          comfort of your own home or office.
+        </OverviewItem>
+      </div>
+
+      <div class="row gy-3 gx-5 pt-5">
+        <TelemedicineBenefit> Includes Spot Stethoscope </TelemedicineBenefit>
+        <TelemedicineBenefit> On-Demand Health Care </TelemedicineBenefit>
+        <TelemedicineBenefit> On-Demand Urgent Care </TelemedicineBenefit>
+        <TelemedicineBenefit> Discounted Prescriptions </TelemedicineBenefit>
+        <TelemedicineBenefit> Available while you travel </TelemedicineBenefit>
+        <TelemedicineBenefit> Unlimited Visits 24/7 </TelemedicineBenefit>
+        <TelemedicineBenefit> No Co-Pays </TelemedicineBenefit>
+        <TelemedicineBenefit> No visit fees </TelemedicineBenefit>
+        <TelemedicineBenefit> No insurance required </TelemedicineBenefit>
+        <TelemedicineBenefit> Office-like experience </TelemedicineBenefit>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .section {
+    padding: 10rem 0;
+  }
+
+  .card {
+    background-color: white;
+  }
+</style>

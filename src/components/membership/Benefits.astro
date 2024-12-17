@@ -1,0 +1,49 @@
+---
+import BenefitCard from "./benefits/BenefitCard.astro";
+---
+
+<section id="benefits" class="section background">
+  <div class="container">
+    <div class="mb-5 pb-4">
+      <h2 class="title fs-1 text-center mx-auto">
+        Leading the pack in product offerings and member benefits
+      </h2>
+    </div>
+
+    <div class="row g-1">
+      <BenefitCard icon="bi-bezier" title="AI Technology">
+        Utilize AI to analyze customer data, predict trends, and deliver
+        personalized services.
+      </BenefitCard>
+      <BenefitCard icon="bi-phone" title="Mobile Solutions">
+        Leverage apps to provide seamless access to insurance and financial
+        services.
+      </BenefitCard>
+      <BenefitCard icon="bi-send" title="Streamlined Integrations">
+        Enhance customer experience, boost efficiency, and lower operational
+        costs.
+      </BenefitCard>
+      <BenefitCard icon="bi-arrows-fullscreen" title="Diverse Products">
+        Access an array of products from health & life insurance to payroll and
+        tax prep.
+      </BenefitCard>
+      <BenefitCard icon="bi-wallet2" title="Revenue Sharing">
+        Members receive a fair share of the revenue from each product sold.
+      </BenefitCard>
+      <BenefitCard icon="bi-award" title="Premium Solutions">
+        We select only the best products for our members, ensuring your clients
+        are happy.
+      </BenefitCard>
+    </div>
+  </div>
+</section>
+
+<style>
+  .background {
+    background-color: #f4f4f4;
+  }
+
+  .title {
+    max-width: 600px;
+  }
+</style>

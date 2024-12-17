@@ -1,0 +1,28 @@
+---
+import ProductsCount from "./ProductsCount.astro";
+import { colors } from "@core/colors";
+import Residuals from "./Residuals.astro";
+import Growth from "./Growth.astro";
+
+const bgColor = colors.primary + "10";
+---
+
+<section id="benefits" class="section">
+  <div class="container">
+    <div class="mb-5">
+      <h2 class="fs-5 text-center text-primary">Our Benefits</h2>
+      <p class="fs-1 text-center">What our members get</p>
+    </div>
+    <div class="row gy-4 gx-4">
+      <div class="col-12 col-md-6">
+        <ProductsCount backgroundColor={bgColor} />
+      </div>
+      <div class="col-12 col-md-6">
+        <Residuals backgroundColor={bgColor} />
+      </div>
+      <div class="col-12">
+        <Growth backgroundColor={bgColor} />
+      </div>
+    </div>
+  </div>
+</section>

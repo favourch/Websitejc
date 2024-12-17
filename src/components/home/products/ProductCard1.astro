@@ -1,0 +1,24 @@
+---
+const { title, color } = Astro.props;
+
+const backgroundColor = color + "08";
+---
+
+<div class="col-12 col-md-6 col-xl-4">
+  <div class="background rounded-4 text-center py-4 px-5 h-100">
+    <h3 class="color fs-5 fw-bold">{title}</h3>
+    <p class="fs-6 lh-lg">
+      <slot />
+    </p>
+  </div>
+</div>
+
+<style define:vars={{ color, backgroundColor }}>
+  .background {
+    background-color: var(--backgroundColor);
+  }
+
+  .color {
+    /* color: var(--color); */
+  }
+</style>

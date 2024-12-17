@@ -1,0 +1,44 @@
+---
+import ContactForm from "@components/contact/ContactForm.astro";
+import ContactInfo from "@components/contact/ContactInfo.astro";
+import { colors } from "@core/colors";
+import MainLayout from "@layouts/MainLayout.astro";
+
+const backgroundColor = colors.primary + "30";
+---
+
+<MainLayout
+  navbarBackgroundColor={backgroundColor}
+  title="Contact Us"
+  description="Contact us and become a Wholsalers Advantage member."
+>
+  <section id="contact-section" class="section background">
+    <div class="container">
+      <div class="row gx-4 gy-5">
+        <div class="col-12 col-lg-6">
+          <ContactInfo />
+        </div>
+        <div class="col-12 col-lg-6">
+          <ContactForm />
+        </div>
+      </div>
+    </div>
+
+    <style define:vars={{ backgroundColor }}>
+      .background {
+        background-color: var(--backgroundColor);
+      }
+
+      a {
+        color: var(--bs-text-body);
+        text-decoration: none;
+      }
+
+      a:hover,
+      a:focus {
+        transition: ease-in-out 0.1s;
+        color: var(--bs-primary);
+      }
+    </style>
+  </section></MainLayout
+>

@@ -1,0 +1,84 @@
+---
+import { pages } from "@core/pages";
+import ProductItem from "./ProductItem.astro";
+import CheckItem from "@components/CheckItem.astro";
+---
+
+<section id="top-product" class="">
+  <div class="background section">
+    <div class="padding">
+      <div class="container">
+        <div class="mb-5 pb-5">
+          <h2 class="fs-5 text-primary">Disability Insurance</h2>
+          <p class="title fs-1 lh-sm text-light mb-3">
+            Protecting Your Most Valuable Asset—You.
+          </p>
+          <p class="subtitle fs-5 lh-lg text-light mb-4 pb-2">
+            Disability insurance provides a portion of your income if you become
+            unable to work due to a covered illness or injury. It helps you
+            maintain your standard of living and meet financial obligations when
+            you can't work.
+          </p>
+          <a
+            class="btn btn-secondary btn-lg rounded-3 fs-5 fw-bold text-white py-2 px-3"
+            href={pages.memberForm.path}
+          >
+            <span class="px-4">Become a Member</span>
+          </a>
+        </div>
+        <div class="row gy-5 gx-5">
+          <ProductItem title="Benefits" icon="bi-wallet">
+            <span class="d-block mb-4">
+              Helps you pay bills, mortgage, and other living expenses and avoid
+              depleting savings or retirement accounts.
+            </span>
+            <CheckItem>Income Protection</CheckItem>
+            <CheckItem>Financial Security</CheckItem>
+            <CheckItem>Peace of Mind</CheckItem>
+            <CheckItem>Supplement to Workers</CheckItem>
+            <CheckItem>Protect Your Savings</CheckItem>
+          </ProductItem>
+          <ProductItem title="Features" icon="bi-wallet">
+            <span class="d-block mb-4">
+              Our policies are designed to be clear and simple to ensure you
+              know you're covered and for how much.
+            </span>
+            <CheckItem>Definition of Disability</CheckItem>
+            <CheckItem>Typically 60-70% Income</CheckItem>
+            <CheckItem>Benefit Period</CheckItem>
+            <CheckItem>Elimination Period</CheckItem>
+            <CheckItem>Own vs Any Occupation</CheckItem>
+          </ProductItem>
+          <ProductItem title="Best For" icon="bi-wallet">
+            <span class="d-block mb-4">
+              Our plans cover a range of professions to ensure you and your
+              family are taken care of no metter what happens.
+            </span>
+            <CheckItem>Professionals</CheckItem>
+            <CheckItem>Self-Employed</CheckItem>
+            <CheckItem>High-Income Earners</CheckItem>
+            <CheckItem>Primary Breadwinners</CheckItem>
+          </ProductItem>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .background {
+    background-color: #053952;
+  }
+
+  .padding {
+    padding: 7rem 0;
+  }
+
+  .title {
+    max-width: 600px;
+  }
+
+  .subtitle {
+    max-width: 800px;
+  }
+</style>

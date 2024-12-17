@@ -1,0 +1,37 @@
+---
+import "@styles/bootstrap.scss";
+import "@styles/styles.css";
+import Navbar from "@components/Navbar.astro";
+import Footer from "@components/navigation/Footer.astro";
+import PostHog from "@components/PostHog.astro";
+import { ViewTransitions } from "astro:transitions";
+
+const { title, description, navbarBackgroundColor } = Astro.props;
+const isProd = import.meta.env.PROD;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.png" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{title ?? "Wholesalers Advantage"}</title>
+    <meta
+      name="description"
+      content={description ??
+        "Become a Wholesalers Advantage member and gain access to 20+ insurance and financial products."}
+    />
+    <ViewTransitions />
+    {isProd && <PostHog />}
+  </head>
+
+  <body>
+    <Navbar backgroundColorOverride={navbarBackgroundColor} />
+    <slot />
+    <Footer />
+    <script src="@core/bootstrap/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

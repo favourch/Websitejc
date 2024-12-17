@@ -1,0 +1,54 @@
+---
+import { colors } from "@core/colors";
+import OverviewItem from "./OverviewItem.astro";
+
+const { backgroundColor } = Astro.props;
+---
+
+<section id="overview" class="section">
+  <div class="container">
+    <div class="card shadow p-4 rounded-4">
+      <h2 class="fs-5 text-primary">Why Wholesalers Advantage</h2>
+      <p class="subtext fs-5 lh-lg text-body-secondary mt-2">
+        We provide the most comprehensive and innovative product suites on a
+        “wholesale” basis offered to our Advantage Partners ensuring they
+        receive the best value and the highest compensation available.
+      </p>
+      <div class="row gy-3 gx-5 pt-5">
+        <OverviewItem title="Health & Accident Insurance" icon="bi-shield-plus">
+          Gain access to a wide range of group and individual health and
+          accident insurance products ranging from HMO plans to telemedicine
+          memberships.
+        </OverviewItem>
+        <OverviewItem title="Life & Travel Insurance" icon="bi-luggage">
+          Offer a range of life and travel insurance products to your clients,
+          including Key Man Insurance, Buy Sell Agreements, Term Life Insurance,
+          and Travel Medical Evacuation.
+        </OverviewItem>
+        <OverviewItem title="Business & Finance" icon="bi-buildings">
+          Give your clients a an advantage through our suite of financial and
+          business products ranging from Payroll and Merchant Services to tax
+          and living trust products.
+        </OverviewItem>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style define:vars={{ backgroundColor }}>
+  #overview {
+    background: linear-gradient(
+      0deg,
+      transparent 50%,
+      var(--backgroundColor) 50%
+    );
+  }
+
+  .card {
+    background-color: white;
+  }
+
+  .subtext {
+    max-width: 700px;
+  }
+</style>

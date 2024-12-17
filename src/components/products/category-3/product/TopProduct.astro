@@ -1,0 +1,87 @@
+---
+import { pages } from "@core/pages";
+import ProductItem from "./ProductItem.astro";
+---
+
+<section id="top-product" class="">
+  <div class="background section">
+    <div class="padding">
+      <div class="container">
+        <div class="mb-5 pb-4">
+          <h2 class="fs-5 text-light">Living Trust Services</h2>
+          <p class="title fs-1 lh-sm text-light mb-3">
+            Expert Legal Solutions at Your Fingertips
+          </p>
+          <p class="subtitle fs-5 lh-lg text-light mb-4 pb-2">
+            We have partnered with an exceptional law firm specializing in a
+            range of services ranging from basic estate planning to specialty
+            planning services.
+          </p>
+          <a
+            class="btn btn-secondary btn-lg rounded-3 fs-5 fw-bold text-white py-2 px-3"
+            href={pages.contact.path}
+            aria-label={pages.contact.title}
+          >
+            <span class="px-4">Become a Member</span>
+          </a>
+        </div>
+        <div class="row gy-4 gx-4">
+          <ProductItem
+            title="Basic Estate Planning"
+            href="https://storage.googleapis.com/msgsndr/IV7NmT1XpuVVnaQw3sCf/media/6632d31737a24685b2bec932.pdf"
+          />
+          <ProductItem
+            title="Business Planning"
+            href="https://storage.googleapis.com/msgsndr/IV7NmT1XpuVVnaQw3sCf/media/6632d31744e1170db3afe462.pdf"
+          />
+          <ProductItem
+            title="Special Needs Planning"
+            href="https://storage.googleapis.com/msgsndr/IV7NmT1XpuVVnaQw3sCf/media/6632d31737a246bbc1bec933.pdf"
+          />
+          <ProductItem
+            title="Advanced Tax Planning"
+            href="https://storage.googleapis.com/msgsndr/IV7NmT1XpuVVnaQw3sCf/media/6632d3172807113590f9edd8.pdf"
+          />
+          <ProductItem
+            title="Legacy Planning"
+            href="https://storage.googleapis.com/msgsndr/IV7NmT1XpuVVnaQw3sCf/media/6632d3177c74f55578025437.pdf"
+          />
+          <ProductItem
+            title="Incapacity Planning"
+            href="https://storage.googleapis.com/msgsndr/IV7NmT1XpuVVnaQw3sCf/media/6632d31737a2463fb9bec931.pdf"
+          />
+          <ProductItem
+            title="International Planning"
+            href="https://storage.googleapis.com/msgsndr/IV7NmT1XpuVVnaQw3sCf/media/6632d3172807114927f9edd7.pdf"
+          />
+          <ProductItem
+            title="Assisted Trust Plan"
+            href="https://storage.googleapis.com/msgsndr/PkjEtHs9NzDNVAKDVYT2/media/661b06368d4578101e4b8ab8.pdf"
+          />
+          <ProductItem
+            title="Advanced Needs Form"
+            href="https://storage.googleapis.com/msgsndr/IV7NmT1XpuVVnaQw3sCf/media/663cfbb402dbb03e54d87f55.pdf"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .background {
+    background-color: #053952;
+  }
+
+  .padding {
+    padding: 7rem 0;
+  }
+
+  .title {
+    max-width: 500px;
+  }
+
+  .subtitle {
+    max-width: 800px;
+  }
+</style>

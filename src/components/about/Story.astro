@@ -1,0 +1,93 @@
+---
+import { Image } from "astro:assets";
+import OurStory from "@images/story.webp";
+import Person from "@images/person-1.webp";
+---
+
+<section id="story" class="section">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-xl-6 col-lg-4 d-none d-xl-block">
+        <div class="d-flex flex-column justify-content-between h-100 gap-4">
+          <div>
+            <div class="d-flex align-items-center gap-4">
+              <h2 class="title fw-bold d-none d-xl-block mb-0">Our Story</h2>
+              <i class="bi-arrow-down-right title d-none d-xl-block"></i>
+            </div>
+            <i class="bi-arrow-right title d-none d-lg-block d-xl-none"></i>
+          </div>
+          <Image
+            src={OurStory}
+            alt="Our Story | Wholesalers Advantage"
+            loading="lazy"
+            class="story-image w-100 h-auto rounded-5 d-none d-xl-block"
+          />
+        </div>
+      </div>
+      <div class="col-12 col-xl-6 col-lg-8">
+        <h2 class="fs-1 fw-bold d-block d-xl-none mb-3">Our Story</h2>
+        <p class="fs-5 fw-bold lh-lg mb-5">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
+          consectetur ipsum nisl. Nam maximus, quam sed molestie tristique,
+          massa odio auctor mi, dapibus rhoncus augue augue eget eros.
+        </p>
+        <p class="fs-5 lh-lg">
+          Cras eu sapien posuere, condimentum felis id, faucibus libero. Fusce
+          condimentum orci sed volutpat ultrices. Duis at augue vulputate,
+          consectetur nulla id, pharetra erat. Pellentesque molestie risus at
+          posuere convallis. Fusce nec justo quis ex fermentum fringilla et sit
+          amet nunc. Vestibulum vulputate lacinia sapien ut tempor. Lorem ipsum
+          dolor sit amet, consectetur adipiscing elit. Suspendisse id ante nec
+          dolor faucibus porta.
+        </p>
+        <p class="fs-5 lh-lg pb-5">
+          Donec lobortis magna neque, vitae mollis massa vulputate id. Etiam id
+          odio eros. Donec quis lobortis urna. Donec in mauris eu risus gravida
+          volutpat. Sed sagittis scelerisque congue. Morbi eu dolor massa.
+          Aenean risus neque, fermentum a mauris ac, facilisis dictum ante.
+          Nulla non pharetra dolor. In hac habitasse platea dictumst.
+        </p>
+
+        <div class="d-flex align-items-center gap-3 mt-5 mb-2">
+          <Image
+            src={Person}
+            alt="Picture of Founder & CEO | Wholesalers Advantage"
+            loading="lazy"
+            class="image rounded-pill"
+          />
+          <div>
+            <p class="fs-5 fw-bold mb-0">Firstname Lastname</p>
+            <p class="fs-5 mb-0">Founder & CEO</p>
+          </div>
+        </div>
+        <div class="d-flex gap-2">
+          <i class="bi-quote fs-2"></i>
+          <p class="fs-5 fw-bold lh-lg pt-2">
+            "Sed consectetur, elit a lobortis hendrerit, massa est lacinia eros,
+            ut mattis nunc nisi et metus. Pellentesque semper at erat et luctus.
+            Donec libero elit."
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  #story {
+    padding: 12rem 0;
+  }
+
+  .title {
+    font-size: 4rem;
+  }
+
+  .image {
+    height: auto;
+    max-width: 80px;
+  }
+
+  .story-image {
+    max-width: 450px;
+  }
+</style>

@@ -1,0 +1,24 @@
+---
+import { colors } from "@core/colors";
+import Benefits from "@components/home/benefits/Benefits.astro";
+import Hero from "@components/home/Hero.astro";
+import Industries from "@components/home/industries/Industries.astro";
+import Member from "@components/home/Member.astro";
+import Overview from "@components/home/overview/Overview.astro";
+import TopProduct from "@components/home/product/TopProduct.astro";
+import ProductsCategory1 from "@components/home/products/ProductsCategory1.astro";
+import MainLayout from "@layouts/MainLayout.astro";
+
+const backgroundColor = colors.primary + "30";
+// const backgroundColor = "rgba(213,246,237,0.36)";
+---
+
+<MainLayout navbarBackgroundColor={backgroundColor}>
+  <Hero backgroundColor={backgroundColor} />
+  <Overview backgroundColor={backgroundColor} />
+  <Benefits />
+  <TopProduct />
+  <ProductsCategory1 />
+  <Industries />
+  <Member hideMissionStatement={true} />
+</MainLayout>

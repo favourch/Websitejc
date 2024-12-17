@@ -1,0 +1,46 @@
+---
+import BenefitCard from "./BenefitCard.astro";
+---
+
+<section id="benefits" class="section">
+  <div class="container">
+    <!-- <div class="mb-5 pb-4">
+      <h2 class="title fs-1 text-center mx-auto">
+        Lorem ipsum dolor sit amet consectetur adipiscing
+      </h2>
+    </div> -->
+
+    <div class="row g-1">
+      <BenefitCard icon="bi-shield-plus" title="Individual Accident Insurance">
+        We offer top-notch tools for multi-carrier appointments, enrollment
+        capabilities, and white label services.
+      </BenefitCard>
+      <BenefitCard icon="bi-person" title="Individual Disability Insurance">
+        We offer a wide range of customized disability products and services,
+        along with comprehensive on-the-job and off-the-job benefits and
+        policies, tailored for businesses with unique placement challenges.
+      </BenefitCard>
+      <BenefitCard icon="bi-buildings" title="Worksite Benefits">
+        We provide top-tier worksite benefits along with a variety of platforms,
+        TPA services, and carriers, offering comprehensive turnkey solutions.
+      </BenefitCard>
+      <BenefitCard icon="bi-people" title="Group Health & Accident">
+        We specialize in offering comprehensive turnkey solutions tailored for
+        independent contractors, associations, unions, and affinity groups.
+      </BenefitCard>
+      <BenefitCard full={true} icon="bi-phone" title="Telemedicine">
+        Become a member and get 24/7 access to U.S. board-certified doctors and
+        nurse practitioners on mobile app. Our doctors can diagnose, treat, and
+        prescribe medications for a wide range of conditions. Office like visit
+        experience - the only telemedicine plan that comes with a digital
+        stethoscope!
+      </BenefitCard>
+    </div>
+  </div>
+</section>
+
+<style>
+  .title {
+    max-width: 600px;
+  }
+</style>

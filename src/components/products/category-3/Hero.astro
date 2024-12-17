@@ -1,0 +1,84 @@
+---
+import { pages } from "@core/pages";
+---
+
+<section id="hero" class="px-0 px-md-5">
+  <div class="px-0 px-lg-5">
+    <div class="background rounded-5">
+      <div class="overlay rounded-5">
+        <div class="overlay rounded-5">
+          <div class="section">
+            <div class="container">
+              <div
+                class="hero-content d-flex flex-column flex-grow-1 mx-auto py-5"
+              >
+                <h1 class="mb-4 text-light text-center">
+                  Business & Financial Products
+                </h1>
+                <p class="fs-4 lh-lg text-light text-center mb-5">
+                  Our products target businesses of any size that need
+                  affordable, flexible, and user-friendly cutting-edge
+                  technology to keep their business thriving and operating
+                  efficiently.
+                </p>
+                <div class="mx-auto">
+                  <a
+                    class="btn btn-secondary btn-lg rounded-pill fs-3 fw-bold text-white py-2 px-4"
+                    href={pages.memberForm.path}
+                  >
+                    <span class="px-4">Become a Member</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .background {
+    background-image: url(/geo-background-1.webp);
+    background-repeat: round;
+    background-size: auto;
+  }
+
+  .overlay {
+    background-color: #0f2c18de;
+  }
+
+  .section {
+    padding: 12rem 0;
+  }
+
+  .hero-content {
+    max-width: 800px;
+  }
+
+  .hero-content h1 {
+    font-size: 3.5rem;
+  }
+
+  .card {
+    max-width: 80%;
+  }
+
+  @media screen and (max-width: 991px) {
+    .background,
+    .overlay {
+      border-radius: 0 !important;
+    }
+
+    .card {
+      max-width: 100%;
+    }
+  }
+
+  @media screen and (max-width: 575px) {
+    .card {
+      border-radius: 0 !important;
+    }
+  }
+</style>

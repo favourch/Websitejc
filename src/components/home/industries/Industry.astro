@@ -1,0 +1,25 @@
+---
+import { Image } from "astro:assets";
+
+const { title, image } = Astro.props;
+---
+
+<div class="col-12 col-xl-6">
+  <div class="d-flex gap-4 h-100">
+    <Image class="image rounded-3" src={image} alt={title} />
+    <div>
+      <h3 class="fs-5 fw-bold">{title}</h3>
+      <p class="fs-6 lh-lg">
+        <slot />
+      </p>
+    </div>
+  </div>
+</div>
+
+<style>
+  .image {
+    max-width: 175px;
+    max-height: 175px;
+    height: auto;
+  }
+</style>

@@ -1,0 +1,81 @@
+---
+import CheckItem from "./CheckItem.astro";
+import BenefitCard from "./BenefitCard.astro";
+---
+
+<section id="benefits" class="section">
+  <div class="container">
+    <!-- <div class="mb-5 pb-4">
+      <h2 class="title fs-1 text-center mx-auto">
+        Lorem ipsum dolor sit amet consectetur adipiscing
+      </h2>
+    </div> -->
+
+    <div class="row g-1">
+      <BenefitCard icon="bi-airplane" title="Mexico Insurance Tourist Program">
+        Mexican Auto Insurance (MAI) was created to allow independent insurance
+        agents all over the country to handle the Mexican insurance needs of
+        their clients with exclusive policies that are specifically developed to
+        meet American insurance standards. MAI producers can place international
+        insurance for their clients whenever the need arrives without any
+        premium volume commitment.
+      </BenefitCard>
+      <BenefitCard icon="bi-car-front" title="Travel Insurance">
+        We provide three distinct travel insurance plans designed to meet your
+        clients' needs. Get a quote in under 2 minutes, with the financial
+        security of Nationwide Insurance backing each plan.
+      </BenefitCard>
+      <BenefitCard full={true} icon="bi-shield-check" title="Life Insurance">
+        <span class="d-block mb-4">
+          Life insurance offers several benefits that can provide financial
+          security and peace of mind.
+        </span>
+        <div class="row gx-4">
+          <CheckItem>
+            <b>Financial Protection for Loved Ones</b>: In the event of your
+            passing, life insurance provides a death benefit to your
+            beneficiaries, helping them cover expenses such as funeral costs,
+            debts, and living expenses.
+          </CheckItem>
+          <CheckItem>
+            <b>Income Replacement</b>: If you are the primary breadwinner, life
+            insurance can replace your income, ensuring that your family can
+            maintain their standard of living.
+          </CheckItem>
+          <CheckItem>
+            <b>Debt Coverage</b>: Life insurance can help pay off outstanding
+            debts, such as a mortgage, car loans, or credit card debt,
+            preventing your loved ones from being burdened with these financial
+            obligations.
+          </CheckItem>
+          <CheckItem>
+            <b>Estate Planning</b>: Life insurance can be a useful tool in
+            estate planning, helping to cover estate taxes and ensuring that
+            your heirs receive their inheritance without financial strain.
+          </CheckItem>
+          <CheckItem>
+            <b>Business Continuity</b>: For business owners, life insurance can
+            fund a buy-sell agreement, ensuring that the business can continue
+            operating smoothly in the event of your death.
+          </CheckItem>
+          <CheckItem>
+            <b>Cash Value Accumulation</b>: Some types of life insurance, such
+            as whole life or universal life, build cash value over time, which
+            you can borrow against or withdraw for various financial needs.
+          </CheckItem>
+          <CheckItem>
+            <b>Peace of Mind</b>: Knowing that your loved ones will be
+            financially secure can provide significant peace of mind, allowing
+            you to focus on enjoying life without worrying about the future.
+          </CheckItem>
+        </div>
+      </BenefitCard>
+    </div>
+  </div>
+</section>
+
+<style>
+  .title {
+    max-width: 600px;
+  }
+</style>

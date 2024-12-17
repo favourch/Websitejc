@@ -1,0 +1,84 @@
+---
+import { pages } from "@core/pages";
+---
+
+<section id="hero" class="px-0 px-md-5">
+  <div class="px-0 px-lg-5">
+    <div class="background rounded-5">
+      <div class="overlay rounded-5">
+        <div class="overlay rounded-5">
+          <div class="section">
+            <div class="container">
+              <div
+                class="hero-content d-flex flex-column flex-grow-1 mx-auto py-5"
+              >
+                <h1 class="mb-4 text-light text-center">
+                  Health & Accident Insurance
+                </h1>
+                <p class="fs-4 lh-lg text-light text-center mb-5">
+                  Our products are designed for P&C Agencies, CPAs, Estate
+                  Planning Advisors, IMOs, FMOs, MGAs, and GAs whose clients
+                  need flexible and affordable group and individual insurance
+                  plans.
+                </p>
+                <div class="mx-auto">
+                  <a
+                    class="btn btn-primary btn-lg rounded-pill fs-3 fw-bold text-white py-2 px-4"
+                    href={pages.memberForm.path}
+                  >
+                    <span class="px-4">Become a Member</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .background {
+    background-image: url(/geo-background-1.webp);
+    background-repeat: round;
+    background-size: auto;
+  }
+
+  .overlay {
+    background-color: #440c16de;
+  }
+
+  .section {
+    padding: 12rem 0;
+  }
+
+  .hero-content {
+    max-width: 800px;
+  }
+
+  .hero-content h1 {
+    font-size: 3.75rem;
+  }
+
+  .card {
+    max-width: 80%;
+  }
+
+  @media screen and (max-width: 991px) {
+    .background,
+    .overlay {
+      border-radius: 0 !important;
+    }
+
+    .card {
+      max-width: 100%;
+    }
+  }
+
+  @media screen and (max-width: 575px) {
+    .card {
+      border-radius: 0 !important;
+    }
+  }
+</style>

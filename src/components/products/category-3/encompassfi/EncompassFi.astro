@@ -1,0 +1,76 @@
+---
+import CheckItem from "@components/CheckItem.astro";
+import EncompassFiCard from "./EncompassFiCard.astro";
+import { pages } from "@core/pages";
+---
+
+<section id="benefits" class="section background">
+  <div class="container">
+    <div class="mb-5 pb-4">
+      <h2 class="fs-5">Payroll & Merchant Services</h2>
+      <p class="title fs-1 lh-sm mb-3">
+        An all-in-one payroll and merchant services solution
+      </p>
+      <p class="subtitle fs-5 lh-lg mb-4 pb-2">
+        Wholesalers Advantage has partnered with a financial technology company
+        to bring payroll and card payments to you and your clients. Accepting
+        card payments and running payroll for your company has never been so
+        easy.
+      </p>
+      <a
+        class="btn btn-secondary btn-lg rounded-3 fs-5 fw-bold text-white py-2 px-3"
+        href={pages.contact.path}
+        aria-label={pages.contact.title}
+      >
+        <span class="px-4">Become a Member</span>
+      </a>
+    </div>
+
+    <div class="row g-1">
+      <EncompassFiCard icon="bi-wallet2" title="Payroll">
+        <span class="d-block mb-4">
+          Provide your clients a simple and flexible way to manage payroll,
+          employees, contractors, and benefits, while making sure taxes are paid
+          automatically.
+        </span>
+        <CheckItem>Unlimited Payrolls</CheckItem>
+        <CheckItem>W2 Employees</CheckItem>
+        <CheckItem>1099 Contractors</CheckItem>
+        <CheckItem>Health Benefits</CheckItem>
+        <CheckItem>Retirement Benefits</CheckItem>
+        <CheckItem>Worker's Compensation</CheckItem>
+        <CheckItem>Free Tax Filings</CheckItem>
+        <CheckItem>Free Direct Deposit</CheckItem>
+      </EncompassFiCard>
+      <EncompassFiCard icon="bi-credit-card" title="Payments">
+        <span class="d-block mb-4">
+          Accept credit and debit card payments, in-person, online, or
+          over-the-phone using eCommerce shopping carts, physical or virtual
+          terminals, and POS systems.
+        </span>
+        <CheckItem>Flat-rate Pricing</CheckItem>
+        <CheckItem>No Hidden Fees</CheckItem>
+        <CheckItem>No Contracts</CheckItem>
+        <CheckItem>Invoicing system</CheckItem>
+        <CheckItem>Subscription Payments</CheckItem>
+        <CheckItem>Point-of-Sale Systems</CheckItem>
+        <CheckItem>Physical Card Readers</CheckItem>
+        <CheckItem>Virtual Terminal</CheckItem>
+      </EncompassFiCard>
+    </div>
+  </div>
+</section>
+
+<style>
+  .background {
+    background-color: #fcfcfc;
+  }
+
+  .title {
+    max-width: 600px;
+  }
+
+  .subtitle {
+    max-width: 800px;
+  }
+</style>

@@ -1,0 +1,24 @@
+---
+import Member from "@components/home/Member.astro";
+import Benefits from "@components/products/category-2/benefits/Benefits.astro";
+import Faq from "@components/products/category-2/faq/Faq.astro";
+import Hero from "@components/products/category-2/Hero.astro";
+import Overview from "@components/products/category-2/overview/Overview.astro";
+import TopProduct from "@components/products/category-2/product/TopProduct.astro";
+import Products from "@components/products/category-2/products/Products.astro";
+import MainLayout from "@layouts/MainLayout.astro";
+---
+
+<MainLayout
+  navbarBackgroundColor="transparent"
+  title="Life & Travel"
+  description="Wholesalers Advantage offers the best life & travel insurance products for individuals & businesses of all sizes."
+>
+  <Hero />
+  <Products />
+  <!-- <TopProduct /> -->
+  <Overview />
+  <Benefits />
+  <!-- <Faq /> -->
+  <Member />
+</MainLayout>

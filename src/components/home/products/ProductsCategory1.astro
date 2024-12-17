@@ -1,0 +1,212 @@
+---
+import { pages } from "@core/pages";
+import { colors } from "@core/colors";
+import ProductCard1 from "./ProductCard1.astro";
+import ProductCategoryCard from "./ProductCategoryCard.astro";
+
+const primary = colors.primary;
+const secondary = colors.secondary;
+const tertiary = colors.tertiary;
+const quaternary = colors.quaternary;
+---
+
+<section id="products-category-1" class="section">
+  <div class="container">
+    <div class="mb-4">
+      <h2 class="fs-5 fw-bold text-primary text-center">
+        Explore Our Products
+      </h2>
+      <!-- <p class="subtitle fs-3 text-center mb-5">
+        Wholesalers Advantage offers flexible and affordable products that can
+        meet any need.
+      </p> -->
+    </div>
+
+    <div class="row g-4 pt-4 pb-5">
+      <ProductCategoryCard
+        title1="Become"
+        title2="A Member"
+        color={colors.primary}
+        icon="bi-people"
+        href={pages.memberForm.path}
+      />
+      <ProductCategoryCard
+        title1="Health &"
+        title2="Accident Insurance"
+        color={colors.quaternary}
+        icon="bi-shield-plus"
+        href={pages.products1.path}
+      />
+      <ProductCategoryCard
+        title1="Life & Travel"
+        title2="Insurance"
+        color={colors.tertiary}
+        icon="bi-luggage"
+        href={pages.products2.path}
+      />
+      <ProductCategoryCard
+        title1="Business &"
+        title2="Financial Products"
+        color={colors.secondary}
+        icon="bi-wallet"
+        href={pages.products3.path}
+      />
+    </div>
+
+    <div class="pt-5 mt-5">
+      <p class="fs-4 fw-bold text-center quaternary">Health & Accident</p>
+      <hr />
+    </div>
+    <div class="row g-4">
+      <ProductCard1 title="Individual Accident" color={colors.quaternary}>
+        Accident insurance is a type of insurance where the policy holder is
+        paid directly in the event of an accident resulting in the injury of the
+        insured.
+      </ProductCard1>
+      <ProductCard1 title="Individual Disability" color={colors.quaternary}>
+        A type of insurance where the policy pays a policy holder a portion of
+        their monthly income resulting from a serious injury and or catastrophic
+        illness.
+      </ProductCard1>
+      <ProductCard1 title="Accidental Death" color={colors.quaternary}>
+        Provides financial benefits to the insured or their beneficiaries in the
+        event of accidental death, serious injury, or dismemberment resulting
+        from an accident.
+      </ProductCard1>
+      <ProductCard1 title="Worksite Products" color={colors.quaternary}>
+        Insurance plans that pay cash benefits directly to the insured. These
+        plans are typically sold through an employer via payroll deduction.
+      </ProductCard1>
+      <ProductCard1 title="Affinity Group Health" color={colors.quaternary}>
+        Health Maintenance (HMO) and Preferred Provider (PPO) Organization plans
+        specially designed for independent agents or 1099s, Associations, and
+        Affinity groups.
+      </ProductCard1>
+      <ProductCard1 title="Telemedicine" color={colors.quaternary}>
+        Allows members to have their health questions answered promptly, receive
+        thorough examinations, and obtain prescriptions from the comfort of
+        their home.
+      </ProductCard1>
+    </div>
+
+    <div class="pt-5 mt-5">
+      <p class="fs-4 fw-bold text-center tertiary">Life Products</p>
+      <hr />
+    </div>
+    <div class="row g-4">
+      <ProductCard1
+        title="Whole Life (Children Included)"
+        color={colors.tertiary}
+      >
+        Level benefit participating whole life with cash value, built-in living
+        benefits, available dividends, limited pay options and guaranteed
+        renewability to age 121.
+      </ProductCard1>
+      <ProductCard1 title="Term Life" color={colors.tertiary}>
+        Accelerated underwriting and no exams up to $1 million for ages 18-50, a
+        conversion option, and optional riders like the Return of Premium
+        benefit.
+      </ProductCard1>
+      <ProductCard1 title="Single Premium Life" color={colors.tertiary}>
+        Level benefit single-premium whole life coverage that immediately
+        increases estate value and allows for tax-deferred cash value growth.
+      </ProductCard1>
+      <ProductCard1 title="Life Protect+" color={colors.tertiary}>
+        Flexible bundled coverage for life, critical illness and income
+        protection with instant decision available up to $1 million for ages
+        18-50, and no health license required to sell.
+      </ProductCard1>
+      <ProductCard1 title="Universal Life" color={colors.tertiary}>
+        Permanent coverage with cash value growth, flexible premiums, built-in
+        living benefits and a 20-year no-lapse guarantee period for ages 0-60.
+      </ProductCard1>
+    </div>
+
+    <div class="pt-5 mt-5">
+      <p class="fs-4 fw-bold text-center tertiary">Travel Services</p>
+      <hr />
+    </div>
+    <div class="row g-4">
+      <ProductCard1 title="Medical Evacuation" color={colors.tertiary}>
+        For the traveler who wants coverage for a medical evacuation with U.S
+        home hospital of choice. Available for single trips or an annual plan
+        option.
+      </ProductCard1>
+      <ProductCard1 title="Emergency Evacuation" color={colors.tertiary}>
+        This plan covers the unexpected medical expenses and a medical
+        evacuation with the added benefit that offers U.S home hospital of
+        choice.
+      </ProductCard1>
+      <ProductCard1
+        title="Comprehensive Trip Protection"
+        color={colors.tertiary}
+      >
+        For travelers who want protection against unforeseen cancellations,
+        interruptions or delays, and coverage when facing a medical emergency,
+        and more.
+      </ProductCard1>
+    </div>
+
+    <div class="pt-5 mt-5">
+      <p class="fs-4 fw-bold text-center secondary">Business & Financial</p>
+      <hr />
+    </div>
+    <div class="row g-4">
+      <ProductCard1 title="Tax Wallet" color={colors.secondary}>
+        Ai-driven tax wallet phone app (Android & ISO) deigned for P&C Agencies,
+        Tax Pros, CPAs, Financial Advisors, Estate Planning Advisors, and sales
+        professionals.
+      </ProductCard1>
+      <ProductCard1 title="Payroll" color={colors.secondary}>
+        Provide your clients a simple and flexible way to manage payroll,
+        employees, contractors, and benefits, while making sure taxes are paid
+        automatically.
+      </ProductCard1>
+      <ProductCard1 title="Merchant Services" color={colors.secondary}>
+        Accept credit and debit card payments, in-person, online, or
+        over-the-phone using eCommerce shopping carts, physical or virtual
+        terminals, and POS systems.
+      </ProductCard1>
+      <ProductCard1 title="Living Trust Services" color={colors.secondary}>
+        Wholesalers Advantage has partnered with an exceptional law firm
+        specializing in basic estate planning to specialty planning services.
+      </ProductCard1>
+      <ProductCard1 title="TPA Services" color={colors.secondary}>
+        PPO options, reference-based, level funded, and hybrid plans. Our plans
+        include unique transparency, patient advocacy, and cost management
+        options.
+      </ProductCard1>
+      <ProductCard1 title="Social Media Services" color={colors.secondary}>
+        Bring your business to new heights. These marketing services are geared
+        towards agencies and brokers looking to build a business online.
+      </ProductCard1>
+    </div>
+  </div>
+</section>
+
+<style define:vars={{ primary, secondary, tertiary, quaternary }}>
+  .subtitle {
+    max-width: 600px;
+    margin-inline: auto;
+  }
+
+  a {
+    max-width: 275px;
+  }
+
+  .primary {
+    color: var(--primary);
+  }
+
+  .secondary {
+    color: var(--secondary);
+  }
+
+  .tertiary {
+    color: var(--tertiary);
+  }
+
+  .quaternary {
+    color: var(--quaternary);
+  }
+</style>

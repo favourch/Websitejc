@@ -1,0 +1,82 @@
+---
+import { pages } from "@core/pages";
+import Testimonial from "./testimonial.astro";
+---
+
+<section id="membership" class="section">
+  <div class="container">
+    <div class="mb-5">
+      <h2 class="fs-4 fw-bold text-primary text-center">Testimonials</h2>
+      <hr />
+      <!-- <p class="subtitle fs-5 text-center text-body-secondary">
+        Our mission is to deliver comprehensive and innovative products on a
+        wholesale basis to our Advantage Partners, ensuring they receive the
+        best value, training, and support.
+      </p> -->
+    </div>
+
+    <!-- <div class="d-flex flex-wrap justify-content-around g-4 pt-5 my-5">
+      <div>
+        <p class="fs-1 fw-bold text-center mb-0">1,600+</p>
+        <p class="fs-4 text-center mb-0">Members Joined</p>
+      </div>
+      <div>
+        <p class="fs-1 fw-bold text-center mb-0">150,000+</p>
+        <p class="fs-4 text-center mb-0">Customers Served</p>
+      </div>
+      <div>
+        <p class="fs-1 fw-bold text-center mb-0">500,000+</p>
+        <p class="fs-4 text-center mb-0">Products Serviced</p>
+      </div>
+    </div> -->
+
+    <div class="row gx-4 gy-5">
+      <Testimonial name="Mariana Levis" title="Chief Operating Officer">
+        Partnering with Wholesalers Advantage has been a game-changer for our
+        business. Their top-notch support, extensive resources, and commitment
+        to agent success are truly unmatched. What truly sets them apart is how
+        personable and accessible the team is- whether it's a quick question or
+        needs in- depth guidance, we have always felt supported and valued. From
+        personalized training to innovative tools, they provide everything we
+        need to grow and better serve our clients. Meeting Wholesalers Advantage
+        was one of the best things we've done for our career.
+      </Testimonial>
+
+      <Testimonial name="Scott Crowley" title="Founder @ Tax Wallet">
+        "I have worked with the Wholesalers Advantage founders on several joint
+        projects in the past. Their professionalism and focus on client
+        relationships are significant. Their knowledge and experience is a
+        benefit to any company."
+      </Testimonial>
+    </div>
+  </div>
+</section>
+
+<style>
+  #membership {
+    /* background-color: #edf4f8; */
+    padding-top: 8rem;
+    padding-bottom: 14rem;
+  }
+
+  .subtitle {
+    max-width: 600px;
+    margin-inline: auto;
+  }
+
+  .card {
+    padding: 4rem 5rem;
+  }
+
+  .background {
+    background-color: #053952;
+  }
+
+  .title {
+    max-width: 500px;
+  }
+
+  .testimonial {
+    max-width: 800px;
+  }
+</style>

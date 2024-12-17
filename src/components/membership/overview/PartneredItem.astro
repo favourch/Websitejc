@@ -1,0 +1,30 @@
+---
+const { name, logo } = Astro.props;
+---
+
+<div class="card bg-body shadow rounded-circle">
+  <p class="fs-2 text-center m-0">{name}</p>
+</div>
+
+<style>
+  .card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 320px;
+    height: 320px;
+    padding: 20px;
+
+    &:nth-child(1) {
+      background: #7958ff;
+    }
+
+    &:nth-child(2) {
+      background: #5d34f2;
+    }
+
+    &:nth-child(3) {
+      background: #4300da;
+    }
+  }
+</style>

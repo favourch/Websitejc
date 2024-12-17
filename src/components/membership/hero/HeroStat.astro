@@ -1,0 +1,16 @@
+---
+const { label, stat } = Astro.props;
+---
+
+<div class="col-12 col-md-4">
+  <div class="d-flex flex-column align-items-center">
+    <p class="fs-1 fw-bold text-center mb-0">{stat}</p>
+    <p class="fs-5 text-center">{label}</p>
+  </div>
+</div>
+
+<style>
+  p {
+    max-width: 250px;
+  }
+</style>

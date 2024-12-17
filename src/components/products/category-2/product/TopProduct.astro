@@ -1,0 +1,63 @@
+---
+import { pages } from "@core/pages";
+import ProductItem from "./ProductItem.astro";
+---
+
+<section id="top-product" class="">
+  <div class="background section">
+    <div class="padding">
+      <div class="container">
+        <div class="mb-5 pb-5">
+          <h2 class="fs-5 text-primary">Top Product Name</h2>
+          <p class="title fs-1 lh-sm text-light mb-3">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          </p>
+          <p class="subtitle fs-5 lh-lg text-light mb-4 pb-2">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit praesent
+            dictum. Lorem ipsum dolor sit amet, consectetur adipiscing elit
+            praesent dictum. Lorem ipsum dolor sit amet, consectetur adipiscing
+            elit praesent dictum.
+          </p>
+          <a
+            class="btn btn-secondary btn-lg rounded-3 fs-5 fw-bold text-white py-2 px-3"
+            href={pages.memberForm.path}
+          >
+            <span class="px-4">Become a Member</span>
+          </a>
+        </div>
+        <div class="row gy-5 gx-5">
+          <ProductItem title="Product 1" icon="bi-wallet">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent
+            dictum odio ac urna vestibulum, consequat eleifend nulla feugiat.
+          </ProductItem>
+          <ProductItem title="Product 2" icon="bi-wallet">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent
+            dictum odio ac urna vestibulum, consequat eleifend nulla feugiat.
+          </ProductItem>
+          <ProductItem title="Product 3" icon="bi-wallet">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent
+            dictum odio ac urna vestibulum, consequat eleifend nulla feugiat.
+          </ProductItem>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .background {
+    background-color: #053952;
+  }
+
+  .padding {
+    padding: 7rem 0;
+  }
+
+  .title {
+    max-width: 600px;
+  }
+
+  .subtitle {
+    max-width: 800px;
+  }
+</style>

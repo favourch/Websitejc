@@ -1,0 +1,19 @@
+---
+const { name, title } = Astro.props;
+---
+
+<div class="col-12 col-lg-6">
+  <div class="testimonial bg-body shadow rounded-4 p-5 mx-auto h-100">
+    <p class="fs-4 text-primary fw-bold mb-0">{name}</p>
+    <p class="fs-5 fw-bold mb-3">{title}</p>
+    <p class="fs-5 lh-lg mb-0 mt-auto">
+      <slot />
+    </p>
+  </div>
+</div>
+
+<style>
+  .testimonial {
+    max-width: 800px;
+  }
+</style>

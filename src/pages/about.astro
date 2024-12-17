@@ -1,0 +1,20 @@
+---
+import Hero from "@components/about/Hero.astro";
+import Story from "@components/about/Story.astro";
+import Team from "@components/about/Team.astro";
+import Testimonials from "@components/about/testimonials/testimonials.astro";
+import Member from "@components/home/Member.astro";
+import MainLayout from "@layouts/MainLayout.astro";
+---
+
+<MainLayout
+  navbarBackgroundColor="transparent"
+  title="About Us"
+  description="Wholesalers Advantage is the leading wholesale distributor for insurance, business, and financial products."
+>
+  <Hero />
+  <!-- <Story /> -->
+  <Member />
+  <Testimonials />
+  <!-- <Team /> -->
+</MainLayout>

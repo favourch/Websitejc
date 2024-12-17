@@ -1,0 +1,20 @@
+---
+import { colors } from "@core/colors";
+
+const { title } = Astro.props;
+
+const sectionColor = colors.secondary;
+---
+
+<div class="">
+  {title && <p class="fs-5 fw-bold mb-3">{title}</p>}
+  <div class="d-flex flex-column gap-2">
+    <slot />
+  </div>
+</div>
+
+<style define:vars={{ sectionColor }}>
+  p {
+    color: var(--sectionColor);
+  }
+</style>

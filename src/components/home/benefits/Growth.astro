@@ -1,0 +1,47 @@
+---
+import { Image } from "astro:assets";
+import GrowthChart from "@images/growth-chart.webp";
+
+const { backgroundColor } = Astro.props;
+---
+
+<div class="bg card rounded-4 h-100 ps-5 pt-5 pe-5">
+  <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
+    <div class="pb-0 pb-md-5 me-auto">
+      <div class="d-flex align-items-center mb-3">
+        <i class="bi-check fs-2 text-secondary"></i>
+        <span class="fs-5 lh-sm text-body-secondary">Focus on sales</span>
+      </div>
+      <div class="d-flex align-items-center mb-3">
+        <i class="bi-check fs-2 text-secondary"></i>
+        <span class="fs-5 lh-sm text-body-secondary">Access new revenues</span>
+      </div>
+      <div class="d-flex align-items-center mb-3">
+        <i class="bi-check fs-2 text-secondary"></i>
+        <span class="fs-5 lh-sm text-body-secondary">Cross-sell products</span>
+      </div>
+      <div class="d-flex align-items-center">
+        <i class="bi-check fs-2 text-secondary"></i>
+        <span class="fs-5 lh-sm text-body-secondary">A Proven Strategy</span>
+      </div>
+    </div>
+    <div class="chart w-100 ps-0 ps-md-5 pt-4 pt-md-0">
+      <Image
+        src={GrowthChart}
+        alt="Image showing Member's revenue growth over time."
+        class="chart rounded-top-4 w-100 h-auto"
+        loading="lazy"
+      />
+    </div>
+  </div>
+</div>
+
+<style define:vars={{ backgroundColor }}>
+  .bg {
+    background-color: var(--backgroundColor);
+  }
+
+  .chart {
+    max-width: 800px;
+  }
+</style>

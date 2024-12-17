@@ -1,0 +1,37 @@
+---
+import { colors } from "@core/colors";
+
+const { title, href } = Astro.props;
+
+const backgroundColor1 = colors.primary + "99";
+const backgroundColor2 = colors.primary + "ff";
+---
+
+<div class="col-12 col-lg-4">
+  <div class="d-flex">
+    <div class="item fs-5 text-center text-light p-3 rounded-3 h-100 w-100">
+      {title}
+    </div>
+    <!-- <a
+      class="fs-5 text-center text-light p-3 rounded-3 h-100 w-100"
+      href={href}
+      target="_blank"
+    >
+      {title}
+    </a> -->
+  </div>
+</div>
+
+<style define:vars={{ backgroundColor1, backgroundColor2 }}>
+  a,
+  .item {
+    text-decoration: none;
+    background-color: var(--backgroundColor1);
+  }
+
+  /* a:hover,
+  a:focus {
+    background-color: var(--backgroundColor2);
+    transition: ease-in-out 0.1s;
+  } */
+</style>

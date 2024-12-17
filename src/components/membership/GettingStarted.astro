@@ -1,0 +1,73 @@
+---
+import { Image } from "astro:assets";
+import { pages } from "@core/pages";
+import Members from "@images/members.webp";
+import MembersSquare from "@images/members-square.webp";
+import GettingStartedCard from "./started/GettingStartedCard.astro";
+---
+
+<section id="getting-started" class="section">
+  <div class="container">
+    <div class="row gy-4 gx-5">
+      <div class="col-12 col-xl-6 col-lg-7">
+        <div class="d-flex flex-column h-100">
+          <h2 class="title fs-1 text-center text-lg-start mx-auto mx-lg-0 mb-4">
+            Become a member and start earning residuals.
+          </h2>
+          <a
+            class="btn btn-secondary btn-lg rounded-3 fs-3 fw-bold text-white text-nowrap mx-auto mx-lg-0 py-2 px-4 mb-5"
+            href={pages.memberForm.path}
+          >
+            <span class="px-4">Get Started</span>
+          </a>
+
+          <div class="row g-4 mt-auto">
+            <GettingStartedCard
+              step="01"
+              title="Complete our membership form"
+            />
+            <GettingStartedCard
+              step="02"
+              title="Choose the products you want to sell"
+            />
+            <GettingStartedCard
+              step="03"
+              title="Sign up customers under your account"
+            />
+            <GettingStartedCard
+              step="04"
+              title="Earn monthly residuals on your book"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-xl-6 col-lg-5">
+        <div class="d-flex h-100">
+          <Image
+            src={Members}
+            alt="People in a group | Join us and become a member | Wholesalers Advantage"
+            class="w-100 h-auto rounded-5 mt-auto d-none d-lg-block"
+            loading="lazy"
+          />
+          <Image
+            src={MembersSquare}
+            alt="People in a group | Join us and become a member | Wholesalers Advantage"
+            class="w-100 h-auto rounded-5 mt-auto d-block d-lg-none"
+            loading="lazy"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  #getting-started {
+    padding: 12rem 0;
+  }
+
+  .title {
+    max-width: 500px;
+  }
+</style>

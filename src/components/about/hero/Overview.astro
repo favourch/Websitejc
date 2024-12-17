@@ -1,0 +1,36 @@
+---
+import { colors } from "@core/colors";
+
+const backgroundColor = colors.primary + "10";
+---
+
+<div class="card d-flex flex-column rounded-4 gap-3 p-4 h-100">
+  <div>
+    <h2 class="fs-5 text-primary">About us</h2>
+    <!-- <p class="fs-1 lh-sm fw-bold">
+      WA is headquartered in Boerne, Texas, through its many IMOs, FMOs, MGAs
+      and GA partnerships caters to more than 2500 associates nationwide.
+    </p> -->
+  </div>
+  <p class="fs-5 lh-lg text-body-secondary mb-3">
+    WA is one of the largest privately held wholesale distributors in Texas.
+    With 90 years of combined executive experience. WA is a recognized leader in
+    providing B2B solutions, Insurtech innovation, insurance and financial
+    programs.
+  </p>
+  <p class="fs-5 lh-lg text-body-secondary mb-3">
+    Our mission is to deliver comprehensive and innovative products on a
+    wholesale basis to our Advantage Partners, ensuring they receive the best
+    value, training, and support.
+  </p>
+  <p class="fs-5 lh-lg text-body-secondary mb-0">
+    WA is headquartered in Boerne, Texas, through its many IMOs, FMOs, MGAs and
+    GA partnerships caters to more than 2500 associates nationwide.
+  </p>
+</div>
+
+<style define:vars={{ backgroundColor }}>
+  .card {
+    background-color: var(--backgroundColor);
+  }
+</style>

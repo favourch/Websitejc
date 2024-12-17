@@ -1,0 +1,174 @@
+---
+import { colors } from "@core/colors";
+import { pages } from "@core/pages";
+import { Image } from "astro:assets";
+import Logo from "@images/logo.webp";
+
+const { backgroundColorOverride } = Astro.props;
+const path = Astro.url.pathname;
+
+const backgroundColorBase = colors.primary + "30";
+const backgroundColor = backgroundColorOverride ?? backgroundColorBase;
+---
+
+<nav id="navbar" class="navbar sticky-top navbar-expand-lg background">
+  <div class="container">
+    <div class="flex-grow-1 d-flex justify-content-between flex-nosrap">
+      <a class="navbar-brand" href={pages.home.path}>
+        <Image
+          src={Logo}
+          alt="Wholesalers Advantage Logo"
+          class="logo"
+          loading="eager"
+        />
+      </a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a
+            href={pages.home.path}
+            class:list={["nav-link fs-5", { active: path == pages.home.path }]}
+            aria-current={path == pages.home.path ? "page" : undefined}
+          >
+            {pages.home.title}
+          </a>
+        </li>
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link fs-5 dropdown-toggle"
+            href="#"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Products
+          </a>
+          <ul class="dropdown-menu rounded-3 border-0 shadow">
+            <li>
+              <a class="dropdown-item fs-5" href={pages.products1.path}>
+                {pages.products1.title}
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item fs-5" href={pages.products2.path}>
+                {pages.products2.title}
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item fs-5" href={pages.products3.path}>
+                {pages.products3.title}
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a
+            href={pages.membership.path}
+            class:list={[
+              "nav-link fs-5",
+              { active: path == pages.membership.path },
+            ]}
+            aria-current={path == pages.membership.path ? "page" : undefined}
+          >
+            {pages.membership.title}
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            href={pages.about.path}
+            class:list={["nav-link fs-5", { active: path == pages.about.path }]}
+            aria-current={path == pages.about.path ? "page" : undefined}
+          >
+            {pages.about.title}
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            href={pages.contact.path}
+            class:list={[
+              "nav-link fs-5",
+              { active: path == pages.contact.path },
+            ]}
+            aria-current={path == pages.contact.path ? "page" : undefined}
+          >
+            {pages.contact.title}
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<script>
+  function navScroll() {
+    const navbar = document.getElementById("navbar");
+    window.addEventListener("scroll", function (e) {
+      if (navbar && window.scrollY >= 1)
+        navbar.classList.add("scrolled", "shadow");
+      else if (navbar) navbar.classList.remove("scrolled", "shadow");
+    });
+  }
+
+  navScroll();
+  document.addEventListener("astro:after-swap", navScroll);
+</script>
+
+<style define:vars={{ backgroundColor }}>
+  .background {
+    background-color: var(--backgroundColor);
+  }
+
+  .background.scrolled {
+    background-color: white;
+    transition: ease-in 0.3s ease-out 0.1s;
+  }
+
+  .dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0; /* remove the gap so it doesn't close */
+    transition: ease-in-out 0.1s;
+  }
+
+  .dropdown-menu {
+    min-width: 320px;
+  }
+
+  .nav-link,
+  .dropdown-item {
+    padding: 1rem 1rem !important;
+  }
+
+  .nav-link {
+    border-bottom: 1px solid transparent;
+  }
+
+  .nav-link:hover {
+    border-bottom: 1px solid var(--bs-secondary);
+  }
+
+  .nav-link {
+    font-weight: bold;
+  }
+
+  .nav-link.active {
+    color: var(--bs-primary) !important;
+  }
+
+  .logo {
+    width: 100%;
+    max-width: 350px;
+    height: auto;
+  }
+</style>

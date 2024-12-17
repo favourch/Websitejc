@@ -1,0 +1,63 @@
+---
+import TeamCard from "./team/TeamCard.astro";
+import Person1 from "@images/person-1.webp";
+import Person2 from "@images/person-2.webp";
+import Person3 from "@images/person-3.webp";
+---
+
+<section id="team" class="section">
+  <div class="container pb-5">
+    <div class="mb-5">
+      <h2 class="fs-5 fw-bold text-primary text-center">Our Team</h2>
+      <p class="subtitle fs-3 text-center mb-2">
+        Lorem ipsum dolor sit amet consectetur.
+      </p>
+      <p class="subtitle fs-5 text-center text-body-secondary">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent dictum
+        odio ac urna vestibulum.
+      </p>
+    </div>
+
+    <div class="row gy-5 mt-2">
+      <TeamCard name="First Last" title="Founder & CEO" image={Person1}>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent dictum
+        odio ac urna vestibulum.
+      </TeamCard>
+      <TeamCard name="First Last" title="Founder & COO" image={Person2}>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent dictum
+        odio ac urna vestibulum.
+      </TeamCard>
+      <TeamCard name="First Last" title="Founder & CFO" image={Person3}>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent dictum
+        odio ac urna vestibulum.
+      </TeamCard>
+      <TeamCard name="First Last" title="Founder & CEO" image={Person1}>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent dictum
+        odio ac urna vestibulum.
+      </TeamCard>
+      <TeamCard name="First Last" title="Founder & CFO" image={Person3}>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent dictum
+        odio ac urna vestibulum.
+      </TeamCard>
+      <TeamCard name="First Last" title="Founder & CEO" image={Person1}>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent dictum
+        odio ac urna vestibulum.
+      </TeamCard>
+      <TeamCard name="First Last" title="Founder & COO" image={Person2}>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent dictum
+        odio ac urna vestibulum.
+      </TeamCard>
+      <TeamCard name="First Last" title="Founder & CEO" image={Person1}>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent dictum
+        odio ac urna vestibulum.
+      </TeamCard>
+    </div>
+  </div>
+</section>
+
+<style>
+  .subtitle {
+    max-width: 600px;
+    margin-inline: auto;
+  }
+</style>

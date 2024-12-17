@@ -1,0 +1,20 @@
+---
+import Hero from "@components/membership/Hero.astro";
+import Member from "@components/home/Member.astro";
+import MainLayout from "@layouts/MainLayout.astro";
+import Overview from "@components/membership/Overview.astro";
+import Benefits from "@components/membership/Benefits.astro";
+import GettingStarted from "@components/membership/GettingStarted.astro";
+---
+
+<MainLayout
+  navbarBackgroundColor="transparent"
+  title="Membership"
+  description="Become a Wholesalers Advantage member and gain access to 20+ insurance and financial products."
+>
+  <Hero />
+  <Overview />
+  <Benefits />
+  <GettingStarted />
+  <!-- <Member /> -->
+</MainLayout>

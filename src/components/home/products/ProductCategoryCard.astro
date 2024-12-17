@@ -1,0 +1,44 @@
+---
+import { colors } from "@core/colors";
+
+const { title1, title2, color, icon, iconColor, href } = Astro.props;
+
+const backgroundColor1 = (color ?? colors.primary) + "40";
+const backgroundColor2 = (color ?? colors.primary) + "20";
+---
+
+<div class="col-12 col-md-6 col-xl-3">
+  <a
+    class="card shadow d-flex flex-column justify-content-between rounded-3 pt-4 pb-3 ps-3 pe-4"
+    href={href}
+  >
+    <i class={icon + " fs-1 text-primary mt-auto mb-2 " + iconColor}></i>
+    <div class="d-flex align-items-end">
+      <div>
+        <h3 class="fs-4 fw-bold text-nowrap">{title1}</h3>
+        <h3 class="fs-4 fw-bold text-nowrap">{title2}</h3>
+      </div>
+    </div>
+  </a>
+</div>
+
+<style define:vars={{ backgroundColor1, backgroundColor2 }}>
+  .card {
+    background-color: var(--backgroundColor1);
+    text-decoration: none;
+    height: 350px;
+  }
+
+  .card:hover,
+  .card:focus,
+  .card:active {
+    background-color: var(--backgroundColor2);
+    transition: ease-in-out 0.1s;
+  }
+
+  @media screen and (max-width: 1199px) {
+    .card {
+      height: 180px;
+    }
+  }
+</style>

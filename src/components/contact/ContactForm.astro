@@ -1,0 +1,99 @@
+---
+import { colors } from "@core/colors";
+
+const backgroundColor = colors.primary + "08";
+---
+
+<form
+  class="bg-body rounded-4 shadow p-4"
+  action="https://formspree.io/f/xnnqryke"
+  method="POST"
+>
+  <h2 class="fs-2 fw-bold">Get in Touch</h2>
+  <p class="fs-5 mb-5">You can reach us at any time</p>
+
+  <div class="d-flex flex-column mb-4">
+    <label for="firstName" class="form-label fs-5 text-body-secondary mb-1">
+      First Name <spam class="red">*</spam>
+    </label>
+    <input
+      id="firstName"
+      name="firstName"
+      type="text"
+      class="form-control rounded-3 border border-2 border-tertiary fs-5 px-3 py-2"
+      aria-required="true"
+      required
+    />
+  </div>
+
+  <div class="d-flex flex-column mb-4">
+    <label for="lastName" class="form-label fs-5 text-body-secondary mb-1">
+      Last Name <spam class="red">*</spam>
+    </label>
+    <input
+      id="lastName"
+      name="lastName"
+      type="text"
+      class="form-control rounded-3 border border-2 border-tertiary fs-5 px-3 py-2"
+      aria-required="true"
+      required
+    />
+  </div>
+
+  <div class="d-flex flex-column mb-4">
+    <label for="email" class="form-label fs-5 text-body-secondary mb-1">
+      Email <spam class="red">*</spam>
+    </label>
+    <input
+      id="email"
+      type="email"
+      class="form-control rounded-3 border border-2 border-tertiary fs-5 px-3 py-2"
+      aria-required="true"
+      required
+    />
+  </div>
+
+  <div class="d-flex flex-column mb-4">
+    <label for="phone" class="form-label fs-5 text-body-secondary mb-1">
+      Phone
+    </label>
+    <input
+      id="phone"
+      name="phone"
+      type="tel"
+      class="form-control rounded-3 border border-2 border-tertiary fs-5 px-3 py-2"
+    />
+  </div>
+
+  <div class="d-flex flex-column mb-5">
+    <label for="message" class="form-label fs-5 text-body-secondary mb-1">
+      Message <spam class="red">*</spam>
+    </label>
+    <textarea
+      id="message"
+      name="message"
+      rows="3"
+      class="form-control rounded-3 border border-2 border-tertiary fs-5 px-3 py-2"
+      aria-required="true"
+      required></textarea>
+  </div>
+
+  <button class="btn btn-secondary fs-4 fw-bold text-light w-100" type="submit">
+    Send Message
+  </button>
+</form>
+
+<style define:vars={{ backgroundColor }}>
+  form {
+  }
+
+  input,
+  textarea {
+    /* background-color: var(--backgroundColor); */
+    outline: none;
+  }
+
+  .red {
+    color: red;
+  }
+</style>

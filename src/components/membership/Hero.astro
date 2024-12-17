@@ -1,0 +1,105 @@
+---
+import { pages } from "@core/pages";
+import HeroStat from "./hero/HeroStat.astro";
+---
+
+<section id="hero" class="px-0 px-md-5">
+  <div class="px-0 px-lg-5">
+    <div class="background rounded-5">
+      <div class="overlay rounded-5">
+        <div class="overlay rounded-5">
+          <div class="section">
+            <div class="container">
+              <div
+                class="hero-content d-flex flex-column flex-grow-1 mx-auto mb-5"
+              >
+                <h1 class="mb-4 text-light text-center">
+                  Bring innovation to your clients as a member.
+                </h1>
+                <p class="fs-4 lh-lg text-light text-center mb-5">
+                  Wholesalers Advantage is leveraging AI and mobile solutions to
+                  streamline processes, for all products and services provided.
+                </p>
+                <div class="mx-auto">
+                  <a
+                    class="btn btn-secondary btn-lg rounded-pill fs-3 fw-bold text-white py-2 px-4"
+                    href={pages.memberForm.path}
+                  >
+                    <span class="px-4">Become a Member</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="container px-0 px-lg-3">
+            <div class="card bg-body rounded-top-5 p-5 mx-auto">
+              <div class="row gx-4 gy-5">
+                <HeroStat
+                  label="Members using our network of products"
+                  stat="1,600+"
+                />
+                <HeroStat
+                  label="Happy customers using our products"
+                  stat="150,000+"
+                />
+                <HeroStat
+                  label="Individual products and plans sold"
+                  stat="500,000+"
+                />
+              </div>
+            </div>
+          </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  #hero {
+    /* padding-inline: 10rem; */
+  }
+
+  .background {
+    background-image: url(/office.webp);
+    background-size: cover;
+    background-repeat: none;
+  }
+
+  .overlay {
+    background-color: #00000099;
+  }
+
+  .section {
+    padding-top: 15rem;
+  }
+
+  .hero-content {
+    max-width: 700px;
+  }
+
+  .hero-content h1 {
+    font-size: 3.5rem;
+  }
+
+  .card {
+    max-width: 80%;
+  }
+
+  @media screen and (max-width: 991px) {
+    .background,
+    .overlay {
+      border-radius: 0 !important;
+    }
+
+    .card {
+      max-width: 100%;
+    }
+  }
+
+  @media screen and (max-width: 575px) {
+    .card {
+      border-radius: 0 !important;
+    }
+  }
+</style>
