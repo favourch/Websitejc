@@ -8,6 +8,7 @@ const { backgroundColor } = Astro.props;
   <div class="background section">
     <div class="container d-flex justify-content-center align-items-center">
       <div class="hero-content d-flex flex-column flex-grow-1">
+        <img src="/shield-logo.webp" alt="Shield Logo" class="shield-logo mx-auto mb-4" width="120" height="120">
         <h1 class="title mb-4 text-center mx-auto">
           The next generation of wholesale distribution services
         </h1>
@@ -32,6 +33,10 @@ const { backgroundColor } = Astro.props;
 </section>
 
 <style define:vars={{ backgroundColor }}>
+  .shield-logo {
+    object-fit: contain;
+  }
+
   .background {
     background-color: var(--backgroundColor);
   }
