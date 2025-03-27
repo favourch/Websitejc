@@ -1,0 +1,155 @@
+---import { colors } from "@core/colors";
+import MainLayout from "@layouts/MainLayout.astro";
+
+const backgroundColor = colors.primary + "30";
+---
+
+<MainLayout
+  navbarBackgroundColor={backgroundColor}
+  title="Wholesalers Advantage - Contact Form"
+  description="Connect with Wholesalers Advantage at New Braunfels Chamber of Commerce events in 2025 and learn more about our services."
+>
+  <div class="container">
+    <div class="hero-section">
+      <h1>The next generation of wholesale distribution services</h1>
+      <p>Wholesalers Advantage offers a diverse array of products to enable you to better serve your clients.</p>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="form-section">
+          <h2 class="text-center mb-4">Let's Connect</h2>
+          <p class="text-center mb-4">Thank you for stopping by!  Fill out this form to learn more about our services.</p>
+          
+          <form id="contact-form">
+            <div class="mb-3">
+              <label for="name" class="form-label">Full Name</label>
+              <input type="text" class="form-control" id="name" required>
+            </div>
+            <div class="mb-3">
+              <label for="company" class="form-label">Company Name</label>
+              <input type="text" class="form-control" id="company" required>
+            </div>
+            <div class="mb-3">
+              <label for="phone" class="form-label">Phone Number</label>
+              <input type="tel" class="form-control" id="phone" required>
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">Email Address</label>
+              <input type="email" class="form-control" id="email" required>
+            </div>
+            
+            <div class="mb-4">
+              <label class="form-label">Products of Interest (Select all that apply)</label>
+              <div class="product-options">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="TeleHealth" id="telehealth">
+                  <label class="form-check-label" for="telehealth">
+                    TeleHealth
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="Banking Products" id="banking">
+                  <label class="form-check-label" for="banking">
+                    Banking Products
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="No Fee Merchant Services" id="merchant">
+                  <label class="form-check-label" for="merchant">
+                    No Fee Merchant Services
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="Estate Planning" id="estate">
+                  <label class="form-check-label" for="estate">
+                    Estate Planning
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="Life Products" id="life">
+                  <label class="form-check-label" for="life">
+                    Life Products
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="Personal Health Programs" id="personal">
+                  <label class="form-check-label" for="personal">
+                    Personal Health Programs
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="Group Health" id="group">
+                  <label class="form-check-label" for="group">
+                    Group Health
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="Other" id="other">
+                  <label class="form-check-label" for="other">
+                    Other
+                  </label>
+                </div>
+              </div>
+            </div>
+            
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style define:vars={{ backgroundColor }}>
+    body {
+      background-color: #dff2fc;
+      font-family: Arial, sans-serif;
+      color: #444;
+    }
+    .navbar-brand img {
+      height: 50px;
+    }
+    .hero-section {
+      padding: 60px 0;
+      text-align: center;
+    }
+    .hero-section h1 {
+      color: #444;
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin-bottom: 1.5rem;
+    }
+    .hero-section p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      color: #555;
+    }
+    .form-section {
+      background-color: white;
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      margin-bottom: 40px;
+    }
+    .btn-primary {
+      background-color: #0e97cd;
+      border-color: #0e97cd;
+      padding: 10px 30px;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+    .btn-primary:hover {
+      background-color: #0b7ba7;
+      border-color: #0b7ba7;
+    }
+    .product-options label {
+      display: block;
+      margin-bottom: 10px;
+    }
+  </style>
+
+  <script type="module" src="./contactFormHandler.js"></script>
+</MainLayout>
+
