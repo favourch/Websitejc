@@ -161,18 +161,18 @@ const backgroundColor = colors.primary + "30";
         try {
           const formData = new FormData(form);
           
-          // Get all selected products
-          const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-          const selectedProducts = Array.from(checkboxes).map(cb => (cb as HTMLInputElement).value).join(', ');
-          formData.append('selectedProducts', selectedProducts);
+          // Add event source information
+          formData.append('eventSource', 'Chamber2025');
           
-          // Submit the form
+          // Submit the form - let the checkboxes be handled naturally as products[]
           const response = await fetch('/api/forms-handler', {
             method: 'POST',
             body: formData
           });
           
           if (!response.ok) {
+            const errorText = await response.text();
+            console.error('Server response:', errorText);
             throw new Error('Submission failed');
           }
           
@@ -187,3 +187,4 @@ const backgroundColor = colors.primary + "30";
     }
   </script>
 </MainLayout>
+
