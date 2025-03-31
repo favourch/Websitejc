@@ -25,7 +25,7 @@ const backgroundColor = colors.primary + "30";
           <p class="text-center mb-4">Thank you for stopping by!  Fill out this form to learn more about our services.</p>
 
           
-          <form id="contact-form">
+          <form id="contact-form" action="/api/forms-handler" method="POST">
             <div class="mb-3">
               <label for="name" class="form-label">Full Name</label>
               <input type="text" class="form-control" id="name" required>
@@ -47,49 +47,49 @@ const backgroundColor = colors.primary + "30";
               <label class="form-label">Products of Interest (Select all that apply)</label>
               <div class="product-options">
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="TeleHealth" id="telehealth">
+                  <input class="form-check-input" type="checkbox" value="TeleHealth" id="telehealth name="products[]">
                   <label class="form-check-label" for="telehealth">
                     TeleHealth
                   </label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="Banking Products" id="banking">
+                  <input class="form-check-input" type="checkbox" value="Banking Products" id="banking" name="products[]>
                   <label class="form-check-label" for="banking">
                     Banking Products
                   </label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="No Fee Merchant Services" id="merchant">
+                  <input class="form-check-input" type="checkbox" value="No Fee Merchant Services" id="merchant" name="products[]>
                   <label class="form-check-label" for="merchant">
                     No Fee Merchant Services
                   </label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="Estate Planning" id="estate">
+                  <input class="form-check-input" type="checkbox" value="Estate Planning" id="estate" name="products[]>
                   <label class="form-check-label" for="estate">
                     Estate Planning
                   </label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="Life Products" id="life">
+                  <input class="form-check-input" type="checkbox" value="Life Products" id="life" name="products[]>
                   <label class="form-check-label" for="life">
                     Life Products
                   </label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="Personal Health Programs" id="personal">
+                  <input class="form-check-input" type="checkbox" value="Personal Health Programs" id="personal" name="products[]>
                   <label class="form-check-label" for="personal">
                     Personal Health Programs
                   </label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="Group Health" id="group">
+                  <input class="form-check-input" type="checkbox" value="Group Health" id="group" name="products[]>
                   <label class="form-check-label" for="group">
                     Group Health
                   </label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="Other" id="other">
+                  <input class="form-check-input" type="checkbox" value="Other" id="other" name="products[]>
                   <label class="form-check-label" for="other">
                     Other
                   </label>
@@ -165,8 +165,7 @@ if (form) {
       
       // Get all selected products
       const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-      const selectedProducts = Array.from(checkboxes).map(cb => (cb as HTMLInputElement).value).join(', ');
-      formData.append('selectedProducts', selectedProducts);
+      const selectedProducts = Array.from(checkboxes).map(cb => (cb as HTMLInputElement).value).join(', ');      formData.append('selectedProducts', selectedProducts);
       
       // Submit the form
       const response = await fetch('/api/forms-handler', {
