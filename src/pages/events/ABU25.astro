@@ -10,7 +10,7 @@ const backgroundColor = colors.primary + "30";
   title="Wholesalers Advantage - Conference Contact Form"
   description="Connect with Wholesalers Advantage at our conference booth and learn more about our services."
 >
-  <div class="container">
+ <div class="container">
     <div class="hero-section">
       <h1>The next generation of wholesale distribution services</h1>
       <p>Wholesalers Advantage offers a diverse array of products to enable you to better serve your clients.</p>
@@ -20,19 +20,85 @@ const backgroundColor = colors.primary + "30";
       <div class="col-md-8">
         <div class="form-section">
           <h2 class="text-center mb-4">Let's Connect</h2>
-          <p class="text-center mb-4">Thank you for visiting our booth! Fill out this form to learn more about our services.</p>
           
-<iframe
-  id="JotFormIFrame-250878495526068"
-  title="Let's Connect"
-  onload="window.parent.scrollTo(0,0)"
-  allowtransparency="true"
-  allow="geolocation; microphone; camera; fullscreen"
-  src="https://form.jotform.com/250878495526068"
-  frameborder="0"
-  style="min-width:100%;max-width:100%;height:539px;border:none;"
-  scrolling="yes"
-/>
+          <p class="text-center mb-4">Thank you for stopping by! Fill out this form to learn more about our services.</p>
+          
+          <form id="contact-form" action="/api/forms-handler" method="POST">
+            <div class="mb-3">
+              <label for="name" class="form-label">Full Name</label>
+              <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <div class="mb-3">
+              <label for="company" class="form-label">Company Name</label>
+              <input type="text" class="form-control" id="company" name="company" required>
+            </div>
+            <div class="mb-3">
+              <label for="phone" class="form-label">Phone Number</label>
+              <input type="tel" class="form-control" id="phone" name="phone" required>
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">Email Address</label>
+              <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            
+            <div class="mb-4">
+              <label class="form-label">Products of Interest (Select all that apply)</label>
+              <div class="product-options">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="TeleHealth" id="telehealth" name="products[]">
+                  <label class="form-check-label" for="telehealth">
+                    TeleHealth
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="Banking Products" id="banking" name="products[]">
+                  <label class="form-check-label" for="banking">
+                    Banking Products
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="No Fee Merchant Services" id="merchant" name="products[]">
+                  <label class="form-check-label" for="merchant">
+                    No Fee Merchant Services
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="Estate Planning" id="estate" name="products[]">
+                  <label class="form-check-label" for="estate">
+                    Estate Planning
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="Life Products" id="life" name="products[]">
+                  <label class="form-check-label" for="life">
+                    Life Products
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="Personal Health Programs" id="personal" name="products[]">
+                  <label class="form-check-label" for="personal">
+                    Personal Health Programs
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="Group Health" id="group" name="products[]">
+                  <label class="form-check-label" for="group">
+                    Group Health
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="Other" id="other" name="products[]">
+                  <label class="form-check-label" for="other">
+                    Other
+                  </label>
+                </div>
+              </div>
+            </div>
+            
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
@@ -89,10 +155,34 @@ const backgroundColor = colors.primary + "30";
   <script>
     const form = document.getElementById('contact-form') as HTMLFormElement;
     if (form) {
-      form.addEventListener('submit', function(e) {
+      form.addEventListener('submit', async function(e) {
         e.preventDefault();
-        alert('Thank you for your interest! A representative will contact you shortly.');
-        this.reset();
+        
+        try {
+          const formData = new FormData(form);
+          
+          // Get all selected products
+          const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+          const selectedProducts = Array.from(checkboxes).map(cb => (cb as HTMLInputElement).value).join(', ');
+          formData.append('selectedProducts', selectedProducts);
+          
+          // Submit the form
+          const response = await fetch('/api/forms-handler', {
+            method: 'POST',
+            body: formData
+          });
+          
+          if (!response.ok) {
+            throw new Error('Submission failed');
+          }
+          
+          alert('Thank you for your interest! A representative will contact you shortly.');
+          form.reset();
+          
+        } catch (error) {
+          console.error('Error submitting form:', error);
+          alert('There was an error submitting your form. Please try again later.');
+        }
       });
     }
   </script>
