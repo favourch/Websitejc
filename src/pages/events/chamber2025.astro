@@ -1,4 +1,4 @@
----
+ ---
 import { colors } from "@core/colors";
 import MainLayout from "@layouts/MainLayout.astro";
 
@@ -7,8 +7,8 @@ const backgroundColor = colors.primary + "30";
 
 <MainLayout
   navbarBackgroundColor={backgroundColor}
-  title="Wholesalers Advantage - Chamber of Commerce 2025"
-  description="Connect with Wholesalers Advantage at New Braunfels Chamber of Commerce events in 2025 and learn more about our services."
+  title="Wholesalers Advantage - Conference Contact Form"
+  description="Connect with Wholesalers Advantage at our conference booth and learn more about our services."
 >
   <div class="container">
     <div class="hero-section">
@@ -20,74 +20,73 @@ const backgroundColor = colors.primary + "30";
       <div class="col-md-8">
         <div class="form-section">
           <h2 class="text-center mb-4">Let's Connect</h2>
+          <p class="text-center mb-4">Thank you for visiting our booth! Fill out this form to learn more about our services.</p>
           
-          <p class="text-center mb-4">Thank you for stopping by! Fill out this form to learn more about our services.</p>
-          
-          <form id="contact-form" action="/api/forms-handler" method="POST">
+          <form id="contact-form">
             <div class="mb-3">
               <label for="name" class="form-label">Full Name</label>
-              <input type="text" class="form-control" id="name" name="name" required>
+              <input type="text" class="form-control" id="name" required>
             </div>
             <div class="mb-3">
               <label for="company" class="form-label">Company Name</label>
-              <input type="text" class="form-control" id="company" name="company" required>
+              <input type="text" class="form-control" id="company" required>
             </div>
             <div class="mb-3">
               <label for="phone" class="form-label">Phone Number</label>
-              <input type="tel" class="form-control" id="phone" name="phone" required>
+              <input type="tel" class="form-control" id="phone" required>
             </div>
             <div class="mb-3">
               <label for="email" class="form-label">Email Address</label>
-              <input type="email" class="form-control" id="email" name="email" required>
+              <input type="email" class="form-control" id="email" required>
             </div>
             
             <div class="mb-4">
               <label class="form-label">Products of Interest (Select all that apply)</label>
               <div class="product-options">
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="TeleHealth" id="telehealth" name="products[]">
+                  <input class="form-check-input" type="checkbox" value="TeleHealth" id="telehealth">
                   <label class="form-check-label" for="telehealth">
                     TeleHealth
                   </label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="Banking Products" id="banking" name="products[]">
+                  <input class="form-check-input" type="checkbox" value="Banking Products" id="banking">
                   <label class="form-check-label" for="banking">
                     Banking Products
                   </label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="No Fee Merchant Services" id="merchant" name="products[]">
+                  <input class="form-check-input" type="checkbox" value="No Fee Merchant Services" id="merchant">
                   <label class="form-check-label" for="merchant">
                     No Fee Merchant Services
                   </label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="Estate Planning" id="estate" name="products[]">
+                  <input class="form-check-input" type="checkbox" value="Estate Planning" id="estate">
                   <label class="form-check-label" for="estate">
                     Estate Planning
                   </label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="Life Products" id="life" name="products[]">
+                  <input class="form-check-input" type="checkbox" value="Life Products" id="life">
                   <label class="form-check-label" for="life">
                     Life Products
                   </label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="Personal Health Programs" id="personal" name="products[]">
+                  <input class="form-check-input" type="checkbox" value="Personal Health Programs" id="personal">
                   <label class="form-check-label" for="personal">
                     Personal Health Programs
                   </label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="Group Health" id="group" name="products[]">
+                  <input class="form-check-input" type="checkbox" value="Group Health" id="group">
                   <label class="form-check-label" for="group">
                     Group Health
                   </label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="Other" id="other" name="products[]">
+                  <input class="form-check-input" type="checkbox" value="Other" id="other">
                   <label class="form-check-label" for="other">
                     Other
                   </label>
@@ -155,34 +154,10 @@ const backgroundColor = colors.primary + "30";
   <script>
     const form = document.getElementById('contact-form') as HTMLFormElement;
     if (form) {
-      form.addEventListener('submit', async function(e) {
+      form.addEventListener('submit', function(e) {
         e.preventDefault();
-        
-        try {
-          const formData = new FormData(form);
-          
-          // Get all selected products
-          const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-          const selectedProducts = Array.from(checkboxes).map(cb => (cb as HTMLInputElement).value).join(', ');
-          formData.append('selectedProducts', selectedProducts);
-          
-          // Submit the form
-          const response = await fetch('/api/forms-handler', {
-            method: 'POST',
-            body: formData
-          });
-          
-          if (!response.ok) {
-            throw new Error('Submission failed');
-          }
-          
-          alert('Thank you for your interest! A representative will contact you shortly.');
-          form.reset();
-          
-        } catch (error) {
-          console.error('Error submitting form:', error);
-          alert('There was an error submitting your form. Please try again later.');
-        }
+        alert('Thank you for your interest! A representative will contact you shortly.');
+        this.reset();
       });
     }
   </script>
