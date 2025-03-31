@@ -1,0 +1,80 @@
+---
+import { colors } from "@core/colors";
+import MainLayout from "@layouts/MainLayout.astro";
+
+const backgroundColor = colors.primary + "30";
+---
+
+<MainLayout
+  navbarBackgroundColor={backgroundColor}
+  title="Wholesalers Advantage - Thank You"
+  description="Thank you for your interest in Wholesalers Advantage."
+>
+  <div class="container">
+    <div class="thank-you-section">
+      <div class="card">
+        <div class="card-body text-center">
+          <h1 class="mb-4">Thank You!</h1>
+          <div class="checkmark-container mb-4">
+            <div class="checkmark">✓</div>
+          </div>
+          <p class="lead mb-4">Your information has been successfully submitted.</p>
+          <p class="mb-4">A representative from Wholesalers Advantage will contact you shortly to discuss how we can help you better serve your clients.</p>
+          <a href="/" class="btn btn-primary">Return to Home</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style define:vars={{ backgroundColor }}>
+    .thank-you-section {
+      padding: 80px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 70vh;
+    }
+    
+    .card {
+      max-width: 600px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+    }
+    
+    h1 {
+      color: #0e97cd;
+      font-weight: bold;
+    }
+    
+    .checkmark-container {
+      display: flex;
+      justify-content: center;
+    }
+    
+    .checkmark {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background-color: #0e97cd;
+      color: white;
+      font-size: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .btn-primary {
+      background-color: #0e97cd;
+      border-color: #0e97cd;
+      padding: 10px 30px;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+    
+    .btn-primary:hover {
+      background-color: #0b7ba7;
+      border-color: #0b7ba7;
+    }
+  </style>
+</MainLayout>
