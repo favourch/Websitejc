@@ -1,0 +1,64 @@
+---
+import { colors } from "@core/colors";
+import MainLayout from "@layouts/MainLayout.astro";
+import ContactForm from "@components/contact/ContactForm.astro";
+
+const backgroundColor = colors.primary + "30";
+---
+
+<MainLayout
+  navbarBackgroundColor={backgroundColor}
+  title="Wholesalers Advantage -  Contact Form"
+  description="Connect with Wholesalers Advantage at Agent Broker Uniiter Conference and learn more about our services."
+>
+  <div class="container">
+    <div class="hero-section">
+      <h1>The next generation of wholesale distribution services</h1>
+      <p>Wholesalers Advantage offers a diverse array of products to enable you to better serve your clients.</p>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="form-section">
+          <h2 class="text-center mb-4">Let's Connect</h2>
+          <p class="text-center mb-4">Thank you for stopping by! Fill out this form to learn more about our services.</p>
+          
+          <ContactForm />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style define:vars={{ backgroundColor }}>
+    body {
+      background-color: #dff2fc;
+      font-family: Arial, sans-serif;
+      color: #444;
+    }
+    .navbar-brand img {
+      height: 50px;
+    }
+    .hero-section {
+      padding: 60px 0;
+      text-align: center;
+    }
+    .hero-section h1 {
+      color: #444;
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin-bottom: 1.5rem;
+    }
+    .hero-section p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      color: #555;
+    }
+    .form-section {
+      background-color: white;
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      margin-bottom: 40px;
+    }
+  </style>
+</MainLayout>
