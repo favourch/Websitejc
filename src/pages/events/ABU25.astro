@@ -10,7 +10,7 @@ const backgroundColor = colors.primary + "30";
   title="Wholesalers Advantage - Conference Contact Form"
   description="Connect with Wholesalers Advantage at our conference booth and learn more about our services."
 >
- <div class="container">
+  <div class="container">
     <div class="hero-section">
       <h1>The next generation of wholesale distribution services</h1>
       <p>Wholesalers Advantage offers a diverse array of products to enable you to better serve your clients.</p>
@@ -20,10 +20,9 @@ const backgroundColor = colors.primary + "30";
       <div class="col-md-8">
         <div class="form-section">
           <h2 class="text-center mb-4">Let's Connect</h2>
+          <p class="text-center mb-4">Thank you for visiting our booth! Fill out this form to learn more about our services.</p>
           
-          <p class="text-center mb-4">Thank you for stopping by! Fill out this form to learn more about our services.</p>
-          
-          <form id="contact-form" action="/api/forms-handler" method="POST">
+          <form id="contact-form">
             <div class="mb-3">
               <label for="name" class="form-label">Full Name</label>
               <input type="text" class="form-control" id="name" name="name" required>
@@ -161,18 +160,21 @@ const backgroundColor = colors.primary + "30";
         try {
           const formData = new FormData(form);
           
-          // Add event source information
-          formData.append('eventSource', 'ABU25');
+          // Get all selected products
+          const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+          const selectedProducts = Array.from(checkboxes).map(cb => (cb as HTMLInputElement).value).join(', ');
+          formData.append('selectedProducts', selectedProducts);
           
-          // Submit the form - let the checkboxes be handled naturally as products[]
+          // Add form source for tracking
+          formData.append('source', 'ABU25');
+          
+          // Submit the form
           const response = await fetch('/api/forms-handler', {
             method: 'POST',
             body: formData
           });
           
           if (!response.ok) {
-            const errorText = await response.text();
-            console.error('Server response:', errorText);
             throw new Error('Submission failed');
           }
           
