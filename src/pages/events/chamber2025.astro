@@ -153,38 +153,39 @@ const backgroundColor = colors.primary + "30";
   </style>
 
   <script>
-    const form = document.getElementById('contact-form') as HTMLFormElement;
-    if (form) {
-      form.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        
-        try {
-          const formData = new FormData(form);
-          
-          // Add event source information
-          formData.append('eventSource', 'Chamber2025');
-          
-          // Submit the form - let the checkboxes be handled naturally as products[]
-          const response = await fetch('/api/forms-handler', {
-            method: 'POST',
-            body: formData
-          });
-          
-          if (!response.ok) {
-            const errorText = await response.text();
-            console.error('Server response:', errorText);
-            throw new Error('Submission failed');
-          }
-          
-          alert('Thank you for your interest! A representative will contact you shortly.');
-          form.reset();
-          
-        } catch (error) {
-          console.error('Error submitting form:', error);
-          alert('There was an error submitting your form. Please try again later.');
-        }
+   const form = document.getElementById('contact-form') as HTMLFormElement;
+if (form) {
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    try {
+      const formData = new FormData(form);
+      
+      // We don't need the redundant selectedProducts collection if the backend
+      // can process products[] correctly. If your handler expects selectedProducts,
+      // keep this code:
+      const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+      const selectedProducts = Array.from(checkboxes).map(cb => (cb as HTMLInputElement).value).join(', ');
+      formData.append('selectedProducts', selectedProducts);
+      
+      // Add form source for tracking
+      formData.append('source', 'chamber2025');
+      
+      const response = await fetch('/api/forms-handler', {
+        method: 'POST',
+        body: formData
       });
+      
+      if (!response.ok) {
+        throw new Error('Submission failed');
+      }
+      
+      alert('Thank you for your interest! A representative will contact you shortly.');
+      form.reset();
+      
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      alert('There was an error submitting your form. Please try again later.');
     }
-  </script>
-</MainLayout>
-
+  });
+ }
