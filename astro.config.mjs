@@ -9,4 +9,13 @@ export default defineConfig({
   adapter: cloudflare(),
   site: "https://wholesalersadvantage.com",
   integrations: [sitemap()],
+  image: {
+    service: {
+      entrypoint: "astro/assets/services/sharp",
+      config: {
+        // Disable Sharp for Cloudflare compatibility
+        sharp: false
+      }
+    }
+  }
 });
