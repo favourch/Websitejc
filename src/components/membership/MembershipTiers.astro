@@ -24,6 +24,14 @@ import { pages } from "@core/pages";
       </div>
     </div>
 
+    <!-- Billing Toggle -->
+    <div class="text-center mb-5">
+      <div class="billing-switch d-inline-flex bg-light border rounded-pill p-1">
+        <button class="btn btn-sm rounded-pill px-4 py-2 active" data-billing="monthly">Monthly</button>
+        <button class="btn btn-sm rounded-pill px-4 py-2" data-billing="annual">Annual</button>
+      </div>
+    </div>
+
     <div class="row g-4 justify-content-center">
       <!-- Silver Tier -->
       <div class="col-lg-4">
@@ -31,11 +39,19 @@ import { pages } from "@core/pages";
           <div class="card-body p-5">
             <h3 class="text-primary mb-4">Silver</h3>
             <div class="pricing-header mb-4">
-              <h2 class="display-4 fw-bold mb-0">
-                $45
-                <span class="fs-5 text-muted fw-normal">/ month</span>
-              </h2>
-              <p class="text-muted mt-2">or $500/year</p>
+              <div class="monthly-price">
+                <h2 class="display-4 fw-bold mb-0">
+                  $45
+                  <span class="fs-5 text-muted fw-normal">/ month</span>
+                </h2>
+              </div>
+              <div class="annual-price d-none">
+                <h2 class="display-4 fw-bold mb-0">
+                  $500
+                  <span class="fs-5 text-muted fw-normal">/ year</span>
+                </h2>
+                <p class="text-success mt-2">Save $40 annually</p>
+              </div>
             </div>
             <hr class="my-4" />
             <ul class="list-unstyled mb-5">
@@ -69,11 +85,19 @@ import { pages } from "@core/pages";
           <div class="card-body p-5">
             <h3 class="text-warning mb-4">Gold</h3>
             <div class="pricing-header mb-4">
-              <h2 class="display-4 fw-bold mb-0">
-                $65
-                <span class="fs-5 text-muted fw-normal">/ month</span>
-              </h2>
-              <p class="text-muted mt-2">or $750/year</p>
+              <div class="monthly-price">
+                <h2 class="display-4 fw-bold mb-0">
+                  $65
+                  <span class="fs-5 text-muted fw-normal">/ month</span>
+                </h2>
+              </div>
+              <div class="annual-price d-none">
+                <h2 class="display-4 fw-bold mb-0">
+                  $750
+                  <span class="fs-5 text-muted fw-normal">/ year</span>
+                </h2>
+                <p class="text-success mt-2">Save $30 annually</p>
+              </div>
             </div>
             <hr class="my-4" />
             <ul class="list-unstyled mb-5">
@@ -107,11 +131,19 @@ import { pages } from "@core/pages";
           <div class="card-body p-5">
             <h3 class="text-dark mb-4">Platinum</h3>
             <div class="pricing-header mb-4">
-              <h2 class="display-4 fw-bold mb-0">
-                $85
-                <span class="fs-5 text-muted fw-normal">/ month</span>
-              </h2>
-              <p class="text-muted mt-2">or $1,000/year</p>
+              <div class="monthly-price">
+                <h2 class="display-4 fw-bold mb-0">
+                  $85
+                  <span class="fs-5 text-muted fw-normal">/ month</span>
+                </h2>
+              </div>
+              <div class="annual-price d-none">
+                <h2 class="display-4 fw-bold mb-0">
+                  $1,000
+                  <span class="fs-5 text-muted fw-normal">/ year</span>
+                </h2>
+                <p class="text-success mt-2">Save $20 annually</p>
+              </div>
             </div>
             <hr class="my-4" />
             <ul class="list-unstyled mb-5">
@@ -146,6 +178,33 @@ import { pages } from "@core/pages";
   </div>
 </section>
 
+<script>
+  const billingButtons = document.querySelectorAll('[data-billing]');
+  const monthlyPrices = document.querySelectorAll('.monthly-price');
+  const annualPrices = document.querySelectorAll('.annual-price');
+
+  billingButtons.forEach(button => {
+    button.addEventListener('click', (e) => {
+      const target = e.target as HTMLButtonElement;
+      const isAnnual = target.dataset.billing === 'annual';
+      
+      // Update active state
+      billingButtons.forEach(btn => {
+        btn.classList.toggle('active', btn === target);
+      });
+      
+      // Toggle prices
+      monthlyPrices.forEach(price => {
+        price.classList.toggle('d-none', isAnnual);
+      });
+      
+      annualPrices.forEach(price => {
+        price.classList.toggle('d-none', !isAnnual);
+      });
+    });
+  });
+</script>
+
 <style>
   .section {
     padding: 6rem 0;
@@ -158,5 +217,21 @@ import { pages } from "@core/pages";
   
   .card:hover {
     transform: translateY(-5px);
+  }
+
+  .billing-switch {
+    background: var(--bs-gray-200) !important;
+  }
+
+  .billing-switch .btn {
+    border: none;
+    font-weight: 500;
+    color: var(--bs-gray-600);
+    transition: all 0.3s ease;
+  }
+
+  .billing-switch .btn.active {
+    background: var(--primary);
+    color: white;
   }
 </style> 
