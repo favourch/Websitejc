@@ -1,0 +1,151 @@
+---
+import { pages } from "@core/pages";
+---
+
+<section id="membership-tiers" class="section bg-light">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="display-5 fw-bold mb-4">Choose Your Membership Plan</h2>
+      <p class="lead text-muted mx-auto" style="max-width: 800px;">
+        We provide the most comprehensive and innovative product suites on a "wholesale" basis offered
+        to our Advantage Partners ensuring they receive the best value and the highest compensation
+        available.
+      </p>
+    </div>
+
+    <div class="row g-4 justify-content-center">
+      <!-- Silver Tier -->
+      <div class="col-lg-4">
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body p-5">
+            <h3 class="text-primary mb-4">Silver</h3>
+            <div class="pricing-header mb-4">
+              <h2 class="display-4 fw-bold mb-0">
+                $45
+                <span class="fs-5 text-muted fw-normal">/ month</span>
+              </h2>
+              <p class="text-muted mt-2">or $500/year</p>
+            </div>
+            <hr class="my-4" />
+            <ul class="list-unstyled mb-5">
+              <li class="mb-3">
+                <i class="bi bi-check2 text-primary me-2"></i>
+                1-10 Agencies
+              </li>
+              <li class="mb-3">
+                <i class="bi bi-check2 text-primary me-2"></i>
+                High commissions
+              </li>
+              <li class="mb-3">
+                <i class="bi bi-check2 text-primary me-2"></i>
+                Professional legal advise
+              </li>
+              <li class="mb-3">
+                <i class="bi bi-check2 text-primary me-2"></i>
+                Industry news access
+              </li>
+            </ul>
+            <a href={pages.memberForm.path} class="btn btn-primary btn-lg w-100">
+              Become a Member
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gold Tier -->
+      <div class="col-lg-4">
+        <div class="card h-100 border-0 shadow">
+          <div class="card-body p-5">
+            <h3 class="text-warning mb-4">Gold</h3>
+            <div class="pricing-header mb-4">
+              <h2 class="display-4 fw-bold mb-0">
+                $65
+                <span class="fs-5 text-muted fw-normal">/ month</span>
+              </h2>
+              <p class="text-muted mt-2">or $750/year</p>
+            </div>
+            <hr class="my-4" />
+            <ul class="list-unstyled mb-5">
+              <li class="mb-3">
+                <i class="bi bi-check2 text-warning me-2"></i>
+                11-25 Agencies
+              </li>
+              <li class="mb-3">
+                <i class="bi bi-check2 text-warning me-2"></i>
+                High commissions
+              </li>
+              <li class="mb-3">
+                <i class="bi bi-check2 text-warning me-2"></i>
+                Top Tier status
+              </li>
+              <li class="mb-3">
+                <i class="bi bi-check2 text-warning me-2"></i>
+                All Silver benefits
+              </li>
+            </ul>
+            <a href={pages.memberForm.path} class="btn btn-warning btn-lg w-100 text-white">
+              Become a Member
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Platinum Tier -->
+      <div class="col-lg-4">
+        <div class="card h-100 border-0 shadow">
+          <div class="card-body p-5">
+            <h3 class="text-dark mb-4">Platinum</h3>
+            <div class="pricing-header mb-4">
+              <h2 class="display-4 fw-bold mb-0">
+                $85
+                <span class="fs-5 text-muted fw-normal">/ month</span>
+              </h2>
+              <p class="text-muted mt-2">or $1,000/year</p>
+            </div>
+            <hr class="my-4" />
+            <ul class="list-unstyled mb-5">
+              <li class="mb-3">
+                <i class="bi bi-check2 text-dark me-2"></i>
+                26+ Agencies
+              </li>
+              <li class="mb-3">
+                <i class="bi bi-check2 text-dark me-2"></i>
+                High commissions
+              </li>
+              <li class="mb-3">
+                <i class="bi bi-check2 text-dark me-2"></i>
+                Top Tier Level
+              </li>
+              <li class="mb-3">
+                <i class="bi bi-check2 text-dark me-2"></i>
+                Bonus rewards
+              </li>
+              <li class="mb-3">
+                <i class="bi bi-check2 text-dark me-2"></i>
+                All Gold benefits
+              </li>
+            </ul>
+            <a href={pages.memberForm.path} class="btn btn-dark btn-lg w-100">
+              Become a Member
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .section {
+    padding: 6rem 0;
+    scroll-margin-top: 5rem; /* Add space for fixed navbar */
+  }
+  
+  .card {
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+  }
+</style> 

@@ -17,6 +17,7 @@ const isProd = import.meta.env.PROD;
     <link rel="icon" type="image/svg+xml" href="/favicon.png" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <title>{title ?? "Wholesalers Advantage"}</title>
     <meta
@@ -35,3 +36,12 @@ const isProd = import.meta.env.PROD;
     <script src="@core/bootstrap/bootstrap.bundle.min.js"></script>
   </body>
 </html>
+
+<style is:global>
+  :root {
+    --primary: #0c96d6;
+    --secondary: #337548;
+    --tertiary: #f3560c;
+    --quaternary: #ed002b;
+  }
+</style>

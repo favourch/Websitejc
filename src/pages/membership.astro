@@ -1,20 +1,20 @@
 ---
-import Hero from "@components/membership/Hero.astro";
-import Member from "@components/home/Member.astro";
 import MainLayout from "@layouts/MainLayout.astro";
+import Hero from "@components/membership/Hero.astro";
 import Overview from "@components/membership/Overview.astro";
 import Benefits from "@components/membership/Benefits.astro";
 import GettingStarted from "@components/membership/GettingStarted.astro";
+import MembershipTiers from "@components/membership/MembershipTiers.astro";
+
+const title = "Membership | Wholesalers Advantage";
+const description =
+  "Join Wholesalers Advantage and become a member of our growing community. Get access to exclusive benefits and opportunities.";
 ---
 
-<MainLayout
-  navbarBackgroundColor="transparent"
-  title="Membership"
-  description="Become a Wholesalers Advantage member and gain access to 20+ insurance and financial products."
->
+<MainLayout title={title} description={description} navbarBackgroundColor="transparent">
   <Hero />
   <Overview />
+  <MembershipTiers />
   <Benefits />
   <GettingStarted />
-  <!-- <Member /> -->
 </MainLayout>
