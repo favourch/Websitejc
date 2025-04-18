@@ -44,6 +44,7 @@ import { pages } from "@core/pages";
                   $45
                   <span class="fs-5 text-muted fw-normal">/ month</span>
                 </h2>
+                <p class="text-muted mt-2">+ 4% transaction fee</p>
               </div>
               <div class="annual-price d-none">
                 <h2 class="display-4 fw-bold mb-0">
@@ -51,6 +52,7 @@ import { pages } from "@core/pages";
                   <span class="fs-5 text-muted fw-normal">/ year</span>
                 </h2>
                 <p class="text-success mt-2">Save $40 annually</p>
+                <p class="text-muted">+ 4% transaction fee</p>
               </div>
             </div>
             <hr class="my-4" />
@@ -72,9 +74,13 @@ import { pages } from "@core/pages";
                 Industry news access
               </li>
             </ul>
-            <a href={pages.memberForm.path} class="btn btn-primary btn-lg w-100">
+            <button 
+              class="btn btn-primary btn-lg w-100 initiate-payment" 
+              data-tier="silver"
+              data-annual="false"
+            >
               Become a Member
-            </a>
+            </button>
           </div>
         </div>
       </div>
@@ -90,6 +96,7 @@ import { pages } from "@core/pages";
                   $65
                   <span class="fs-5 text-muted fw-normal">/ month</span>
                 </h2>
+                <p class="text-muted mt-2">+ 4% transaction fee</p>
               </div>
               <div class="annual-price d-none">
                 <h2 class="display-4 fw-bold mb-0">
@@ -97,6 +104,7 @@ import { pages } from "@core/pages";
                   <span class="fs-5 text-muted fw-normal">/ year</span>
                 </h2>
                 <p class="text-success mt-2">Save $30 annually</p>
+                <p class="text-muted">+ 4% transaction fee</p>
               </div>
             </div>
             <hr class="my-4" />
@@ -118,9 +126,13 @@ import { pages } from "@core/pages";
                 All Silver benefits
               </li>
             </ul>
-            <a href={pages.memberForm.path} class="btn btn-warning btn-lg w-100 text-white">
+            <button 
+              class="btn btn-warning btn-lg w-100 text-white initiate-payment" 
+              data-tier="gold"
+              data-annual="false"
+            >
               Become a Member
-            </a>
+            </button>
           </div>
         </div>
       </div>
@@ -136,6 +148,7 @@ import { pages } from "@core/pages";
                   $85
                   <span class="fs-5 text-muted fw-normal">/ month</span>
                 </h2>
+                <p class="text-muted mt-2">+ 4% transaction fee</p>
               </div>
               <div class="annual-price d-none">
                 <h2 class="display-4 fw-bold mb-0">
@@ -143,6 +156,7 @@ import { pages } from "@core/pages";
                   <span class="fs-5 text-muted fw-normal">/ year</span>
                 </h2>
                 <p class="text-success mt-2">Save $20 annually</p>
+                <p class="text-muted">+ 4% transaction fee</p>
               </div>
             </div>
             <hr class="my-4" />
@@ -168,9 +182,13 @@ import { pages } from "@core/pages";
                 All Gold benefits
               </li>
             </ul>
-            <a href={pages.memberForm.path} class="btn btn-dark btn-lg w-100">
+            <button 
+              class="btn btn-dark btn-lg w-100 initiate-payment" 
+              data-tier="platinum"
+              data-annual="false"
+            >
               Become a Member
-            </a>
+            </button>
           </div>
         </div>
       </div>
@@ -178,32 +196,291 @@ import { pages } from "@core/pages";
   </div>
 </section>
 
-<script>
-  const billingButtons = document.querySelectorAll('[data-billing]');
-  const monthlyPrices = document.querySelectorAll('.monthly-price');
-  const annualPrices = document.querySelectorAll('.annual-price');
+<!-- Payment Modal -->
+<div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true" style="z-index: 1050;">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="paymentModalLabel">Complete Your Membership</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="paymentForm">
+          <!-- Progress Steps -->
+          <div class="progress-steps mb-4">
+            <div class="step active" data-step="1">
+              <div class="step-number">1</div>
+              <div class="step-label">Personal Info</div>
+            </div>
+            <div class="step" data-step="2">
+              <div class="step-number">2</div>
+              <div class="step-label">Promo Code</div>
+            </div>
+            <div class="step" data-step="3">
+              <div class="step-number">3</div>
+              <div class="step-label">Billing</div>
+            </div>
+          </div>
 
-  billingButtons.forEach(button => {
-    button.addEventListener('click', (e) => {
-      const target = e.target as HTMLButtonElement;
-      const isAnnual = target.dataset.billing === 'annual';
-      
-      // Update active state
-      billingButtons.forEach(btn => {
-        btn.classList.toggle('active', btn === target);
-      });
-      
-      // Toggle prices
-      monthlyPrices.forEach(price => {
-        price.classList.toggle('d-none', isAnnual);
-      });
-      
-      annualPrices.forEach(price => {
-        price.classList.toggle('d-none', !isAnnual);
+          <!-- Step 1: Personal Information -->
+          <div class="form-step active" data-step="1">
+            <div class="form-section">
+              <h6 class="form-section-header">Personal Information</h6>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="firstName" class="form-label">First Name</label>
+                  <input type="text" class="form-control" id="firstName" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="lastName" class="form-label">Last Name</label>
+                  <input type="text" class="form-control" id="lastName" required>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="companyName" class="form-label">Company Name (Optional)</label>
+                <input type="text" class="form-control" id="companyName">
+              </div>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="customerEmail" class="form-label">Email Address</label>
+                  <input type="email" class="form-control" id="customerEmail" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="customerMobile" class="form-label">Phone Number</label>
+                  <input type="tel" class="form-control" id="customerMobile" required>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 2: Promo Code -->
+          <div class="form-step" data-step="2">
+            <div class="form-section">
+              <h6 class="form-section-header">Promo Code</h6>
+              <div class="mb-3">
+                <label for="promoCode" class="form-label">Enter Promo Code (Optional)</label>
+                <input type="text" class="form-control" id="promoCode" placeholder="e.g., Pura Vida">
+                <div class="form-text">Use promo code "Pura Vida" for 50% off during the ABU event</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 3: Billing Address -->
+          <div class="form-step" data-step="3">
+            <div class="form-section">
+              <h6 class="form-section-header">Billing Address</h6>
+              <div class="mb-3">
+                <label for="streetAddress" class="form-label">Street Address</label>
+                <input type="text" class="form-control" id="streetAddress" required>
+              </div>
+              <div class="mb-3">
+                <label for="unitNumber" class="form-label">Unit/Apt Number (Optional)</label>
+                <input type="text" class="form-control" id="unitNumber">
+              </div>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="city" class="form-label">City</label>
+                  <input type="text" class="form-control" id="city" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="state" class="form-label">State/Province</label>
+                  <input type="text" class="form-control" id="state" required>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="zipCode" class="form-label">ZIP/Postal Code</label>
+                  <input type="text" class="form-control" id="zipCode" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="country" class="form-label">Country</label>
+                  <input type="text" class="form-control" id="country" required>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="prevStep" style="display: none;">Previous</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" id="nextStep">Next</button>
+        <button type="button" class="btn btn-primary" id="submitPayment" style="display: none;">Proceed to Payment</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Initialize Bootstrap modal
+    const paymentModalElement = document.getElementById('paymentModal');
+    if (!paymentModalElement) {
+      console.error('Payment modal element not found');
+      return;
+    }
+    
+    const paymentModal = new bootstrap.Modal(paymentModalElement, {
+      backdrop: 'static',
+      keyboard: false
+    });
+    
+    const paymentForm = document.getElementById('paymentForm');
+    const submitPaymentBtn = document.getElementById('submitPayment');
+    let selectedTier = null;
+    let isAnnual = false;
+
+    // Handle billing toggle
+    const billingButtons = document.querySelectorAll('[data-billing]');
+    billingButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        // Update active state
+        billingButtons.forEach(btn => btn.classList.toggle('active', btn === button));
+        
+        // Update prices visibility
+        const isAnnual = button.dataset.billing === 'annual';
+        document.querySelectorAll('.monthly-price').forEach(el => el.classList.toggle('d-none', isAnnual));
+        document.querySelectorAll('.annual-price').forEach(el => el.classList.toggle('d-none', !isAnnual));
+        
+        // Update payment buttons
+        document.querySelectorAll('.initiate-payment').forEach(btn => {
+          btn.setAttribute('data-annual', isAnnual.toString());
+        });
       });
     });
+
+    // Handle tier selection
+    document.querySelectorAll('.initiate-payment').forEach(button => {
+      button.addEventListener('click', function() {
+        selectedTier = this.dataset.tier;
+        isAnnual = this.dataset.annual === 'true';
+        paymentModal.show();
+      });
+    });
+
+    // Handle payment submission
+    submitPaymentBtn.addEventListener('click', async function() {
+      if (!paymentForm.checkValidity()) {
+        paymentForm.reportValidity();
+        return;
+      }
+
+      const customerInfo = {
+        firstName: document.getElementById('firstName').value,
+        lastName: document.getElementById('lastName').value,
+        companyName: document.getElementById('companyName').value,
+        email: document.getElementById('customerEmail').value,
+        mobile: document.getElementById('customerMobile').value,
+        promoCode: document.getElementById('promoCode').value,
+        address: {
+          street: document.getElementById('streetAddress').value,
+          unitNumber: document.getElementById('unitNumber').value,
+          city: document.getElementById('city').value,
+          state: document.getElementById('state').value,
+          zipCode: document.getElementById('zipCode').value,
+          country: document.getElementById('country').value
+        }
+      };
+
+      try {
+        submitPaymentBtn.disabled = true;
+        submitPaymentBtn.textContent = 'Processing...';
+
+        // Calculate base price
+        let basePrice = isAnnual ? 
+          (selectedTier === 'silver' ? 500 : selectedTier === 'gold' ? 750 : 1000) :
+          (selectedTier === 'silver' ? 45 : selectedTier === 'gold' ? 65 : 85);
+
+        // Apply promo code discount if valid
+        if (customerInfo.promoCode === 'Pura Vida') {
+          basePrice = basePrice * 0.5; // 50% discount
+        }
+
+        // Add 4% transaction fee
+        const finalPrice = basePrice * 1.04;
+
+        const response = await fetch('/api/payment/initiate', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            tier: selectedTier,
+            isAnnual,
+            customerInfo,
+            amount: finalPrice
+          })
+        });
+
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.error || 'Failed to initiate payment');
+        }
+
+        const data = await response.json();
+        window.location.href = data.url;
+      } catch (error) {
+        console.error('Payment initiation failed:', error);
+        alert(error.message || 'Failed to initiate payment. Please try again.');
+        submitPaymentBtn.disabled = false;
+        submitPaymentBtn.textContent = 'Proceed to Payment';
+      }
+    });
+
+    const steps = document.querySelectorAll('.form-step');
+    const progressSteps = document.querySelectorAll('.step');
+    const nextBtn = document.getElementById('nextStep');
+    const prevBtn = document.getElementById('prevStep');
+    const submitBtn = document.getElementById('submitPayment');
+    let currentStep = 1;
+
+    function updateStep(step) {
+      // Update form steps
+      steps.forEach(s => {
+        s.classList.remove('active');
+        if (parseInt(s.dataset.step) === step) {
+          s.classList.add('active');
+        }
+      });
+
+      // Update progress steps
+      progressSteps.forEach(s => {
+        s.classList.remove('active', 'completed');
+        const stepNum = parseInt(s.dataset.step);
+        if (stepNum === step) {
+          s.classList.add('active');
+        } else if (stepNum < step) {
+          s.classList.add('completed');
+        }
+      });
+
+      // Update buttons
+      prevBtn.style.display = step > 1 ? 'block' : 'none';
+      nextBtn.style.display = step < 3 ? 'block' : 'none';
+      submitBtn.style.display = step === 3 ? 'block' : 'none';
+    }
+
+    nextBtn.addEventListener('click', () => {
+      if (currentStep < 3) {
+        currentStep++;
+        updateStep(currentStep);
+      }
+    });
+
+    prevBtn.addEventListener('click', () => {
+      if (currentStep > 1) {
+        currentStep--;
+        updateStep(currentStep);
+      }
+    });
+
+    // Initialize first step
+    updateStep(1);
   });
 </script>
+
+<!-- Add Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <style>
   .section {
@@ -233,5 +510,371 @@ import { pages } from "@core/pages";
   .billing-switch .btn.active {
     background: var(--primary);
     color: white;
+  }
+
+  .initiate-payment:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  #proceedToPayment:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  /* Modal Styles */
+  .modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1050;
+  }
+
+  .modal.show {
+    display: block;
+  }
+
+  .modal-dialog {
+    position: relative;
+    width: auto;
+    margin: 0.5rem;
+    pointer-events: none;
+    max-width: 600px;
+    margin: 1.75rem auto;
+  }
+
+  .modal-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    pointer-events: auto;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: none;
+    border-radius: 1rem;
+    outline: 0;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  }
+
+  .modal-header {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    background-color: #f8f9fa;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+  }
+
+  .modal-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin: 0;
+  }
+
+  .modal-body {
+    position: relative;
+    flex: 1 1 auto;
+    padding: 2rem;
+  }
+
+  .modal-footer {
+    display: flex;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 1.5rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    background-color: #f8f9fa;
+    border-bottom-left-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+  }
+
+  /* Form Styles */
+  .form-label {
+    font-weight: 500;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+    letter-spacing: 0.3px;
+  }
+
+  .form-control {
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid #e9ecef;
+    transition: all 0.2s ease;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    background-color: #fff;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  }
+
+  .form-control:focus {
+    border-color: #0c96d6;
+    box-shadow: 0 0 0 0.25rem rgba(12, 150, 214, 0.15);
+    background-color: #fff;
+  }
+
+  .form-control::placeholder {
+    color: #adb5bd;
+    font-size: 0.9rem;
+  }
+
+  .form-control:disabled {
+    background-color: #f8f9fa;
+    cursor: not-allowed;
+  }
+
+  /* Form Group Styles */
+  .mb-3 {
+    margin-bottom: 1.25rem !important;
+  }
+
+  /* Form Section Styles */
+  .form-section {
+    background-color: #fff;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+  }
+
+  .form-section:hover {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .form-section:last-child {
+    margin-bottom: 0;
+  }
+
+  .form-section-header {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin: 0 0 1.25rem 0;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid #e9ecef;
+    letter-spacing: 0.3px;
+  }
+
+  /* Form Group Styles */
+  .form-group {
+    position: relative;
+    transition: all 0.3s ease;
+  }
+
+  .form-group:focus-within {
+    transform: translateY(-1px);
+  }
+
+  /* Form Label Styles */
+  .form-label {
+    font-weight: 500;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+    letter-spacing: 0.3px;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Form Control Styles */
+  .form-control {
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid #e9ecef;
+    transition: all 0.2s ease;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    background-color: #fff;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  }
+
+  .form-control:focus {
+    border-color: #0c96d6;
+    box-shadow: 0 0 0 0.25rem rgba(12, 150, 214, 0.15);
+    background-color: #fff;
+  }
+
+  .form-control::placeholder {
+    color: #adb5bd;
+    font-size: 0.9rem;
+  }
+
+  /* Form Help Text */
+  .form-text {
+    font-size: 0.85rem;
+    color: #6c757d;
+    margin-top: 0.5rem;
+    padding-left: 0.25rem;
+  }
+
+  /* Form Row Spacing */
+  .row {
+    margin-bottom: 0.5rem;
+  }
+
+  /* Form Focus States */
+  .form-control:focus {
+    outline: none;
+  }
+
+  /* Form Field Hover State */
+  .form-control:hover:not(:focus):not(:disabled) {
+    border-color: #ced4da;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+
+  /* Form Field Placeholder Animation */
+  .form-control::placeholder {
+    transition: opacity 0.2s ease;
+  }
+
+  .form-control:focus::placeholder {
+    opacity: 0.5;
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .form-section {
+      padding: 1.25rem;
+    }
+
+    .form-control {
+      padding: 0.625rem 0.875rem;
+      font-size: 0.9rem;
+    }
+
+    .form-label {
+      font-size: 0.9rem;
+    }
+
+    .form-section-header {
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+  }
+
+  /* Progress Steps */
+  .progress-steps {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    position: relative;
+  }
+
+  .progress-steps::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: #e9ecef;
+    z-index: 1;
+  }
+
+  .step {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    padding: 0 1rem;
+  }
+
+  .step-number {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background-color: #e9ecef;
+    color: #6c757d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    transition: all 0.3s ease;
+  }
+
+  .step-label {
+    font-size: 0.85rem;
+    color: #6c757d;
+    font-weight: 500;
+  }
+
+  .step.active .step-number {
+    background-color: #0c96d6;
+    color: #fff;
+  }
+
+  .step.active .step-label {
+    color: #0c96d6;
+  }
+
+  .step.completed .step-number {
+    background-color: #198754;
+    color: #fff;
+  }
+
+  .step.completed .step-label {
+    color: #198754;
+  }
+
+  /* Form Steps */
+  .form-step {
+    display: none;
+    animation: fadeIn 0.3s ease;
+  }
+
+  .form-step.active {
+    display: block;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .progress-steps {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .progress-steps::before {
+      display: none;
+    }
+
+    .step {
+      flex-direction: row;
+      gap: 1rem;
+      padding: 0;
+    }
+
+    .step-number {
+      margin-bottom: 0;
+    }
   }
 </style> 
