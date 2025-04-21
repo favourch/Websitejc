@@ -1,12 +1,29 @@
 import type { APIRoute } from 'astro';
 import { getPaymentPageUrl } from '../../../services/payment';
+import { createClient } from '@supabase/supabase-js';
+
+// Initialize Supabase client
+const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
+const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
+
+if (!supabaseUrl || !supabaseKey) {
+  console.error('Missing Supabase environment variables:', {
+    hasUrl: !!supabaseUrl,
+    hasKey: !!supabaseKey
+  });
+  throw new Error('Missing required Supabase environment variables');
+}
+
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Log environment variables for debugging
 console.log('API Endpoint Environment variables:', {
-  merchantId: process.env.IPOS_MERCHANT_ID,
-  token: process.env.IPOS_AUTH_TOKEN,
-  nodeEnv: process.env.NODE_ENV,
-  publicUrl: process.env.PUBLIC_URL
+  supabaseUrl: supabaseUrl ? 'Present' : 'Missing',
+  supabaseKey: supabaseKey ? 'Present' : 'Missing',
+  merchantId: import.meta.env.IPOS_MERCHANT_ID,
+  token: import.meta.env.IPOS_AUTH_TOKEN,
+  nodeEnv: import.meta.env.NODE_ENV,
+  publicUrl: import.meta.env.PUBLIC_URL
 });
 
 type MembershipTier = {
@@ -147,6 +164,66 @@ export const POST: APIRoute = async ({ request }) => {
       });
     }
 
+    // Check promo code if provided
+    if (customerInfo.promoCode) {
+      try {
+        const { data: promoData, error: promoError } = await supabase
+          .from('promo_codes')
+          .select('is_active, discount_percentage')
+          .eq('code', customerInfo.promoCode)
+          .single();
+
+        if (promoError) {
+          console.error('Error checking promo code:', promoError);
+          return new Response(JSON.stringify({
+            error: 'Failed to validate promo code'
+          }), {
+            status: 500,
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+        }
+
+        if (!promoData) {
+          return new Response(JSON.stringify({
+            error: 'Invalid promo code'
+          }), {
+            status: 400,
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+        }
+
+        if (!promoData.is_active) {
+          return new Response(JSON.stringify({
+            error: 'This promo code is no longer active'
+          }), {
+            status: 400,
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+        }
+
+        // If promo code is valid and active, use its discount percentage
+        const discountPercentage = promoData.discount_percentage;
+        const discountedAmount = amount * (1 - discountPercentage / 100);
+        data.amount = discountedAmount;
+      } catch (error) {
+        console.error('Error in promo code validation:', error);
+        return new Response(JSON.stringify({
+          error: 'Failed to validate promo code'
+        }), {
+          status: 500,
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+      }
+    }
+
     const paymentUrl = await getPaymentPageUrl(
       {
         ...MEMBERSHIP_TIERS[tier],
@@ -155,7 +232,7 @@ export const POST: APIRoute = async ({ request }) => {
       },
       isAnnual,
       customerInfo,
-      amount
+      data.amount
     );
 
     if (!paymentUrl) {

@@ -13,16 +13,7 @@ import { pages } from "@core/pages";
       </p>
     </div>
 
-    <!-- Promo Banner -->
-    <div class="promo-banner text-center mb-5">
-      <div class="bg-primary bg-opacity-10 rounded-4 p-4 mx-auto" style="max-width: 800px;">
-        <h3 class="text-primary mb-2">Use Promo Code "Pura Vida" for an Exclusive Offer!</h3>
-        <p class="mb-0 fs-5">
-          Unlock a 50% discount on your membership plan during the ABU event by using the promo code
-          <span class="fw-bold">"Pura Vida."</span> Don't miss out—this special offer is valid for the event only!
-        </p>
-      </div>
-    </div>
+   
 
     <!-- Billing Toggle -->
     <div class="text-center mb-5">
@@ -260,8 +251,7 @@ import { pages } from "@core/pages";
               <div class="mb-3">
                 <label for="promoCode" class="form-label">Enter Promo Code (Optional)</label>
                 <input type="text" class="form-control" id="promoCode" placeholder="e.g., Pura Vida">
-                <div class="form-text">Use promo code "Pura Vida" for 50% off during the ABU event</div>
-              </div>
+                </div>
             </div>
           </div>
 
@@ -490,10 +480,27 @@ import { pages } from "@core/pages";
   
   .card {
     transition: transform 0.2s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
   }
   
   .card:hover {
     transform: translateY(-5px);
+  }
+
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .card-body ul {
+    flex-grow: 1;
+  }
+
+  .card-body button {
+    margin-top: auto;
   }
 
   .billing-switch {

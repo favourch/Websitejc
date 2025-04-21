@@ -1,3 +1,14 @@
+import { createClient } from '@supabase/supabase-js';
+
+const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
+const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
+
+if (!supabaseUrl || !supabaseKey) {
+  throw new Error('Missing required Supabase environment variables');
+}
+
+const supabase = createClient(supabaseUrl, supabaseKey);
+
 interface PaymentConfig {
   merchantId: string;
   token: string;
@@ -41,7 +52,8 @@ export async function getPaymentPageUrl(
   tier: MembershipTier,
   isAnnual: boolean,
   customerInfo: CustomerInfo,
-  amount: number
+  amount: number,
+  promoCode?: string
 ) {
   try {
     // Validate required fields
@@ -62,6 +74,34 @@ export async function getPaymentPageUrl(
       ? customerInfo.mobile 
       : `+1${customerInfo.mobile}`;
 
+    // Calculate final amount with promo code discount if applicable
+    let finalAmount = amount;
+    let discountPercentage = 0;
+
+    if (promoCode) {
+      const { data: promoCodeData, error } = await supabase
+        .from('promo_codes')
+        .select('*')
+        .eq('code', promoCode)
+        .eq('is_active', true)
+        .single();
+
+      if (error) {
+        throw new Error('Error validating promo code');
+      }
+
+      if (!promoCodeData) {
+        throw new Error('Invalid or inactive promo code');
+      }
+
+      if (promoCodeData.expiry_date && new Date(promoCodeData.expiry_date) < new Date()) {
+        throw new Error('Promo code has expired');
+      }
+
+      discountPercentage = promoCodeData.discount_percentage;
+      finalAmount = amount * (1 - discountPercentage / 100);
+    }
+
     const payload = {
       merchantAuthentication: {
         merchantId: PAYMENT_CONFIG.merchantId,
@@ -69,8 +109,9 @@ export async function getPaymentPageUrl(
       },
       transactionRequest: {
         transactionType: 1, // SALE
-        amount: Math.round(amount * 100), // Convert to cents
-        calculateFee: false,
+        amount: Math.round(finalAmount * 100), // Convert to cents
+        calculateFee: true, // Enable fee calculation
+        feePercentage: 4, // Set fee percentage to 4%
         tipsInputPrompt: false,
         calculateTax: false,
         txReferenceTag1: {
@@ -91,12 +132,12 @@ export async function getPaymentPageUrl(
       },
       notificationOption: {
         notifyByRedirect: true,
-        returnUrl: 'https://76eb-205-250-244-156.ngrok-free.app/membership/success',
-        failureUrl: 'https://76eb-205-250-244-156.ngrok-free.app/membership/failure',
-        cancelUrl: 'https://76eb-205-250-244-156.ngrok-free.app/membership',
+        returnUrl: import.meta.env.PUBLIC_URL + '/membership/success',
+        failureUrl: import.meta.env.PUBLIC_URL + '/membership/failure',
+        cancelUrl: import.meta.env.PUBLIC_URL + '/membership',
         notifyBySMS: false,
         notifyByPOST: true,
-        postAPI: 'https://76eb-205-250-244-156.ngrok-free.app/api/payment/webhook',
+        postAPI: import.meta.env.PUBLIC_URL + '/api/payment/webhook',
         mobileNumber: formattedMobile,
         authHeader: PAYMENT_CONFIG.token
       },
@@ -122,7 +163,7 @@ export async function getPaymentPageUrl(
       },
       personalization: {
         merchantName: "Wholesalers Advantage",
-        logoUrl: 'https://76eb-205-250-244-156.ngrok-free.app/logo.png',
+        logoUrl: import.meta.env.PUBLIC_URL + '/logo.png',
         themeColor: "#0c96d6",
         description: "Membership Payment",
         payNowButtonText: "Pay Now",
@@ -167,6 +208,33 @@ export async function getPaymentPageUrl(
     console.log('Payment API response data:', JSON.stringify(data, null, 2));
 
     if (data.information) {
+      // Store payment record with promo code if applicable
+      if (promoCode) {
+        const { data: paymentData, error: paymentError } = await supabase
+          .from('payments')
+          .insert([{
+            amount: finalAmount,
+            customer_email: customerInfo.email
+          }])
+          .select()
+          .single();
+
+        if (paymentError) {
+          console.error('Error storing payment record:', paymentError);
+        } else if (paymentData) {
+          const { error: usedPromoError } = await supabase
+            .from('used_promo_codes')
+            .insert([{
+              promo_code_id: promoCodeData.id,
+              payment_id: paymentData.id
+            }]);
+
+          if (usedPromoError) {
+            console.error('Error storing used promo code:', usedPromoError);
+          }
+        }
+      }
+
       return data.information;
     } else if (data.errors && data.errors.length > 0) {
       throw new Error(data.errors[0].message || 'Failed to generate payment URL');

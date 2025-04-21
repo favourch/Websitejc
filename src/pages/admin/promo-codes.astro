@@ -1,0 +1,706 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import { createClient } from '@supabase/supabase-js';
+
+// Initialize Supabase client
+const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
+const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
+
+if (!supabaseUrl || !supabaseKey) {
+  throw new Error('Missing required Supabase environment variables');
+}
+
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+// Fetch data
+let promoCodes = [];
+let usedPromoCodes = [];
+
+try {
+  // Fetch promo codes
+  const { data: promoData, error } = await supabase
+    .from('promo_codes')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    console.error('Error fetching promo codes:', error);
+  } else {
+    promoCodes = promoData || [];
+  }
+
+  // Fetch used promo codes
+  const { data: usedData, error: usedError } = await supabase
+    .from('used_promo_codes')
+    .select(`
+      *,
+      promo_codes (
+        code,
+        discount_percentage
+      ),
+      payments (
+        amount,
+        customer_email
+      )
+    `)
+    .order('used_at', { ascending: false });
+
+  if (usedError) {
+    console.error('Error fetching used promo codes:', usedError);
+  } else {
+    usedPromoCodes = usedData || [];
+  }
+} catch (error) {
+  console.error('Error initializing Supabase:', error);
+  throw error;
+}
+---
+
+<MainLayout title="Promo Codes Management">
+  <div class="container-fluid py-4 px-4">
+    <div class="row g-4">
+      <div class="col-12">
+        <!-- Header Section -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <div>
+            <h1 class="h2 mb-1">Promo Codes Management</h1>
+            <p class="text-muted mb-0">Manage and track your promotional codes</p>
+          </div>
+          <button class="btn btn-primary px-4" data-bs-toggle="modal" data-bs-target="#createPromoModal">
+            <i class="bi bi-plus-lg me-2"></i>Create New Promo Code
+          </button>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="row g-4 mb-4">
+          <div class="col-md-4">
+            <div class="card bg-primary text-white h-100">
+              <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <h6 class="card-subtitle mb-2 text-white-50">Total Promo Codes</h6>
+                    <h2 class="card-title mb-0 display-6">{promoCodes.length}</h2>
+                  </div>
+                  <i class="bi bi-ticket-perforated fs-1 opacity-50"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card bg-success text-white h-100">
+              <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <h6 class="card-subtitle mb-2 text-white-50">Active Promo Codes</h6>
+                    <h2 class="card-title mb-0 display-6">{promoCodes.filter(p => p.is_active).length}</h2>
+                  </div>
+                  <i class="bi bi-check-circle fs-1 opacity-50"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card bg-info text-white h-100">
+              <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <h6 class="card-subtitle mb-2 text-white-50">Total Used</h6>
+                    <h2 class="card-title mb-0 display-6">{usedPromoCodes.length}</h2>
+                  </div>
+                  <i class="bi bi-graph-up fs-1 opacity-50"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Active Promo Codes -->
+        <div class="card shadow-sm mb-4">
+          <div class="card-header bg-white py-3 px-4">
+            <div class="d-flex justify-content-between align-items-center">
+              <h5 class="card-title mb-0">
+                <i class="bi bi-ticket-perforated me-2 text-primary"></i>Active Promo Codes
+              </h5>
+              <span class="badge bg-primary bg-opacity-10 text-primary">
+                {promoCodes.length} codes
+              </span>
+            </div>
+          </div>
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-hover align-middle mb-0">
+                <thead class="bg-light">
+                  <tr>
+                    <th class="border-0 py-3 px-4">Code</th>
+                    <th class="border-0 py-3 px-4">Discount</th>
+                    <th class="border-0 py-3 px-4">Created At</th>
+                    <th class="border-0 py-3 px-4">Expires At</th>
+                    <th class="border-0 py-3 px-4">Status</th>
+                    <th class="border-0 py-3 px-4 text-end">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {promoCodes?.map((promo) => (
+                    <tr>
+                      <td class="px-4">
+                        <span class="badge bg-light text-dark fs-6 px-3 py-2">{promo.code}</span>
+                      </td>
+                      <td class="px-4">
+                        <span class="badge bg-warning bg-opacity-10 text-warning px-3 py-2">
+                          {promo.discount_percentage}% OFF
+                        </span>
+                      </td>
+                      <td class="px-4">{new Date(promo.created_at).toLocaleDateString()}</td>
+                      <td class="px-4">
+                        {promo.expiry_date 
+                          ? new Date(promo.expiry_date).toLocaleDateString()
+                          : <span class="text-muted">No expiry</span>
+                        }
+                      </td>
+                      <td class="px-4">
+                        <span class={`badge ${promo.is_active ? 'bg-success bg-opacity-10 text-success' : 'bg-danger bg-opacity-10 text-danger'} px-3 py-2`}>
+                          {promo.is_active ? 'Active' : 'Inactive'}
+                        </span>
+                      </td>
+                      <td class="px-4 text-end">
+                        <button 
+                          class={`btn btn-sm ${promo.is_active ? 'btn-outline-danger' : 'btn-outline-success'} px-3`}
+                          data-promo-id={promo.id}
+                          data-promo-active={promo.is_active}
+                        >
+                          {promo.is_active ? 'Deactivate' : 'Activate'}
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Used Promo Codes -->
+        <div class="card shadow-sm">
+          <div class="card-header bg-white py-3 px-4">
+            <div class="d-flex justify-content-between align-items-center">
+              <h5 class="card-title mb-0">
+                <i class="bi bi-check-circle me-2 text-success"></i>Used Promo Codes
+              </h5>
+              <span class="badge bg-success bg-opacity-10 text-success">
+                {usedPromoCodes.length} used
+              </span>
+            </div>
+          </div>
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-hover align-middle mb-0">
+                <thead class="bg-light">
+                  <tr>
+                    <th class="border-0 py-3 px-4">Code</th>
+                    <th class="border-0 py-3 px-4">Discount Applied</th>
+                    <th class="border-0 py-3 px-4">Customer Email</th>
+                    <th class="border-0 py-3 px-4">Amount</th>
+                    <th class="border-0 py-3 px-4">Used At</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {usedPromoCodes?.map((used) => (
+                    <tr>
+                      <td class="px-4">
+                        <span class="badge bg-light text-dark fs-6 px-3 py-2">{used.promo_codes.code}</span>
+                      </td>
+                      <td class="px-4">
+                        <span class="badge bg-success bg-opacity-10 text-success px-3 py-2">
+                          {used.promo_codes.discount_percentage}% OFF
+                        </span>
+                      </td>
+                      <td class="px-4">{used.payments.customer_email}</td>
+                      <td class="px-4">${used.payments.amount.toFixed(2)}</td>
+                      <td class="px-4">{new Date(used.used_at).toLocaleDateString()}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Create Promo Code Modal -->
+  <div class="modal fade" id="createPromoModal" tabindex="-1" aria-labelledby="createPromoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header border-0 pb-0 px-4 pt-4">
+          <div class="d-flex align-items-center">
+            <i class="bi bi-ticket-perforated-fill text-primary me-2 fs-4"></i>
+            <h5 class="modal-title fw-bold mb-0" id="createPromoModalLabel">Create New Promo Code</h5>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body px-4">
+          <form id="createPromoCodeForm" class="needs-validation" novalidate>
+            <div class="mb-4">
+              <label for="code" class="form-label fw-medium d-flex align-items-center">
+                <i class="bi bi-ticket-perforated text-primary me-2"></i>
+                Promo Code
+              </label>
+              <div class="input-group input-group-lg">
+                <span class="input-group-text bg-light border-end-0">
+                  <i class="bi bi-ticket-perforated text-primary"></i>
+                </span>
+                <input 
+                  type="text" 
+                  class="form-control border-start-0" 
+                  id="code" 
+                  placeholder="Enter promo code"
+                  pattern="[A-Za-z0-9-]+"
+                  required
+                >
+                <div class="invalid-feedback">
+                  Please enter a valid promo code (letters, numbers, and hyphens only)
+                </div>
+              </div>
+            </div>
+            <div class="mb-4">
+              <label for="discountPercentage" class="form-label fw-medium d-flex align-items-center">
+                <i class="bi bi-percent text-primary me-2"></i>
+                Discount Percentage
+              </label>
+              <div class="input-group input-group-lg">
+                <span class="input-group-text bg-light border-end-0">
+                  <i class="bi bi-percent text-primary"></i>
+                </span>
+                <input 
+                  type="number" 
+                  class="form-control border-start-0" 
+                  id="discountPercentage" 
+                  min="1" 
+                  max="100" 
+                  placeholder="Enter discount percentage"
+                  required
+                >
+                <div class="invalid-feedback">
+                  Please enter a valid discount percentage (1-100)
+                </div>
+              </div>
+            </div>
+            <div class="mb-4">
+              <label for="expiryDate" class="form-label fw-medium d-flex align-items-center">
+                <i class="bi bi-calendar text-primary me-2"></i>
+                Expiry Date (Optional)
+              </label>
+              <div class="input-group input-group-lg">
+                <span class="input-group-text bg-light border-end-0">
+                  <i class="bi bi-calendar text-primary"></i>
+                </span>
+                <input 
+                  type="date" 
+                  class="form-control border-start-0" 
+                  id="expiryDate"
+                  min={new Date().toISOString().split('T')[0]}
+                >
+                <div class="form-text text-muted mt-2">
+                  <i class="bi bi-info-circle me-1"></i>
+                  Leave empty for no expiry date
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer border-0 px-4 pb-4">
+          <button type="button" class="btn btn-light px-4" data-bs-dismiss="modal">
+            <i class="bi bi-x-lg me-2"></i>Cancel
+          </button>
+          <button type="submit" form="createPromoCodeForm" class="btn btn-primary px-4">
+            <i class="bi bi-plus-lg me-2"></i>Create Promo Code
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</MainLayout>
+
+<script>
+  // Import Bootstrap
+  import * as bootstrap from 'bootstrap';
+  import type { Modal } from 'bootstrap';
+
+  // Initialize Bootstrap modal
+  document.addEventListener('DOMContentLoaded', function() {
+    // Initialize the create promo code modal
+    const createPromoModal = new bootstrap.Modal(document.getElementById('createPromoModal') as HTMLElement, {
+      backdrop: 'static',
+      keyboard: false
+    });
+
+    // Create new promo code
+    const form = document.getElementById('createPromoCodeForm') as HTMLFormElement;
+    if (form) {
+      // Add form validation
+      form.addEventListener('submit', function(event) {
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      });
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const codeInput = document.getElementById('code') as HTMLInputElement;
+        const discountInput = document.getElementById('discountPercentage') as HTMLInputElement;
+        const expiryInput = document.getElementById('expiryDate') as HTMLInputElement;
+
+        if (!codeInput || !discountInput || !expiryInput) return;
+
+        const code = codeInput.value;
+        const discountPercentage = discountInput.value;
+        const expiryDate = expiryInput.value;
+
+        try {
+          const response = await fetch('/api/admin/promo-codes', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              code,
+              discount_percentage: parseFloat(discountPercentage),
+              expiry_date: expiryDate || null,
+              is_active: true
+            })
+          });
+
+          if (response.ok) {
+            // Close the modal
+            createPromoModal.hide();
+            window.location.reload();
+          } else {
+            alert('Failed to create promo code');
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          alert('An error occurred while creating the promo code');
+        }
+      });
+    }
+
+    // Add event delegation for toggle buttons
+    document.addEventListener('click', async (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target) return;
+      
+      const button = target.closest('button[data-promo-id]') as HTMLButtonElement;
+      if (!button) return;
+      
+      const id = button.getAttribute('data-promo-id');
+      const isActive = button.getAttribute('data-promo-active') === 'true';
+      const row = button.closest('tr') as HTMLTableRowElement;
+      const statusBadge = row?.querySelector('td:nth-child(5) .badge') as HTMLElement;
+      const activeCountElement = document.querySelector('.card.bg-success .card-title') as HTMLElement;
+      
+      if (id && row && statusBadge && activeCountElement) {
+        try {
+          const response = await fetch(`/api/admin/promo-codes/${id}`, {
+            method: 'PATCH',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ is_active: !isActive })
+          });
+
+          if (response.ok) {
+            // Update button appearance
+            button.setAttribute('data-promo-active', (!isActive).toString());
+            button.textContent = isActive ? 'Activate' : 'Deactivate';
+            button.classList.toggle('btn-outline-danger');
+            button.classList.toggle('btn-outline-success');
+
+            // Update status badge
+            statusBadge.className = `badge ${!isActive ? 'bg-success bg-opacity-10 text-success' : 'bg-danger bg-opacity-10 text-danger'} px-3 py-2`;
+            statusBadge.textContent = !isActive ? 'Active' : 'Inactive';
+
+            // Update active promo codes count
+            const currentCount = parseInt(activeCountElement.textContent || '0');
+            activeCountElement.textContent = (isActive ? currentCount - 1 : currentCount + 1).toString();
+          } else {
+            alert('Failed to update promo code status');
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          alert('An error occurred while updating the promo code');
+        }
+      }
+    });
+  });
+</script>
+
+<style>
+  :root {
+    --bs-primary-rgb: 13, 110, 253;
+    --bs-success-rgb: 25, 135, 84;
+    --bs-info-rgb: 13, 202, 240;
+  }
+
+  .card {
+    border: none;
+    border-radius: 0.75rem;
+    transition: transform 0.2s ease-in-out;
+  }
+
+  .card:hover {
+    transform: translateY(-2px);
+  }
+
+  .card-header {
+    border-bottom: 1px solid rgba(0,0,0,.05);
+  }
+
+  .table th {
+    font-weight: 600;
+    color: #2c3e50;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+  }
+
+  .table td {
+    vertical-align: middle;
+    padding: 1rem;
+  }
+
+  .badge {
+    font-weight: 500;
+    padding: 0.5em 0.75em;
+    border-radius: 0.5rem;
+  }
+
+  .btn {
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+  }
+
+  .modal-content {
+    border: none;
+    border-radius: 1rem;
+    box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
+    animation: modalSlideIn 0.3s ease-out;
+  }
+
+  @keyframes modalSlideIn {
+    from {
+      transform: translateY(-20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  .modal-header {
+    background-color: #f8f9fa;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+  }
+
+  .modal-title {
+    font-size: 1.25rem;
+    color: #2c3e50;
+    letter-spacing: -0.5px;
+  }
+
+  .modal-body {
+    padding: 2rem;
+  }
+
+  .modal-footer {
+    background-color: #f8f9fa;
+    border-bottom-left-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+  }
+
+  .form-label {
+    font-weight: 500;
+    color: #2c3e50;
+    margin-bottom: 0.75rem;
+    font-size: 0.95rem;
+    letter-spacing: -0.3px;
+  }
+
+  .form-control {
+    border-radius: 0.5rem;
+    padding: 1rem 1.25rem;
+    border: 1px solid #e9ecef;
+    transition: all 0.2s ease;
+    font-size: 1rem;
+  }
+
+  .form-control:focus {
+    border-color: rgba(var(--bs-primary-rgb), 0.5);
+    box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.1);
+  }
+
+  .input-group-text {
+    background-color: #f8f9fa;
+    border-color: #e9ecef;
+    border-radius: 0.5rem;
+    color: #6c757d;
+    padding: 0 1.25rem;
+  }
+
+  .input-group-lg > .form-control,
+  .input-group-lg > .input-group-text {
+    padding: 1rem 1.25rem;
+    font-size: 1rem;
+  }
+
+  .input-group .form-control:first-child {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .input-group .form-control:last-child {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .form-text {
+    font-size: 0.85rem;
+    color: #6c757d;
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+  }
+
+  .invalid-feedback {
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    color: #dc3545;
+  }
+
+  .btn {
+    padding: 0.875rem 1.5rem;
+    font-weight: 500;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .btn-light {
+    background-color: #f8f9fa;
+    border-color: #e9ecef;
+    color: #2c3e50;
+  }
+
+  .btn-light:hover {
+    background-color: #e9ecef;
+    border-color: #dee2e6;
+    transform: translateY(-1px);
+  }
+
+  .btn-primary {
+    background-color: rgba(var(--bs-primary-rgb), 1);
+    border-color: rgba(var(--bs-primary-rgb), 1);
+    box-shadow: 0 2px 4px rgba(var(--bs-primary-rgb), 0.2);
+  }
+
+  .btn-primary:hover {
+    background-color: rgba(var(--bs-primary-rgb), 0.9);
+    border-color: rgba(var(--bs-primary-rgb), 0.9);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(var(--bs-primary-rgb), 0.3);
+  }
+
+  .text-muted {
+    color: #6c757d !important;
+  }
+
+  .bg-opacity-10 {
+    background-color: rgba(var(--bs-primary-rgb), 0.1) !important;
+  }
+
+  .bg-success.bg-opacity-10 {
+    background-color: rgba(var(--bs-success-rgb), 0.1) !important;
+  }
+
+  .bg-info.bg-opacity-10 {
+    background-color: rgba(var(--bs-info-rgb), 0.1) !important;
+  }
+
+  /* Ensure modal is properly positioned */
+  .modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1050;
+  }
+
+  .modal.show {
+    display: block;
+  }
+
+  .modal-dialog {
+    position: relative;
+    width: auto;
+    margin: 0.5rem;
+    pointer-events: none;
+    max-width: 500px;
+    margin: 1.75rem auto;
+  }
+
+  .modal-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    pointer-events: auto;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: none;
+    border-radius: 1rem;
+    outline: 0;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  }
+
+  /* Modal Backdrop */
+  .modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 576px) {
+    .modal-dialog {
+      margin: 0.5rem;
+    }
+    
+    .modal-content {
+      border-radius: 0.75rem;
+    }
+    
+    .modal-body {
+      padding: 1.5rem;
+    }
+    
+    .btn {
+      padding: 0.75rem 1.25rem;
+    }
+  }
+</style> 
