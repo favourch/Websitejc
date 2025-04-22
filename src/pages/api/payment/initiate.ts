@@ -249,7 +249,8 @@ export const POST: APIRoute = async ({ request }) => {
     console.log('Generated payment URL:', paymentUrl);
 
     return new Response(JSON.stringify({
-      url: paymentUrl
+      success: true,
+      paymentUrl: paymentUrl.paymentUrl
     }), {
       status: 200,
       headers: {

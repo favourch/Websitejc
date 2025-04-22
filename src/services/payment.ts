@@ -39,10 +39,15 @@ interface CustomerInfo {
 
 // For testing purposes, use hardcoded values
 const PAYMENT_CONFIG: PaymentConfig = {
-  merchantId: '245225431765',
-  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0cG4iOiIyNDUyMjU0MzE3NjUiLCJlbWFpbCI6ImZjaHVrd3VlZG9AZ21haWwuY29tIiwiaWF0IjoxNzQ0OTQyNjE2fQ.s2J_gsm0Z3z0bTDw297DJZHUqOomsWyvn8200ljWn3w',
-  sandboxMode: true
-};
+    merchantId: '243625791533',
+    token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0cG4iOiIyNDM2MjU3OTE1MzMiLCJlbWFpbCI6InN0ZXZlQHdob2xlc2FsZXJzYWR2YW50YWdlLmNvbSIsImlhdCI6MTc0NDk0MjMwOH0.HN1J98Izy2r4od9e0pBLatpbBJYtNCIFt3ZUGj-Ou00',
+    sandboxMode: false
+  };
+
+
+  //merchantId: '243625791533',
+  //token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0cG4iOiIyNDM2MjU3OTE1MzMiLCJlbWFpbCI6InN0ZXZlQHdob2xlc2FsZXJzYWR2YW50YWdlLmNvbSIsImlhdCI6MTc0NDk0MjMwOH0.HN1J98Izy2r4od9e0pBLatpbBJYtNCIFt3ZUGj-Ou00',
+  
 
 const BASE_URL = PAYMENT_CONFIG.sandboxMode 
   ? 'https://payment.ipospays.tech/api/v1'
@@ -69,20 +74,56 @@ export async function getPaymentPageUrl(
       throw new Error('Customer information is incomplete');
     }
 
+    // Validate address data
+    if (customerInfo.address.city === customerInfo.address.state) {
+      throw new Error('City and state cannot be the same');
+    }
+
+    if (customerInfo.address.country.length < 2) {
+      throw new Error('Country code must be at least 2 characters');
+    }
+
+    // Validate state and country format
+    const validCountryCodes = ['US', 'CA', 'MX'] as const;
+    type CountryCode = typeof validCountryCodes[number];
+    
+    const formattedCountry = customerInfo.address.country.toUpperCase() as CountryCode;
+    if (!validCountryCodes.includes(formattedCountry)) {
+      throw new Error('Invalid country code. Please use a valid 2-letter country code (e.g., US, CA, MX)');
+    }
+
+    // Validate state format
+    const validStates: Record<CountryCode, string[]> = {
+      'US': ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'],
+      'CA': ['AB', 'BC', 'MB', 'NB', 'NL', 'NS', 'NT', 'NU', 'ON', 'PE', 'QC', 'SK', 'YT'],
+      'MX': ['AGU', 'BCN', 'BCS', 'CAM', 'CHP', 'CHH', 'CMX', 'COA', 'COL', 'DUR', 'GUA', 'GRO', 'HID', 'JAL', 'MEX', 'MIC', 'MOR', 'NAY', 'NLE', 'OAX', 'PUE', 'QUE', 'ROO', 'SLP', 'SIN', 'SON', 'TAB', 'TAM', 'TLA', 'VER', 'YUC', 'ZAC']
+    };
+
+    const formattedState = customerInfo.address.state.toUpperCase();
+    if (!validStates[formattedCountry]?.includes(formattedState)) {
+      throw new Error(`Invalid state code for ${formattedCountry}. Please use a valid 2-letter state code.`);
+    }
+
     // Format mobile number to include country code
     const formattedMobile = customerInfo.mobile.startsWith('+') 
       ? customerInfo.mobile 
-      : `+1${customerInfo.mobile}`;
+      : `+1${customerInfo.mobile.replace(/\D/g, '')}`; // Remove any non-digit characters
+
+    // Ensure amount is a valid number and convert to cents
+    const amountInCents = Math.round(amount * 100);
+    if (isNaN(amountInCents) || amountInCents <= 0) {
+      throw new Error('Invalid amount specified');
+    }
 
     // Calculate final amount with promo code discount if applicable
-    let finalAmount = amount;
+    let finalAmount = amountInCents;
     let discountPercentage = 0;
 
     if (promoCode) {
       const { data: promoCodeData, error } = await supabase
         .from('promo_codes')
         .select('*')
-        .eq('code', promoCode)
+        .eq('code', promoCode.toUpperCase())
         .eq('is_active', true)
         .single();
 
@@ -99,8 +140,39 @@ export async function getPaymentPageUrl(
       }
 
       discountPercentage = promoCodeData.discount_percentage;
-      finalAmount = amount * (1 - discountPercentage / 100);
+      finalAmount = Math.round(amountInCents * (1 - discountPercentage / 100));
+
+      // Store payment record with promo code
+      const { data: paymentData, error: paymentError } = await supabase
+        .from('payments')
+        .insert([{
+          amount: finalAmount,
+          customer_email: customerInfo.email
+        }])
+        .select()
+        .single();
+
+      if (paymentError) {
+        console.error('Error storing payment record:', paymentError);
+      } else if (paymentData) {
+        const { error: usedPromoError } = await supabase
+          .from('used_promo_codes')
+          .insert([{
+            promo_code_id: promoCodeData.id,
+            payment_id: paymentData.id
+          }]);
+
+        if (usedPromoError) {
+          console.error('Error storing used promo code:', usedPromoError);
+        }
+      }
     }
+
+    console.log('Payment configuration:', {
+      merchantId: PAYMENT_CONFIG.merchantId,
+      token: PAYMENT_CONFIG.token,
+      sandboxMode: PAYMENT_CONFIG.sandboxMode
+    });
 
     const payload = {
       merchantAuthentication: {
@@ -108,10 +180,10 @@ export async function getPaymentPageUrl(
         transactionReferenceId: generateTransactionId()
       },
       transactionRequest: {
-        transactionType: 1, // SALE
-        amount: Math.round(finalAmount * 100), // Convert to cents
-        calculateFee: true, // Enable fee calculation
-        feePercentage: 4, // Set fee percentage to 4%
+        transactionType: 1,
+        amount: amountInCents.toString(),
+        calculateFee: true,
+        feePercentage: 4,
         tipsInputPrompt: false,
         calculateTax: false,
         txReferenceTag1: {
@@ -132,17 +204,17 @@ export async function getPaymentPageUrl(
       },
       notificationOption: {
         notifyByRedirect: true,
-        returnUrl: import.meta.env.PUBLIC_URL + '/membership/success',
-        failureUrl: import.meta.env.PUBLIC_URL + '/membership/failure',
-        cancelUrl: import.meta.env.PUBLIC_URL + '/membership',
+        returnUrl: `${import.meta.env.PUBLIC_URL}/membership/success`,
+        failureUrl: `${import.meta.env.PUBLIC_URL}/membership/failure`,
+        cancelUrl: `${import.meta.env.PUBLIC_URL}/membership`,
         notifyBySMS: false,
         notifyByPOST: true,
-        postAPI: import.meta.env.PUBLIC_URL + '/api/payment/webhook',
+        postAPI: `${import.meta.env.PUBLIC_URL}/api/payment/webhook`,
         mobileNumber: formattedMobile,
         authHeader: PAYMENT_CONFIG.token
       },
       preferences: {
-        integrationType: 1, // E-Commerce portal
+        integrationType: 1,
         avsVerification: true,
         eReceipt: true,
         eReceiptInputPrompt: false,
@@ -151,19 +223,11 @@ export async function getPaymentPageUrl(
         customerMobile: formattedMobile,
         requestCardToken: true,
         shortenURL: true,
-        integrationVersion: "v2",
-        billingAddress: {
-          street: customerInfo.address.street,
-          unitNumber: customerInfo.address.unitNumber,
-          city: customerInfo.address.city,
-          state: customerInfo.address.state,
-          zipCode: customerInfo.address.zipCode,
-          country: customerInfo.address.country
-        }
+        integrationVersion: "v2"
       },
       personalization: {
         merchantName: "Wholesalers Advantage",
-        logoUrl: import.meta.env.PUBLIC_URL + '/logo.png',
+        logoUrl: `${import.meta.env.PUBLIC_URL}/logo.png`,
         themeColor: "#0c96d6",
         description: "Membership Payment",
         payNowButtonText: "Pay Now",
@@ -173,73 +237,48 @@ export async function getPaymentPageUrl(
       }
     };
 
-    console.log('Sending payment request to:', `${BASE_URL}/external-payment-transaction`);
-    console.log('Request payload:', JSON.stringify(payload, null, 2));
+    // Try different token formats
+    const tokenFormats = [
+      PAYMENT_CONFIG.token,
+      `Bearer ${PAYMENT_CONFIG.token}`,
+      PAYMENT_CONFIG.token.replace('Bearer ', '')
+    ];
 
-    const response = await fetch(`${BASE_URL}/external-payment-transaction`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'token': PAYMENT_CONFIG.token,
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify(payload)
-    });
+    for (const tokenFormat of tokenFormats) {
+      console.log('Trying token format:', tokenFormat);
+      
+      const response = await fetch(`${BASE_URL}/external-payment-transaction`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'token': tokenFormat,
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
 
-    console.log('Payment API response status:', response.status);
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Payment API error response:', errorText);
-      throw new Error(`Payment API returned ${response.status}: ${errorText}`);
-    }
-
-    const responseText = await response.text();
-    console.log('Payment API response text:', responseText);
-
-    let data;
-    try {
-      data = JSON.parse(responseText);
-    } catch (e) {
-      console.error('Failed to parse payment API response:', e);
-      throw new Error('Invalid response from payment API');
-    }
-
-    console.log('Payment API response data:', JSON.stringify(data, null, 2));
-
-    if (data.information) {
-      // Store payment record with promo code if applicable
-      if (promoCode) {
-        const { data: paymentData, error: paymentError } = await supabase
-          .from('payments')
-          .insert([{
-            amount: finalAmount,
-            customer_email: customerInfo.email
-          }])
-          .select()
-          .single();
-
-        if (paymentError) {
-          console.error('Error storing payment record:', paymentError);
-        } else if (paymentData) {
-          const { error: usedPromoError } = await supabase
-            .from('used_promo_codes')
-            .insert([{
-              promo_code_id: promoCodeData.id,
-              payment_id: paymentData.id
-            }]);
-
-          if (usedPromoError) {
-            console.error('Error storing used promo code:', usedPromoError);
-          }
+      console.log('Payment API response status:', response.status);
+      
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Generated payment URL:', data);
+        
+        if (data.information) {
+          return {
+            success: true,
+            paymentUrl: data.information
+          };
+        } else {
+          throw new Error('Invalid response format from payment API');
+        }
+      } else {
+        const errorText = await response.text();
+        console.error('Payment API error response:', errorText);
+        
+        if (tokenFormat === tokenFormats[tokenFormats.length - 1]) {
+          throw new Error(`Payment API returned ${response.status}: ${errorText}`);
         }
       }
-
-      return data.information;
-    } else if (data.errors && data.errors.length > 0) {
-      throw new Error(data.errors[0].message || 'Failed to generate payment URL');
-    } else {
-      throw new Error('Invalid response from payment API');
     }
   } catch (error) {
     console.error('Payment URL generation failed:', error);
@@ -257,7 +296,7 @@ export async function verifyPaymentStatus(transactionReferenceId: string) {
       `${BASE_URL}/queryPaymentStatus?tpn=${PAYMENT_CONFIG.merchantId}&transactionReferenceId=${transactionReferenceId}`,
       {
         headers: {
-          'Authorization': PAYMENT_CONFIG.token,
+          'token': PAYMENT_CONFIG.token,
           'Accept': 'application/json'
         }
       }
