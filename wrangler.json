@@ -1,0 +1,19 @@
+{
+  "name": "wholesalers-advantage",
+  "compatibility_date": "2024-03-20",
+  "build": {
+    "command": "npm run build",
+    "cwd": "Websitejc",
+    "watch": ["src/**/*", "public/**/*"]
+  },
+  "site": {
+    "bucket": "Websitejc/dist"
+  },
+  "env": {
+    "production": {
+      "vars": {
+        "ENVIRONMENT": "production"
+      }
+    }
+  }
+} 
