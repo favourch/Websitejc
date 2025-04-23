@@ -44,10 +44,11 @@ const PAYMENT_CONFIG: PaymentConfig = {
     sandboxMode: false
   };
 
-
-  //merchantId: '243625791533',
-  //token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0cG4iOiIyNDM2MjU3OTE1MzMiLCJlbWFpbCI6InN0ZXZlQHdob2xlc2FsZXJzYWR2YW50YWdlLmNvbSIsImlhdCI6MTc0NDk0MjMwOH0.HN1J98Izy2r4od9e0pBLatpbBJYtNCIFt3ZUGj-Ou00',
-  
+// Add fee configuration
+const FEE_CONFIG = {
+  enabled: import.meta.env.PUBLIC_ENABLE_TRANSACTION_FEE === 'true',
+  percentage: 4 // 4% transaction fee
+};
 
 const BASE_URL = PAYMENT_CONFIG.sandboxMode 
   ? 'https://payment.ipospays.tech/api/v1'
@@ -168,6 +169,11 @@ export async function getPaymentPageUrl(
       }
     }
 
+    // Apply transaction fee if enabled
+    if (FEE_CONFIG.enabled) {
+      finalAmount = Math.round(finalAmount * (1 + FEE_CONFIG.percentage / 100));
+    }
+
     console.log('Payment configuration:', {
       merchantId: PAYMENT_CONFIG.merchantId,
       token: PAYMENT_CONFIG.token,
@@ -181,9 +187,9 @@ export async function getPaymentPageUrl(
       },
       transactionRequest: {
         transactionType: 1,
-        amount: amountInCents.toString(),
-        calculateFee: true,
-        feePercentage: 4,
+        amount: finalAmount.toString(),
+        calculateFee: FEE_CONFIG.enabled,
+        feePercentage: FEE_CONFIG.enabled ? FEE_CONFIG.percentage : 0,
         tipsInputPrompt: false,
         calculateTax: false,
         txReferenceTag1: {
@@ -198,7 +204,7 @@ export async function getPaymentPageUrl(
         },
         txReferenceTag3: {
           tagLabel: "Transaction Fee",
-          tagValue: "0.04",
+          tagValue: FEE_CONFIG.enabled ? FEE_CONFIG.percentage.toString() : "0",
           isTagMandate: true
         }
       },
