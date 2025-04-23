@@ -186,7 +186,7 @@ export async function getPaymentPageUrl(
         transactionReferenceId: generateTransactionId()
       },
       transactionRequest: {
-        transactionType: 1,
+        transactionType: 2,
         amount: finalAmount.toString(),
         calculateFee: FEE_CONFIG.enabled,
         feePercentage: FEE_CONFIG.enabled ? FEE_CONFIG.percentage : 0,

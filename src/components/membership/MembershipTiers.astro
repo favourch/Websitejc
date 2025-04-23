@@ -1,5 +1,7 @@
 ---
 import { pages } from "@core/pages";
+
+const enableFee = import.meta.env.PUBLIC_ENABLE_TRANSACTION_FEE === 'true';
 ---
 
 <section id="membership-tiers" class="section bg-light">
@@ -182,7 +184,7 @@ import { pages } from "@core/pages";
 </section>
 
 <!-- Payment Modal -->
-<div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true" style="z-index: 1050;">
+<div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true" style="z-index: 1050;" data-enable-fee={enableFee}>
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
       <div class="modal-header">
@@ -434,8 +436,11 @@ import { pages } from "@core/pages";
           basePrice = basePrice * 0.5; // 50% discount
         }
 
-        // Add 4% transaction fee
-        const finalPrice = basePrice * 1.04;
+        // Get fee setting from data attribute
+        const enableFee = document.getElementById('paymentModal').dataset.enableFee === 'true';
+        
+        // Only add transaction fee if enabled
+        const finalPrice = enableFee ? basePrice * 1.04 : basePrice;
 
         const response = await fetch('/api/payment/initiate', {
           method: 'POST',

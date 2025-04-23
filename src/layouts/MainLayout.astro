@@ -18,6 +18,7 @@ const isProd = import.meta.env.PROD;
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
     <title>{title ?? "Wholesalers Advantage"}</title>
     <meta
@@ -33,7 +34,70 @@ const isProd = import.meta.env.PROD;
     <Navbar backgroundColorOverride={navbarBackgroundColor} />
     <slot />
     <Footer />
-    <script src="@core/bootstrap/bootstrap.bundle.min.js"></script>
+    <script>
+      // Initialize Bootstrap after page load and after View Transitions
+      document.addEventListener('astro:page-load', () => {
+        // Reinitialize all Bootstrap tooltips and popovers
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.map(function (tooltipTriggerEl) {
+          return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+
+        const popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+        popoverTriggerList.map(function (popoverTriggerEl) {
+          return new bootstrap.Popover(popoverTriggerEl);
+        });
+
+        // Reinitialize all Bootstrap modals with proper focus management
+        const modalTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="modal"]'));
+        modalTriggerList.forEach(function (modalTriggerEl) {
+          modalTriggerEl.addEventListener('click', function() {
+            const modalId = this.getAttribute('data-bs-target');
+            const modalElement = document.querySelector(modalId);
+            if (modalElement) {
+              const modal = new bootstrap.Modal(modalElement, {
+                focus: true,
+                keyboard: true
+              });
+              
+              // Handle focus when modal is shown
+              modalElement.addEventListener('shown.bs.modal', function () {
+                const focusableElements = modalElement.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+                const firstFocusableElement = focusableElements[0];
+                const lastFocusableElement = focusableElements[focusableElements.length - 1];
+                
+                // Focus first element
+                firstFocusableElement.focus();
+                
+                // Trap focus within modal
+                modalElement.addEventListener('keydown', function(e) {
+                  if (e.key === 'Tab') {
+                    if (e.shiftKey) {
+                      if (document.activeElement === firstFocusableElement) {
+                        e.preventDefault();
+                        lastFocusableElement.focus();
+                      }
+                    } else {
+                      if (document.activeElement === lastFocusableElement) {
+                        e.preventDefault();
+                        firstFocusableElement.focus();
+                      }
+                    }
+                  }
+                });
+              });
+              
+              // Clean up focus trap when modal is hidden
+              modalElement.addEventListener('hidden.bs.modal', function () {
+                modalTriggerEl.focus();
+              });
+              
+              modal.show();
+            }
+          });
+        });
+      });
+    </script>
   </body>
 </html>
 
