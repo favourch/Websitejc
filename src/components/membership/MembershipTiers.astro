@@ -28,7 +28,7 @@ const enableFee = import.meta.env.PUBLIC_ENABLE_TRANSACTION_FEE === 'true';
     <div class="row g-4 justify-content-center">
       <!-- Silver Tier -->
       <div class="col-lg-4">
-        <div class="card h-100 border-0 shadow-sm">
+        <div class="card h-100 border-0 shadow-sm silver-tier">
           <div class="card-body p-5">
             <h3 class="text-primary mb-4">Silver</h3>
             <div class="pricing-header mb-4">
@@ -351,251 +351,289 @@ const enableFee = import.meta.env.PUBLIC_ENABLE_TRANSACTION_FEE === 'true';
   </div>
 </div>
 
+<!-- Add Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 <script is:inline>
-  document.addEventListener('DOMContentLoaded', function() {
-    // Initialize Bootstrap modal
-    const paymentModalElement = document.getElementById('paymentModal');
-    if (!paymentModalElement) {
-      console.error('Payment modal element not found');
-      return;
-    }
-    
-    const paymentModal = new bootstrap.Modal(paymentModalElement, {
-      backdrop: 'static',
-      keyboard: false
-    });
-    
-    const paymentForm = document.getElementById('paymentForm');
-    const submitPaymentBtn = document.getElementById('submitPayment');
-    let selectedTier = null;
-    let isAnnual = false;
-
-    // Handle billing toggle
-    const billingButtons = document.querySelectorAll('[data-billing]');
-    billingButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        // Update active state
-        billingButtons.forEach(btn => btn.classList.toggle('active', btn === button));
-        
-        // Update prices visibility
-        const isAnnual = button.dataset.billing === 'annual';
-        document.querySelectorAll('.monthly-price').forEach(el => el.classList.toggle('d-none', isAnnual));
-        document.querySelectorAll('.annual-price').forEach(el => el.classList.toggle('d-none', !isAnnual));
-        
-        // Update payment buttons
-        document.querySelectorAll('.initiate-payment').forEach(btn => {
-          btn.setAttribute('data-annual', isAnnual.toString());
-        });
-      });
-    });
-
-    // Handle tier selection
-    document.querySelectorAll('.initiate-payment').forEach(button => {
-      button.addEventListener('click', function() {
-        selectedTier = this.dataset.tier;
-        isAnnual = this.dataset.annual === 'true';
-        paymentModal.show();
-      });
-    });
-
-    // Handle payment submission
-    submitPaymentBtn.addEventListener('click', async function() {
-      if (!paymentForm.checkValidity()) {
-        paymentForm.reportValidity();
+  // Wait for both DOM and Bootstrap to be ready
+  function initializeMembershipTiers() {
+    try {
+      // Initialize Bootstrap modal
+      const paymentModalElement = document.getElementById('paymentModal');
+      if (!paymentModalElement) {
+        console.error('Payment modal element not found');
         return;
       }
+      
+      const paymentModal = new bootstrap.Modal(paymentModalElement, {
+        backdrop: 'static',
+        keyboard: false
+      });
 
-      const customerInfo = {
-        firstName: document.getElementById('firstName').value,
-        lastName: document.getElementById('lastName').value,
-        companyName: document.getElementById('companyName').value,
-        email: document.getElementById('customerEmail').value,
-        mobile: document.getElementById('customerMobile').value,
-        promoCode: document.getElementById('promoCode').value,
-        address: {
-          street: document.getElementById('streetAddress').value,
-          unitNumber: document.getElementById('unitNumber').value,
-          city: document.getElementById('city').value,
-          state: document.getElementById('state').value,
-          zipCode: document.getElementById('zipCode').value,
-          country: document.getElementById('country').value
-        }
-      };
+      // Initialize billing toggle functionality
+      function initializeBillingToggle() {
+        const billingButtons = document.querySelectorAll('[data-billing]');
+        const monthlyPrices = document.querySelectorAll('.monthly-price');
+        const annualPrices = document.querySelectorAll('.annual-price');
+        const paymentButtons = document.querySelectorAll('.initiate-payment');
 
-      try {
-        submitPaymentBtn.disabled = true;
-        submitPaymentBtn.textContent = 'Processing...';
-
-        // Calculate base price
-        let basePrice = isAnnual ? 
-          (selectedTier === 'silver' ? 500 : selectedTier === 'gold' ? 750 : 1000) :
-          (selectedTier === 'silver' ? 45 : selectedTier === 'gold' ? 65 : 85);
-
-        // Apply promo code discount if valid
-        if (customerInfo.promoCode === 'Pura Vida') {
-          basePrice = basePrice * 0.5; // 50% discount
+        if (!billingButtons.length || !monthlyPrices.length || !annualPrices.length || !paymentButtons.length) {
+          console.error('Required elements for billing toggle not found');
+          return;
         }
 
-        // Get fee setting from data attribute
-        const enableFee = document.getElementById('paymentModal').dataset.enableFee === 'true';
-        
-        // Only add transaction fee if enabled
-        const finalPrice = enableFee ? basePrice * 1.04 : basePrice;
-
-        const response = await fetch('/api/payment/initiate', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            tier: selectedTier,
-            isAnnual,
-            customerInfo,
-            amount: finalPrice
-          })
+        billingButtons.forEach(button => {
+          button.addEventListener('click', () => {
+            // Update active state
+            billingButtons.forEach(btn => btn.classList.toggle('active', btn === button));
+            
+            // Update prices visibility
+            const isAnnual = button.dataset.billing === 'annual';
+            monthlyPrices.forEach(el => el.classList.toggle('d-none', isAnnual));
+            annualPrices.forEach(el => el.classList.toggle('d-none', !isAnnual));
+            
+            // Update payment buttons
+            paymentButtons.forEach(btn => {
+              btn.setAttribute('data-annual', isAnnual.toString());
+            });
+          });
         });
 
-        if (!response.ok) {
-          const error = await response.json();
-          throw new Error(error.error || 'Failed to initiate payment');
+        // Set initial state
+        const activeButton = document.querySelector('[data-billing].active');
+        if (activeButton) {
+          const isAnnual = activeButton.dataset.billing === 'annual';
+          monthlyPrices.forEach(el => el.classList.toggle('d-none', isAnnual));
+          annualPrices.forEach(el => el.classList.toggle('d-none', !isAnnual));
+          paymentButtons.forEach(btn => {
+            btn.setAttribute('data-annual', isAnnual.toString());
+          });
         }
-
-        const data = await response.json();
-        if (data.success && data.paymentUrl) {
-          window.location.href = data.paymentUrl;
-        } else {
-          throw new Error('Invalid payment URL received');
-        }
-      } catch (error) {
-        console.error('Payment initiation failed:', error);
-        alert(error.message || 'Failed to initiate payment. Please try again.');
-        submitPaymentBtn.disabled = false;
-        submitPaymentBtn.textContent = 'Proceed to Payment';
       }
-    });
 
-    const steps = document.querySelectorAll('.form-step');
-    const progressSteps = document.querySelectorAll('.step');
-    const nextBtn = document.getElementById('nextStep');
-    const prevBtn = document.getElementById('prevStep');
-    const submitBtn = document.getElementById('submitPayment');
-    let currentStep = 1;
-
-    function validateStep(step) {
-      const requiredFields = document.querySelectorAll(`.form-step[data-step="${step}"] input[required]`);
-      let isValid = true;
+      // Call the initialization function
+      initializeBillingToggle();
       
-      requiredFields.forEach(field => {
-        if (!field.value.trim()) {
-          isValid = false;
-          field.classList.add('is-invalid');
-        } else {
-          field.classList.remove('is-invalid');
+      const paymentForm = document.getElementById('paymentForm');
+      const submitPaymentBtn = document.getElementById('submitPayment');
+      let selectedTier = null;
+      let isAnnual = false;
+
+      // Handle tier selection
+      document.querySelectorAll('.initiate-payment').forEach(button => {
+        button.addEventListener('click', function() {
+          selectedTier = this.dataset.tier;
+          isAnnual = this.dataset.annual === 'true';
+          paymentModal.show();
+        });
+      });
+
+      // Handle payment submission
+      submitPaymentBtn.addEventListener('click', async function() {
+        if (!paymentForm.checkValidity()) {
+          paymentForm.reportValidity();
+          return;
+        }
+
+        const customerInfo = {
+          firstName: document.getElementById('firstName').value,
+          lastName: document.getElementById('lastName').value,
+          companyName: document.getElementById('companyName').value,
+          email: document.getElementById('customerEmail').value,
+          mobile: document.getElementById('customerMobile').value,
+          promoCode: document.getElementById('promoCode').value,
+          address: {
+            street: document.getElementById('streetAddress').value,
+            unitNumber: document.getElementById('unitNumber').value,
+            city: document.getElementById('city').value,
+            state: document.getElementById('state').value,
+            zipCode: document.getElementById('zipCode').value,
+            country: document.getElementById('country').value
+          }
+        };
+
+        try {
+          submitPaymentBtn.disabled = true;
+          submitPaymentBtn.textContent = 'Processing...';
+
+          // Calculate base price
+          let basePrice = isAnnual ? 
+            (selectedTier === 'silver' ? 500 : selectedTier === 'gold' ? 750 : 1000) :
+            (selectedTier === 'silver' ? 45 : selectedTier === 'gold' ? 65 : 85);
+
+          // Apply promo code discount if valid
+          if (customerInfo.promoCode === 'Pura Vida') {
+            basePrice = basePrice * 0.5; // 50% discount
+          }
+
+          // Get fee setting from data attribute
+          const enableFee = document.getElementById('paymentModal').dataset.enableFee === 'true';
+          
+          // Only add transaction fee if enabled
+          const finalPrice = enableFee ? basePrice * 1.04 : basePrice;
+
+          const response = await fetch('/api/payment/initiate', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              tier: selectedTier,
+              isAnnual,
+              customerInfo,
+              amount: finalPrice
+            })
+          });
+
+          if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.error || 'Failed to initiate payment');
+          }
+
+          const data = await response.json();
+          if (data.success && data.paymentUrl) {
+            window.location.href = data.paymentUrl;
+          } else {
+            throw new Error('Invalid payment URL received');
+          }
+        } catch (error) {
+          console.error('Payment initiation failed:', error);
+          alert(error.message || 'Failed to initiate payment. Please try again.');
+          submitPaymentBtn.disabled = false;
+          submitPaymentBtn.textContent = 'Proceed to Payment';
         }
       });
 
-      return isValid;
-    }
+      const steps = document.querySelectorAll('.form-step');
+      const progressSteps = document.querySelectorAll('.step');
+      const nextBtn = document.getElementById('nextStep');
+      const prevBtn = document.getElementById('prevStep');
+      const submitBtn = document.getElementById('submitPayment');
+      let currentStep = 1;
 
-    function updateStep(step) {
-      // Update form steps
-      steps.forEach(s => {
-        s.classList.remove('active');
-        if (parseInt(s.dataset.step) === step) {
-          s.classList.add('active');
-        }
-      });
+      function validateStep(step) {
+        const requiredFields = document.querySelectorAll(`.form-step[data-step="${step}"] input[required]`);
+        let isValid = true;
+        
+        requiredFields.forEach(field => {
+          if (!field.value.trim()) {
+            isValid = false;
+            field.classList.add('is-invalid');
+          } else {
+            field.classList.remove('is-invalid');
+          }
+        });
 
-      // Update progress steps
-      progressSteps.forEach(s => {
-        s.classList.remove('active', 'completed');
-        const stepNum = parseInt(s.dataset.step);
-        if (stepNum === step) {
-          s.classList.add('active');
-        } else if (stepNum < step) {
-          s.classList.add('completed');
-        }
-      });
+        return isValid;
+      }
 
-      // Update buttons
-      prevBtn.style.display = step > 1 ? 'block' : 'none';
-      nextBtn.style.display = step < 3 ? 'block' : 'none';
-      submitBtn.style.display = step === 3 ? 'block' : 'none';
-    }
+      function updateStep(step) {
+        // Update form steps
+        steps.forEach(s => {
+          s.classList.remove('active');
+          if (parseInt(s.dataset.step) === step) {
+            s.classList.add('active');
+          }
+        });
 
-    nextBtn.addEventListener('click', async () => {
-      if (currentStep < 3) {
-        if (currentStep === 2) {
-          // Validate promo code if entered
-          const promoCode = document.getElementById('promoCode').value.trim();
-          if (promoCode) {
-            try {
-              nextBtn.disabled = true;
-              nextBtn.textContent = 'Validating...';
-              
-              const response = await fetch('/api/payment/validate-promo', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ promoCode })
-              });
+        // Update progress steps
+        progressSteps.forEach(s => {
+          s.classList.remove('active', 'completed');
+          const stepNum = parseInt(s.dataset.step);
+          if (stepNum === step) {
+            s.classList.add('active');
+          } else if (stepNum < step) {
+            s.classList.add('completed');
+          }
+        });
 
-              if (!response.ok) {
-                const error = await response.json();
-                throw new Error(error.error || 'Invalid promo code');
+        // Update buttons
+        prevBtn.style.display = step > 1 ? 'block' : 'none';
+        nextBtn.style.display = step < 3 ? 'block' : 'none';
+        submitBtn.style.display = step === 3 ? 'block' : 'none';
+      }
+
+      nextBtn.addEventListener('click', async () => {
+        if (currentStep < 3) {
+          if (currentStep === 2) {
+            // Validate promo code if entered
+            const promoCode = document.getElementById('promoCode').value.trim();
+            if (promoCode) {
+              try {
+                nextBtn.disabled = true;
+                nextBtn.textContent = 'Validating...';
+                
+                const response = await fetch('/api/payment/validate-promo', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify({ promoCode })
+                });
+
+                if (!response.ok) {
+                  const error = await response.json();
+                  throw new Error(error.error || 'Invalid promo code');
+                }
+
+                const data = await response.json();
+                if (!data.isValid) {
+                  throw new Error('Invalid or expired promo code');
+                }
+
+                // If promo code is valid, proceed to next step
+                currentStep++;
+                updateStep(currentStep);
+              } catch (error) {
+                console.error('Promo code validation failed:', error);
+                alert(error.message || 'Failed to validate promo code');
+              } finally {
+                nextBtn.disabled = false;
+                nextBtn.textContent = 'Next';
               }
-
-              const data = await response.json();
-              if (!data.isValid) {
-                throw new Error('Invalid or expired promo code');
-              }
-
-              // If promo code is valid, proceed to next step
+            } else {
+              // No promo code entered, proceed to next step
               currentStep++;
               updateStep(currentStep);
-            } catch (error) {
-              console.error('Promo code validation failed:', error);
-              alert(error.message || 'Failed to validate promo code');
-            } finally {
-              nextBtn.disabled = false;
-              nextBtn.textContent = 'Next';
             }
-          } else {
-            // No promo code entered, proceed to next step
+          } else if (validateStep(currentStep)) {
             currentStep++;
             updateStep(currentStep);
           }
-        } else if (validateStep(currentStep)) {
-          currentStep++;
-          updateStep(currentStep);
-        }
-      }
-    });
-
-    prevBtn.addEventListener('click', () => {
-      if (currentStep > 1) {
-        currentStep--;
-        updateStep(currentStep);
-      }
-    });
-
-    // Add input event listeners to clear validation on typing
-    document.querySelectorAll('input[required]').forEach(input => {
-      input.addEventListener('input', function() {
-        if (this.value.trim()) {
-          this.classList.remove('is-invalid');
         }
       });
-    });
 
-    // Initialize first step
-    updateStep(1);
-  });
+      prevBtn.addEventListener('click', () => {
+        if (currentStep > 1) {
+          currentStep--;
+          updateStep(currentStep);
+        }
+      });
+
+      // Add input event listeners to clear validation on typing
+      document.querySelectorAll('input[required]').forEach(input => {
+        input.addEventListener('input', function() {
+          if (this.value.trim()) {
+            this.classList.remove('is-invalid');
+          }
+        });
+      });
+
+      // Initialize first step
+      updateStep(1);
+    } catch (error) {
+      console.error('Error initializing membership tiers:', error);
+    }
+  }
+
+  // Try to initialize immediately
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeMembershipTiers);
+  } else {
+    // If DOM is already loaded, wait a small delay to ensure Bootstrap is ready
+    setTimeout(initializeMembershipTiers, 100);
+  }
 </script>
-
-<!-- Add Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <style>
   .section {
@@ -1127,5 +1165,9 @@ const enableFee = import.meta.env.PUBLIC_ENABLE_TRANSACTION_FEE === 'true';
       font-size: 0.9rem;
       background-position: right 0.75rem center;
     }
+  }
+
+  .silver-tier {
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1) !important;
   }
 </style> 

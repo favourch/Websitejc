@@ -34,66 +34,77 @@ const isProd = import.meta.env.PROD;
     <Navbar backgroundColorOverride={navbarBackgroundColor} />
     <slot />
     <Footer />
-    <script>
+    <script is:inline>
       // Initialize Bootstrap after page load and after View Transitions
       document.addEventListener('astro:page-load', () => {
         // Reinitialize all Bootstrap tooltips and popovers
-        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-        tooltipTriggerList.map(function (tooltipTriggerEl) {
-          return new bootstrap.Tooltip(tooltipTriggerEl);
+        const tooltipTriggerList = Array.from(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.forEach((tooltipTriggerEl) => {
+          /** @type {HTMLElement} */
+          const el = tooltipTriggerEl;
+          new bootstrap.Tooltip(el);
         });
 
-        const popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
-        popoverTriggerList.map(function (popoverTriggerEl) {
-          return new bootstrap.Popover(popoverTriggerEl);
+        const popoverTriggerList = Array.from(document.querySelectorAll('[data-bs-toggle="popover"]'));
+        popoverTriggerList.forEach((popoverTriggerEl) => {
+          /** @type {HTMLElement} */
+          const el = popoverTriggerEl;
+          new bootstrap.Popover(el);
         });
 
         // Reinitialize all Bootstrap modals with proper focus management
-        const modalTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="modal"]'));
-        modalTriggerList.forEach(function (modalTriggerEl) {
-          modalTriggerEl.addEventListener('click', function() {
+        const modalTriggerList = Array.from(document.querySelectorAll('[data-bs-toggle="modal"]'));
+        modalTriggerList.forEach((modalTriggerEl) => {
+          /** @type {HTMLElement} */
+          const trigger = modalTriggerEl;
+          trigger.addEventListener('click', function() {
             const modalId = this.getAttribute('data-bs-target');
+            if (!modalId) return;
+            
             const modalElement = document.querySelector(modalId);
-            if (modalElement) {
-              const modal = new bootstrap.Modal(modalElement, {
-                focus: true,
-                keyboard: true
-              });
+            if (!modalElement) return;
+
+            const modal = new bootstrap.Modal(modalElement, {
+              focus: true,
+              keyboard: true
+            });
+            
+            // Handle focus when modal is shown
+            modalElement.addEventListener('shown.bs.modal', () => {
+              const focusableElements = modalElement.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+              const firstFocusableElement = focusableElements[0];
+              const lastFocusableElement = focusableElements[focusableElements.length - 1];
               
-              // Handle focus when modal is shown
-              modalElement.addEventListener('shown.bs.modal', function () {
-                const focusableElements = modalElement.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-                const firstFocusableElement = focusableElements[0];
-                const lastFocusableElement = focusableElements[focusableElements.length - 1];
-                
-                // Focus first element
+              if (firstFocusableElement) {
                 firstFocusableElement.focus();
-                
-                // Trap focus within modal
-                modalElement.addEventListener('keydown', function(e) {
-                  if (e.key === 'Tab') {
-                    if (e.shiftKey) {
-                      if (document.activeElement === firstFocusableElement) {
-                        e.preventDefault();
-                        lastFocusableElement.focus();
-                      }
-                    } else {
-                      if (document.activeElement === lastFocusableElement) {
-                        e.preventDefault();
-                        firstFocusableElement.focus();
-                      }
+              }
+              
+              // Trap focus within modal
+              modalElement.addEventListener('keydown', (e) => {
+                /** @type {KeyboardEvent} */
+                const event = e;
+                if (event.key === 'Tab') {
+                  if (event.shiftKey) {
+                    if (document.activeElement === firstFocusableElement) {
+                      event.preventDefault();
+                      lastFocusableElement?.focus();
+                    }
+                  } else {
+                    if (document.activeElement === lastFocusableElement) {
+                      event.preventDefault();
+                      firstFocusableElement?.focus();
                     }
                   }
-                });
+                }
               });
-              
-              // Clean up focus trap when modal is hidden
-              modalElement.addEventListener('hidden.bs.modal', function () {
-                modalTriggerEl.focus();
-              });
-              
-              modal.show();
-            }
+            });
+            
+            // Clean up focus trap when modal is hidden
+            modalElement.addEventListener('hidden.bs.modal', () => {
+              trigger.focus();
+            });
+            
+            modal.show();
           });
         });
       });

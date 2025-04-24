@@ -8,21 +8,32 @@ const { backgroundColor } = Astro.props;
   <div class="background section">
     <div class="container d-flex justify-content-center align-items-center">
       <div class="hero-content d-flex flex-column flex-grow-1">
-        <img src="/shield-logo.webp" alt="Shield Logo" class="shield-logo mx-auto mb-4" width="120" height="120">
         <h1 class="title mb-4 text-center mx-auto">
-          The next generation of wholesale distribution services
+          Advancing the Evolution of Wholesale Distribution Services
         </h1>
-        <p
-          class="subtitle fs-4 lh-lg text-body-secondary text-center mb-5 mx-auto"
-        >
-          Wholesalers Advantage offers a diverse array of direct, and B2B
-          solutions, Insurtech innovation, insurance, and our "Tax Wallet" the
-          latest in AI driven tax services
-        </p>
+        <div class="subtitle fs-4 lh-lg text-center mb-5 mx-auto">
+          <p>
+            Wholesalers Advantage is committed to delivering innovative direct and B2B 
+            solutions, seamlessly integrating Insurtech advancements, comprehensive 
+            insurance offerings, and strategic financial programs.
+          </p>
+          
+          <p>
+            Our wholesaler program is meticulously designed to support large-scale distribution 
+            organizations, providing premier contracts, industry-leading compensation structures, and
+            exceptional marketing support to amplify brand visibility and drive market 
+            success.
+          </p>
+          
+          <p>
+            By fostering strategic partnerships and offering unparalleled resources, 
+            we ensure our clients achieve both operational excellence and sustained growth.
+          </p>
+        </div>
         <div class="mx-auto">
           <a
             class="btn btn-primary btn-lg rounded-pill fs-4 fs-sm-3 fw-bold text-white py-2 px-4"
-            href="/membership"
+            href={pages.membership.path}
           >
             <span class="px-4">Become a Member</span>
           </a>
@@ -39,11 +50,47 @@ const { backgroundColor } = Astro.props;
 
   .background {
     background-color: var(--backgroundColor);
+    position: relative;
+    padding-inline: 10rem;
+  }
+
+  .background::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/images/heroback1.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 1;
+    z-index: 0;
+  }
+
+  .background::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    color: #fff;
   }
 
   h1 {
     max-width: 800px;
     font-size: 3.5rem;
+    color: #fff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
   }
 
   @media screen and (max-width: 350px) {
@@ -53,6 +100,13 @@ const { backgroundColor } = Astro.props;
   }
 
   p {
-    max-width: 700px;
+    max-width: 800px;  /* Changed from 700px to 800px to match other sections */
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+  }
+
+  @media screen and (max-width: 991px) {
+    .background {
+      padding-inline: 2rem;
+    }
   }
 </style>

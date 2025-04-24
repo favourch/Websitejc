@@ -110,14 +110,13 @@ export async function getPaymentPageUrl(
       ? customerInfo.mobile 
       : `+1${customerInfo.mobile.replace(/\D/g, '')}`; // Remove any non-digit characters
 
-    // Ensure amount is a valid number and convert to cents
+    // Format amount to cents (multiply by 100 and round to ensure no decimal places)
+    // According to docs: "Amount should be multiplied by 100 and sent. For example: If the requesting amount is $100 then the amount that should be sent is $10000"
     const amountInCents = Math.round(amount * 100);
-    if (isNaN(amountInCents) || amountInCents <= 0) {
-      throw new Error('Invalid amount specified');
-    }
-
+    const amountInCentsStr = amountInCents.toString();
+    
     // Calculate final amount with promo code discount if applicable
-    let finalAmount = amountInCents;
+    let finalAmount = amountInCentsStr;
     let discountPercentage = 0;
 
     if (promoCode) {
@@ -141,7 +140,7 @@ export async function getPaymentPageUrl(
       }
 
       discountPercentage = promoCodeData.discount_percentage;
-      finalAmount = Math.round(amountInCents * (1 - discountPercentage / 100));
+      finalAmount = Math.round(amountInCents * (1 - discountPercentage / 100)).toString();
 
       // Store payment record with promo code
       const { data: paymentData, error: paymentError } = await supabase
@@ -171,7 +170,7 @@ export async function getPaymentPageUrl(
 
     // Apply transaction fee if enabled
     if (FEE_CONFIG.enabled) {
-      finalAmount = Math.round(finalAmount * (1 + FEE_CONFIG.percentage / 100));
+      finalAmount = Math.round(amountInCents * (1 + FEE_CONFIG.percentage / 100)).toString();
     }
 
     console.log('Payment configuration:', {
@@ -186,10 +185,17 @@ export async function getPaymentPageUrl(
         transactionReferenceId: generateTransactionId()
       },
       transactionRequest: {
-        transactionType: 2,
-        amount: finalAmount.toString(),
+        transactionType: 1,
+        amount: amountInCentsStr, // Send amount in cents as string
         calculateFee: FEE_CONFIG.enabled,
-        feePercentage: FEE_CONFIG.enabled ? FEE_CONFIG.percentage : 0,
+        ...(FEE_CONFIG.enabled && {
+          feePercentage: FEE_CONFIG.percentage,
+          txReferenceTag3: {
+            tagLabel: "Transaction Fee",
+            tagValue: FEE_CONFIG.percentage.toString(),
+            isTagMandate: true
+          }
+        }),
         tipsInputPrompt: false,
         calculateTax: false,
         txReferenceTag1: {
@@ -202,9 +208,9 @@ export async function getPaymentPageUrl(
           tagValue: isAnnual ? "Annual" : "Monthly",
           isTagMandate: true
         },
-        txReferenceTag3: {
-          tagLabel: "Transaction Fee",
-          tagValue: FEE_CONFIG.enabled ? FEE_CONFIG.percentage.toString() : "0",
+        txReferenceTag4: {
+          tagLabel: "Plan Cost",
+          tagValue: amountInCentsStr,
           isTagMandate: true
         }
       },
@@ -229,7 +235,8 @@ export async function getPaymentPageUrl(
         customerMobile: formattedMobile,
         requestCardToken: true,
         shortenURL: true,
-        integrationVersion: "v2"
+        integrationVersion: "v2",
+        dba: customerInfo.companyName || ""
       },
       personalization: {
         merchantName: "Wholesalers Advantage",

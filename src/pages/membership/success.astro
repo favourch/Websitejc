@@ -3,6 +3,7 @@ import MainLayout from "@layouts/MainLayout.astro";
 ---
 
 <MainLayout title="Payment Successful | Wholesalers Advantage" description="Your membership payment was successful.">
+  <meta http-equiv="refresh" content="3;url=/membership" />
   <div class="container py-5">
     <div class="row justify-content-center">
       <div class="col-md-8 text-center">
@@ -14,6 +15,8 @@ import MainLayout from "@layouts/MainLayout.astro";
           </p>
           <p class="mb-5">
             You will receive a confirmation email shortly with your membership details.
+            <br>
+            <small class="text-muted">Redirecting to membership page in <span id="countdown">3</span> seconds...</small>
           </p>
           <a href="/" class="btn btn-primary btn-lg">
             Return to Homepage
@@ -22,4 +25,21 @@ import MainLayout from "@layouts/MainLayout.astro";
       </div>
     </div>
   </div>
+
+  <script>
+    // Countdown timer
+    let seconds = 3;
+    const countdownElement = document.getElementById('countdown');
+    
+    const timer = setInterval(() => {
+      seconds--;
+      if (countdownElement) {
+        countdownElement.textContent = seconds.toString();
+      }
+      if (seconds <= 0) {
+        clearInterval(timer);
+        window.location.href = '/membership';
+      }
+    }, 1000);
+  </script>
 </MainLayout> 

@@ -3,11 +3,11 @@
   "compatibility_date": "2024-03-20",
   "build": {
     "command": "npm run build",
-    "cwd": "Websitejc",
+    "cwd": ".",
     "watch": ["src/**/*", "public/**/*"]
   },
   "site": {
-    "bucket": "Websitejc/dist"
+    "bucket": "dist"
   },
   "env": {
     "production": {
