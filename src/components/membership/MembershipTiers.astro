@@ -461,11 +461,6 @@ const enableFee = import.meta.env.PUBLIC_ENABLE_TRANSACTION_FEE === 'true';
             (selectedTier === 'silver' ? 500 : selectedTier === 'gold' ? 750 : 1000) :
             (selectedTier === 'silver' ? 45 : selectedTier === 'gold' ? 65 : 85);
 
-          // Apply promo code discount if valid
-          if (customerInfo.promoCode === 'Pura Vida') {
-            basePrice = basePrice * 0.5; // 50% discount
-          }
-
           // Get fee setting from data attribute
           const enableFee = document.getElementById('paymentModal').dataset.enableFee === 'true';
           
